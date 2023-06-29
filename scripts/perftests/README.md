@@ -1,0 +1,1 @@
+Adapted from https://github.com/NuGet/NuGet.Client/tree/dev/scripts/perftests

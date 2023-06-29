@@ -1,0 +1,160 @@
+name: benchmarks
+
+on:
+  workflow_dispatch:
+  pull_request:
+  schedule:
+    - cron: '0 */8 * * *' # Run workflow threee times a day
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  benchmarks_windows:
+    strategy:
+      matrix:
+        test_script: [NuGetClient-win-d76a117]
+      fail-fast: false
+    runs-on: windows-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: code
+
+      - name: Benchmark
+        shell: pwsh
+        run: |
+          .\code\scripts\perftests\testCases\${{matrix.test_script}}.ps1
+          Rename-Item -Path "results.csv" -NewName "${{matrix.test_script}}.csv"
+          
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.test_script}}
+          path: ${{matrix.test_script}}.csv
+          
+  benchmarks_linux:
+    strategy:
+      matrix:
+        test_script: [LargeAppCPM64-142722b, LargeAppCPM64-nostaticgraph-142722b, OrchardCore-5dbd92c, Orleans-eda972a]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          path: code
+
+      - name: Benchmark
+        shell: pwsh
+        run: |
+          .\code\scripts\perftests\testCases\${{matrix.test_script}}.ps1
+          Rename-Item -Path "results.csv" -NewName "${{matrix.test_script}}.csv"
+          
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{matrix.test_script}}
+          path: ${{matrix.test_script}}.csv
+
+  process_data:
+    # Only run on main repository
+    # Scheduled workflows do not have information about fork status, hence the hardcoded check
+    if: github.repository == 'G-Research/NuPerfMonitor' && github.ref == 'refs/heads/main'
+    environment: updater
+    runs-on: ubuntu-latest
+    needs: [benchmarks_windows, benchmarks_linux]
+    steps:
+
+      - name: Install Step CLI
+        env:
+          VERSION: 0.19.0
+        run: |
+          curl -sLO https://github.com/smallstep/cli/releases/download/v${VERSION}/step-cli_${VERSION}_amd64.deb
+          sudo dpkg -i step-cli_${VERSION}_amd64.deb
+          rm step-cli_${VERSION}_amd64.deb
+          
+      - name: Create access token
+        id: token
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        run: |
+          jwt=$(step crypto jwt sign --key /dev/fd/3 --issuer $APP_ID --expiration $(date -d +5min +%s) --subtle 3<<< $APP_PRIVATE_KEY)
+          installation_id=$(curl -s -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer $jwt" https://api.github.com/app/installations | jq '.[] | select(.account.login == "${{ github.repository_owner }}") | .id')
+          token=$(curl -s -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer $jwt" https://api.github.com/app/installations/$installation_id/access_tokens | jq -r '.token')
+          echo "::add-mask::$token"
+          echo "token=$token" >> $GITHUB_OUTPUT
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.token.outputs.token }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: "3.8"
+
+      - name: Install dependencies
+        run: pip3 install -r requirements.txt
+        
+      - uses: actions/download-artifact@v3
+        with:
+         path: artifacts
+
+      - name: Process data
+        shell: pwsh
+        run: |
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname data.csv}
+
+      - name: Generate graph with Plotly for Python
+        if: ${{ false }}
+        shell: pwsh
+        run: |
+          . python3 generate_html.py data.csv index-python.html
+
+      - name: Get alerts
+        id: alerts
+        run: |
+          python3 generate_alert.py data.csv active_regressions.txt
+          if test -f "active_regressions.txt"; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+            echo "file_content='$file_content'" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create new issue if necessary
+        if: steps.alerts.outputs.file_exists == 'true'
+        run: |
+          numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
+            query($name: String!, $owner: String!) {
+              repository(owner: $owner, name: $name) {
+                issues(states:OPEN, filterBy: { labels:  ["active_regression"]}){
+                  totalCount
+                }
+              }
+            }
+          ' --jq '.data.repository.issues.totalCount')"
+
+          if [ $numOpenIssues -eq 0 ]; then
+            echo "Creating new issue"
+            gh issue create --title "Active NuGet restore regression" --label "active_regression" --body "\`\`\` $(cat active_regressions.txt)  \`\`\`" --repo $GITHUB_REPOSITORY
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+          
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: 'data.csv'
+          commit_author: 'github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>'
+
+      - name: Upload data
+        if: steps.alerts.outputs.file_exists == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: active_regressions
+          path: active_regressions.txt
