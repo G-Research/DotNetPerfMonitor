@@ -1,0 +1,186 @@
+<head>
+    <!-- Plotly.js -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+
+<body>
+    <!-- Plotly chart will be drawn inside this DIV -->
+    <div id="plotly-graph" class="plotly-graph-class" style="height:100%; width:100%;"></div>
+    <script>
+        window.PLOTLYENV=window.PLOTLYENV || {};
+        var url1 = 'https://raw.githubusercontent.com/G-Research/NuPerfMonitor/master/data.csv';
+        var nDays = 180;
+        var d3colors = Plotly.d3.scale.category10();
+
+        function groupBy(data, key) {
+            return data.reduce(
+                (entryMap, e) => entryMap.set(e[key], [...entryMap.get(e[key]) || [], e]),
+                new Map(),
+            );
+        };
+
+        function getIndexAsString(index) {
+            return index == 0 ? "" : index + 1;
+        }
+
+        Plotly.d3.csv(url1, (err, rows) => {
+            let data = rows.filter(row => row.scenario !== 'warmup');
+            data.forEach(row => {
+                row["timestamp"] = new Date(row["timestamp"]);
+                row["relative duration"] = Number(row["relative duration"]).toFixed(2); 
+                row["duration"] = Number(row["duration"]).toFixed(2);
+                row["base duration"] = Number(row["base duration"]).toFixed(2);
+            });
+            var cutoffDate = new Date()
+            cutoffDate = cutoffDate.setDate(cutoffDate.getDate() - nDays);
+            data = rows.filter(row => row["timestamp"] > cutoffDate);
+
+            var plotlyData = [];
+            var solutionColorMap = new Map();
+            var allSolutions = data.map(d => d['solution']);
+            var uniqueSolutions = [...new Set(allSolutions)]
+            d3colors.domain(uniqueSolutions);
+
+            var allScenarios = data.map(d => d['scenario']);
+            var uniqueScenarios = [...new Set(allScenarios)]
+
+            var solutionLegendVisible = new Map();
+            uniqueSolutions.forEach(s => { solutionLegendVisible[s] = true; })
+
+            var plotlyLayout = {
+                annotations: [],
+                hovermode: "closest",
+                hoverlabel: { "align": "left", "font": { "size": 8 } },
+                legend: {
+                    "title": {
+                        "text": "Test case"
+                    },
+                    "tracegroupgap": 0
+                },
+                title: {
+                    "x": 0.5,
+                    "text": "NuGet Performance Monitor",
+                    "font": {"size": 18},
+                },
+                mapbox: { style: "light" },
+                template: {
+                    "layout": {
+                        "font": {
+                            "color": "#2a3f5f",
+                            "size": 8,
+                        },
+                        "hovermode": "closest",
+                        "hoverlabel": {
+                            "align": "left"
+                        },
+                        "paper_bgcolor": "#00AAE1",
+                        //"plot_bgcolor": "#00AAE1", - G-Research blue
+                        "plot_bgcolor": "#E5ECF6",
+                        "xaxis": {
+                            "gridcolor": "white",
+                            "linecolor": "white",
+                            "ticks": "",
+                            "title": {
+                                "standoff": 15
+                            },
+                            "zerolinecolor": "white",
+                            "automargin": true,
+                            "zerolinewidth": 2,
+                        },
+                        "yaxis": {
+                            "gridcolor": "white",
+                            "linecolor": "white",
+                            "ticks": "%",
+                            "title": {
+                                "standoff": 15
+                            },
+                            "zerolinecolor": "white",
+                            "automargin": true,
+                            "zerolinewidth": 2
+                        },
+                    }
+                }
+            }
+
+            var groups1 = groupBy(data, "scenario");
+            groups1.forEach((group1, scenario) => {
+                var scenarioIndex = uniqueScenarios.indexOf(scenario);
+                var groups2 = groupBy(group1, "solution");
+                groups2.forEach((group2, solution) => {
+
+                    var solutionIndex = uniqueSolutions.indexOf(solution);
+                    var plotlyDataRow = {
+                        customdata: group2.map(d => [d['solution'], d['duration'], d['base duration'], d['version'], d['base version'], d['scenario']]),
+                        hovertemplate: 'Scenario: %{customdata[5]}<br>Test case: %{customdata[0]}<br>Timestamp: %{x}><br>Duration: %{customdata[1]}s<br>Base duration: %{customdata[2]}s<br>Relative duration: %{y}<br>Version: %{customdata[3]}<br>Base version: %{customdata[4]}<br><extra></extra>',
+                        legendgroup: solution,
+                        x: group2.map(d => d['timestamp']),
+                        y: group2.map(d => d['relative duration']),
+                        line: { color: d3colors(solution), dash: 'solid', width: 1 },
+                        marker: { "symbol": "circle", "size": 2, opacity: 0.5, },
+                        mode: "lines+markers",
+                        name: solution,
+                        orientation: "v",
+                        showlegend: solutionLegendVisible[solution],
+                        type: "scatter",
+                        xaxis: "x" + getIndexAsString(scenarioIndex),
+                        yaxis: "y" + getIndexAsString(scenarioIndex),
+                    }
+
+                    solutionLegendVisible[solution] = false;
+                    plotlyData.push(plotlyDataRow);
+                });
+
+                var plotlyAnnotation = {
+                    showarrow: false,
+                    text: scenario,
+                    x: 0.5,
+                    xanchor: "center",
+                    xref: "paper",
+                    y: (scenarioIndex + 0.79) / uniqueScenarios.length,
+                    yanchor: "bottom",
+                    yref: "paper",
+                }
+
+                plotlyLayout.annotations.push(plotlyAnnotation);
+
+                plotlyLayout["xaxis" + getIndexAsString(scenarioIndex)] = {
+                    "anchor": "y" + getIndexAsString(scenarioIndex),
+                    "domain": [0, 1],
+                    "matches": "x",
+                    "showticklabels": scenarioIndex == 0 ? true : false,
+                    "rangeselector": {
+                        "buttons": [
+                            {
+                                "count": 1,
+                                "label": "1m",
+                                "step": "month",
+                                "stepmode": "backward"
+                            },
+                            {
+                                "count": 1,
+                                "label": "1y",
+                                "step": "year",
+                                "stepmode": "backward"
+                            },
+                            {
+                                "step": "all"
+                            }
+                        ]
+                    }
+                };
+
+                plotlyLayout["yaxis" + getIndexAsString(scenarioIndex)] = {
+                    "anchor": "x" + getIndexAsString(scenarioIndex),
+                    "domain": [scenarioIndex / uniqueScenarios.length, (scenarioIndex + 0.70) / uniqueScenarios.length],
+                    "matches": "y",
+                    "dtick": 1,
+                    "type": 'log',
+                    "ticksuffix": "%",
+                    "rangemode": "tozero",
+                };
+            });
+
+            Plotly.newPlot('plotly-graph', plotlyData, plotlyLayout);
+        });
+
+    </script>

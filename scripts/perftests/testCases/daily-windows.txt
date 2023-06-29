@@ -1,0 +1,1 @@
+https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip
