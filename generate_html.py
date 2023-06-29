@@ -4,21 +4,37 @@ Usage:
 """
 
 import sys
+import datetime
 import pandas as pd
 import plotly.express as px
-import datetime;
-from pathlib import Path
-from io import StringIO
+# from pathlib import Path
+# from io import StringIO
 
 # number of days to look back
-n_days = 180
+N_DAYS = 180
 
-def fetch_csv(csvPath: str) -> pd.DataFrame:
-    return pd.read_csv(csvPath)
 
-def plot_cumulative_state(df: pd.DataFrame, outfile: str):
+def fetch_csv(csv_path: str) -> pd.DataFrame:
+    """_summary_
+
+    Args:
+        csv_path (str): _description_
+
+    Returns:
+        pd.DataFrame: _description_
+    """
+    return pd.read_csv(csv_path)
+
+
+def plot_cumulative_state(data_frame: pd.DataFrame, outfile: str):
+    """_summary_
+
+    Args:
+        df (pd.DataFrame): _description_
+        outfile (str): _description_
+    """
     fig = px.line(
-        df,
+        data_frame,
         x="timestamp",
         y="relative duration",
         title="NuGet restore time",
@@ -26,7 +42,8 @@ def plot_cumulative_state(df: pd.DataFrame, outfile: str):
         facet_col="scenario",
         facet_col_wrap=1,
         markers=True,
-        hover_data=["solution", "scenario", "duration", "timestamp", "version", "base version"]
+        hover_data=["solution", "scenario", "duration",
+                    "timestamp", "version", "base version"]
     )
 
     fig.update_traces(marker={'size': 4})
@@ -34,16 +51,15 @@ def plot_cumulative_state(df: pd.DataFrame, outfile: str):
     fig.update_yaxes(ticksuffix="%", title='', rangemode="tozero")
     fig.update_xaxes(title='')
     fig.for_each_annotation(lambda a: a.update(text=a.text.split("=")[-1]))
-
     fig.write_html(outfile, include_plotlyjs='cdn')
+
 
 if __name__ == "__main__":
     data = fetch_csv(sys.argv[1])
     data["timestamp"] = pd.to_datetime(data["timestamp"])
     data = data.loc[data["scenario"] != 'warmup']
-
     now = datetime.datetime.now(datetime.timezone.utc)
-    cutoff_date = now - datetime.timedelta(days=n_days)
+    cutoff_date = now - datetime.timedelta(days=N_DAYS)
     data = data.loc[data["timestamp"] > cutoff_date]
 
     plot_cumulative_state(data, sys.argv[2])
