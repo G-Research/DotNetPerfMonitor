@@ -61,5 +61,4 @@ if __name__ == "__main__":
     now = datetime.datetime.now(datetime.timezone.utc)
     cutoff_date = now - datetime.timedelta(days=N_DAYS)
     data = data.loc[data["timestamp"] > cutoff_date]
-
     plot_cumulative_state(data, sys.argv[2])

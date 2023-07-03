@@ -48,13 +48,13 @@ def get_regression(data: pd.DataFrame) -> [str]:
     """
     _regressions = []
     grouped_data = data.groupby(["scenario", "solution"])
-    for (k, d) in grouped_data:
+    for (group_key, group_data) in grouped_data:
 
-        if len(d["relative duration"].values) < N_SMAPLES:
+        if len(group_data["relative duration"].values) < N_SMAPLES:
             continue
 
         # take quantile .25 from last 10 items
-        result = d["relative duration"][-N_SMAPLES:].quantile(Q)
+        result = group_data["relative duration"][-N_SMAPLES:].quantile(Q)
         if result > TRESHOLD:
 
             formatters = {
@@ -65,10 +65,10 @@ def get_regression(data: pd.DataFrame) -> [str]:
             }
             columns = ['timestamp', 'version', 'duration',
                        'base duration', 'relative duration']
-            header = "Scenario = " + str(d["scenario"].values[-1]) + "\n" + \
-                     "Base Version = " + str(d["base version"].values[-1]) + "\n" + \
-                     "Solution = " + str(d["solution"].values[-1])
-            data_string = f'{d[-N_SMAPLES:].to_string(header=True, index=False, justify="right", columns=columns, formatters=formatters)}'
+            header = "Scenario = " + str(group_data["scenario"].values[-1]) + "\n" + \
+                     "Base Version = " + str(group_data["base version"].values[-1]) + "\n" + \
+                     "Solution = " + str(group_data["solution"].values[-1])
+            data_string = f'{group_data[-N_SMAPLES:].to_string(header=True, index=False, justify="right", columns=columns, formatters=formatters)}'
             line_length = len(data_string.splitlines()[0])
             line = '-' * line_length
             _regressions.append('\n' + line)
@@ -94,6 +94,6 @@ if __name__ == "__main__":
 
     if regressions:
         with open(sys.argv[2], 'w', encoding='utf-8') as fp:
-            fp.write('\n'.join([x for x in regressions]))
+            fp.write('\n'.join(regressions))
     elif os.path.exists(sys.argv[2]):
         os.remove(sys.argv[2])
