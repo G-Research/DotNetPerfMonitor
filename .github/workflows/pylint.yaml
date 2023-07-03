@@ -2,9 +2,9 @@ name: Pylint Code analysis
 
 on:
   push:
-    branches: ["main", "workflows"]
+    branches: ["*"]
   pull_request:
-    branches: ["main", "workflows"]
+    branches: ["*"]
 
 jobs:
   linter:
