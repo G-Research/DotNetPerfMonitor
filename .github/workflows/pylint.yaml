@@ -23,8 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install poetry
-          poetry install
+          pip install -r requirements.txt
 
       - name: Run linter
         run: pylint $(git ls-files '*.py')
