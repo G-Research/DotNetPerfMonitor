@@ -1,0 +1,2 @@
+[pylint.messages control]
+disable = unused-variable, line-too-long, invalid-name
