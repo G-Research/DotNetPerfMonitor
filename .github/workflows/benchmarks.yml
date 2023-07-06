@@ -101,6 +101,10 @@ jobs:
         with:
           python-version: "3.8"
 
+      - name: Remove Dependencies versions
+        run: |
+          sed 's/==.*$//' requirements.txt > requirements_no_versions.txt.tmp && mv requirements_no_versions.txt.tmp requirements.txt
+
       - name: Install dependencies
         run: pip3 install -r requirements.txt
 
