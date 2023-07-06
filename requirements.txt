@@ -1,10 +1,6 @@
-<<<<<<< HEAD
 argcomplete==3.1.1
 astroid==2.15.5
 click==8.1.3
-=======
-astroid==2.15.5
->>>>>>> main
 dill==0.3.6
 isort==5.12.0
 lazy-object-proxy==1.9.0
@@ -12,10 +8,7 @@ mccabe==0.7.0
 numpy==1.25.0
 packaging==23.1
 pandas==2.0.3
-<<<<<<< HEAD
 pipx==1.2.0
-=======
->>>>>>> main
 platformdirs==3.8.0
 plotly==5.15.0
 pylint==2.17.4
@@ -25,8 +18,5 @@ six==1.16.0
 tenacity==8.2.2
 tomlkit==0.11.8
 tzdata==2023.3
-<<<<<<< HEAD
 userpath==1.8.0
-=======
->>>>>>> main
 wrapt==1.15.0
