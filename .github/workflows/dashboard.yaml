@@ -21,13 +21,11 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      - name: Navigate to Nuxt project folder
+      - name: Navigate to Nuxt project folder & Install dependencies
         run: |
           cd _dashboard/DotNetPerfMonitor/
           ls
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile --ignore-scripts
+          pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Generate static files
         run: pnpm run generate
