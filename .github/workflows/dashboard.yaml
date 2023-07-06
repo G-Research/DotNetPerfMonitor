@@ -24,11 +24,12 @@ jobs:
       - name: Navigate to Nuxt project folder & Install dependencies
         run: |
           cd _dashboard/DotNetPerfMonitor/
-          ls
           pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Generate static files
-        run: pnpm run generate
+        run: |
+          cd _dashboard/DotNetPerfMonitor/
+          pnpm run generate
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
