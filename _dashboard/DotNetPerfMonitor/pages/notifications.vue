@@ -1,7 +1,7 @@
 <template>
     <div>
         <center>
-            <h1>Settings</h1>
+            <h1>Notifications</h1>
         </center>
     </div>
 </template>
