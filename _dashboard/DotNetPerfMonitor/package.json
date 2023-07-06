@@ -10,6 +10,8 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxthq/ui": "^2.5.0",
+    "@nuxtjs/google-fonts": "^3.0.1",
     "@types/node": "^18",
     "nuxt": "^3.6.2"
   }
