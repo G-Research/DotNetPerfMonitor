@@ -19,6 +19,10 @@ jobs:
         with:
           python-version: 3.11
 
+      - name: Remove Dependencies versions from requirements.txt
+        run: |
+          sed 's/==.*$//' requirements.txt > requirements_no_versions.txt.tmp && mv requirements_no_versions.txt.tmp requirements.txt
+
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
