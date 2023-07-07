@@ -35,7 +35,14 @@ jobs:
           git config --global user.name "${{ github.event.head_commit.author.name }}"
           git config --global user.email "${{ github.event.head_commit.author.email }}"
 
+      - name: Authenticate with GitHub
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
       - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         working-directory: ./_dashboard/DotNetPerfMonitor/
         run: |
           pnpm run deploy -- -m ${{ github.event.head_commit.message }}
