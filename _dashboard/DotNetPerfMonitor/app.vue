@@ -1,22 +1,25 @@
 <template>
   <div class="flex h-screen">
-    <div class="sidebar bg-gray-100">
+    <div class="sidebar">
       <!-- Sidebar content -->
       <DashboardLeftSidebar />
     </div>
-    <div class="main-section bg-blue-500">
+    <div class="main-section">
       <!-- Main section content -->
       <NuxtPage />
     </div>
-    <div class="right-sidebar bg-green-500">
+    <div class="right-sidebar">
       <!-- Right sidebar content -->
+      <div class="px-8 py-4 flex flex-row">
+        <p class="text-md py-1 text-md">Theme mode</p>
+        <UtilsThemeSwitcher />
+      </div>
       <div class="flex items-center justify-center h-screen">
-        <p class="text-2xl">Utils Section</p>
       </div>
 
     </div>
   </div>
-  <div class="footer bg-yellow-500">
+  <div class="footer">
     <!-- Footer content -->
 
     <p class="text-center text-2xl">Dashboard Footer</p>
