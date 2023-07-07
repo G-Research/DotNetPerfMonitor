@@ -30,9 +30,10 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm run generate
 
-      - name: List files in directory
+      - name: Set author name and email
         run: |
-          ls
+          git config --global user.name "${{ github.event.head_commit.author.name }}"
+          git config --global user.email "${{ github.event.head_commit.author.email }}"
 
       - name: Deploy to GitHub Pages
         working-directory: ./_dashboard/DotNetPerfMonitor/
