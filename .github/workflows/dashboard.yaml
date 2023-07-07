@@ -9,6 +9,8 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -28,8 +30,13 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm run generate
 
+      - name: List files in directory
+        run: |
+          ls
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_dashboard/DotNetPerfMonitor/dist
+          destination_dir: ./_dashboard/DotNetPerfMonitor/dist
+          commit_message: ${{ github.event.head_commit.message }}
