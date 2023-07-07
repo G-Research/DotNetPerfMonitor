@@ -1,0 +1,1 @@
+import{_ as t,E as n,c as o,b as s,w as c,o as a,a as r}from"./entry.21fd1c69.js";const _={},l=r("h1",null,"Settings",-1);function d(i,f){const e=n("center");return a(),o("div",null,[s(e,null,{default:c(()=>[l]),_:1})])}const m=t(_,[["render",d]]);export{m as default};
