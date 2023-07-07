@@ -1,0 +1,1 @@
+import{_ as o,r as c,c as n,b as s,w as r,o as a,a as e}from"./entry.a4edbd8b.js";const _={},l=e("h1",null,"G-Research",-1),d=e("p",{class:"text-bold text-xl"},"DotNetPerfMonitor Project",-1);function i(f,x){const t=c("center");return a(),n("div",null,[s(t,null,{default:r(()=>[l,d]),_:1})])}const u=o(_,[["render",i]]);export{u as default};
