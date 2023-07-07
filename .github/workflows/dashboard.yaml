@@ -30,14 +30,8 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm run generate
 
-      - name: Set author name and email
-        run: |
-          git config --global user.name "${{ github.event.head_commit.author.name }}"
-          git config --global user.email "${{ github.event.head_commit.author.email }}"
-
       - name: Deploy to GitHub Pages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        working-directory: ./_dashboard/DotNetPerfMonitor/
-        run: |
-          pnpm run deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
