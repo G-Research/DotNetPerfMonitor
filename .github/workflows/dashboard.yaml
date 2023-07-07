@@ -24,7 +24,7 @@ jobs:
 
       - name: Navigate to Nuxt project folder & Install dependencies
         run: |
-          cd _dashboard/DotNetPerfMonitor/
+          working-directory: _dashboard/DotNetPerfMonitor/
           pnpm install --frozen-lockfile --ignore-scripts
 
       - name: Generate static files
