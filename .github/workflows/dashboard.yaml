@@ -35,9 +35,6 @@ jobs:
           ls
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./_dashboard/DotNetPerfMonitor/dist
-          #destination_dir: _dashboard/DotNetPerfMonitor/dist
-          commit_message: ${{ github.event.head_commit.message }}
+        working-directory: ./_dashboard/DotNetPerfMonitor/
+        run: |
+          pnpm run deploy -- -m ${{ github.event.head_commit.message }}
