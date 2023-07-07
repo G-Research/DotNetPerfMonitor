@@ -31,7 +31,9 @@ jobs:
           pnpm run generate
 
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          keep_files: false
           publish_dir: _dashboard/DotNetPerfMonitor/dist
+          destination_dir: DotNetPerfMonitor
