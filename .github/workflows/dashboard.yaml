@@ -1,0 +1,38 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - dashboard-setup
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install Dependencies and Generate Static Content
+        working-directory: _dashboard/DotNetPerfMonitor/
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm run generate
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          keep_files: true
+          publish_dir: _dashboard/DotNetPerfMonitor/dist

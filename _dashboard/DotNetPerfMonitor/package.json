@@ -1,0 +1,21 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "deploy": "gh-pages -d ./dist"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.0.5",
+    "@nuxt/devtools": "latest",
+    "@nuxthq/ui": "^2.5.0",
+    "@nuxtjs/google-fonts": "^3.0.1",
+    "@types/node": "^18",
+    "nuxt": "^3.6.2",
+    "gh-pages": "^5.0.0"
+  }
+}
