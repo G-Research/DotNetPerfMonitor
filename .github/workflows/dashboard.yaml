@@ -30,12 +30,23 @@ jobs:
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm run generate
 
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Check GitHub Pages status
+        uses: crazy-max/ghaction-github-status@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: dashboard-deployment
-          folder: dashboard/DotNetPerfMonitor/dist
-          commit-message: ${{ github.event.head_commit.message }}
-          git-config-name: "github-actions[bot]"
-          git-config-email: "github-actions[bot]@users.noreply.github.com"
+          pages_threshold: major_outage
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: crazy-max/ghaction-github-pages@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          build_dir: ./dashboard/DotNetPerfMonitor/dist
+          target_branch: dashboard-deployment
+          commit_message: ${{ github.event.head_commit.message }}
+        # with:
+        #   token: ${{ secrets.GITHUB_TOKEN }}
+        #   branch: dashboard-deployment
+        #   folder: dashboard/DotNetPerfMonitor/dist
+        #   commit-message: ${{ github.event.head_commit.message }}
+        #   git-config-name: "github-actions[bot]"
+        #   git-config-email: "github-actions[bot]@users.noreply.github.com"
