@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: dashboard-deployment
-          folder: dashboard/DotNetPerfMonitor/dist/
+          folder: dashboard/DotNetPerfMonitor/dist
           commit-message: ${{ github.event.head_commit.message }}
           git-config-name: "github-actions[bot]"
           git-config-email: "github-actions[bot]@users.noreply.github.com"
