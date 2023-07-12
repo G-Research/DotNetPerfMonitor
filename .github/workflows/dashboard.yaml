@@ -40,7 +40,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          build_dir: ./dashboard/DotNetPerfMonitor/dist
+          build_dir: ./dashboard/DotNetPerfMonitor/.output/public
           target_branch: dashboard-deployment
           commit_message: ${{ github.event.head_commit.message }}
         # with:
