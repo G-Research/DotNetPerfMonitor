@@ -1,6 +1,7 @@
 <template>
     <div class="flex flex-col px-4 py-4">
         <UtilsSearchBox />
+        <DashboardCronjobsTracer class="py-8" />
         <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
             <el-tab-pane label="F#" name="first">F#</el-tab-pane>
             <el-tab-pane label="C#" name="third">C# Compiler</el-tab-pane>
@@ -17,7 +18,6 @@ import { ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
 
 const activeName = ref('first')
-const { metaSymbol } = useShortcuts()
 const handleClick = (tab: TabsPaneContext, event: Event) => {
     console.log(tab, event)
 }

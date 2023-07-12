@@ -11,8 +11,9 @@
     <div class="right-sidebar">
       <!-- Right sidebar content -->
       <div class="px-8 py-4 flex flex-row">
-        <p class="text-md py-1 text-md">Theme mode</p>
+        <!-- <p class="text-md py-1 text-md">Theme mode</p> -->
         <UtilsThemeSwitcher />
+    
       </div>
       <div class="flex items-center justify-center h-screen">
       </div>
