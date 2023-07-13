@@ -2,16 +2,13 @@
 #
 # To get started with Nuxt see: https://nuxtjs.org/docs/get-started/installation
 #
-name: Deploy Nuxt site to Pages
+name: Deploy to GitHub Pages
 
 on:
   # Runs on pushes targeting the default branch
   push:
     branches:
       - main
-      # Branches used for testing - remove when production ready!
-      - dashboard-setup
-      - gh-pages-deployment
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
