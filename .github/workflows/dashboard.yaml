@@ -5,6 +5,7 @@
 name: Deploy to GitHub Pages
 
 on:
+  push:
   pull_request:
 
   # Allows you to run this workflow manually from the Actions tab
