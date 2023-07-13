@@ -52,9 +52,8 @@ jobs:
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
-        working-directory: _dashboard/DotNetPerfMonitor/
         with:
-          path: ./dist
+          path: _dashboard/DotNetPerfMonitor/dist
 
   # Deployment job
   deploy:
