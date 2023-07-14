@@ -15,7 +15,12 @@
     "@nuxthq/ui": "^2.5.0",
     "@nuxtjs/google-fonts": "^3.0.1",
     "@types/node": "^18",
-    "nuxt": "^3.6.2",
-    "gh-pages": "^5.0.0"
+    "gh-pages": "^5.0.0",
+    "nuxt": "^3.6.2"
+  },
+  "dependencies": {
+    "apexcharts": "^3.41.0",
+    "chart.js": "^4.3.0",
+    "vue-apexcharts": "^1.6.2"
   }
 }
