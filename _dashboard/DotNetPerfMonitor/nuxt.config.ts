@@ -8,4 +8,12 @@ export default defineNuxtConfig({
   modules: ["@nuxthq/ui"],
 
   css: ["@/assets/css/global.css"],
+  
+  experimental: {
+	payloadExtraction: "false",
+  },
+  target: 'static',
+  router: {
+    base: '/DotNetPerfMonitor/'
+  }
 });
