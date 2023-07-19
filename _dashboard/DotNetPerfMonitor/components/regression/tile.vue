@@ -38,7 +38,7 @@ const regression = defineProps({
 
 })
 
-const display = regression.user === 'github-actions[bot]' ? 'hidden' : 'block';
+const display = regression.user === 'github-actions[bot]' ? 'block' : 'hidden';
 const mode = useColorMode()
 const src = ref('')
 watch(mode, (theme) => {
