@@ -13,9 +13,11 @@
             <DashboardCardSkeleton />
         </div>
         <div v-else>
+
             <RegressionTile v-for="issue in issues" :key="issue.id" :title="issue.title" :number="issue.number"
                 :user="issue.user.login" :labels="issue.labels" :userAvatar="issue.user.avatar_url"
                 :date=useDateformat(issue.created_at) :locked="issue.locked" />
+
         </div>
 
     </div>
@@ -26,11 +28,12 @@ const { data: issues, pending, error } = await useLazyAsyncData('active_regressi
     return $fetch('https://api.github.com/repos/G-Research/DotNetPerfMonitor/issues', {
         transform: async (response) => {
             const data = await response.json()
-            return data.filter((issue) => {
-                return issue.labels.some((label) => {
-                    return label.name === 'active_regression'
-                })
+            console.log(data)
+            const filtered = data.filter((issue) => {
+                return issue.user.type === "Bot"
             })
+            console.log(filtered)
+            return filtered
         }
     })
 })

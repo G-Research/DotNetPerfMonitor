@@ -14,10 +14,7 @@ export default function useDateFormat(dateString: string) {
   const minutes = date.getMinutes();
   const formattedMinutes = getFormattedMinutes(minutes);
 
-  const formattedDate = computed(
-    () =>
-      `${formattedDayOfMonth} ${monthName} ${year} - ${formattedHours}:${formattedMinutes}`
-  );
+  const formattedDate = `${formattedDayOfMonth} ${monthName} ${year} - ${formattedHours}:${formattedMinutes}`;
 
   return formattedDate;
 }
