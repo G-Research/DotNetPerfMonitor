@@ -44,9 +44,11 @@ const preset = {
 </script>
 <template>
     <div class="flex flex-col h-screen bg-sky-500 dark:bg-sky-950">
-        <div class="flex flex-row py-4 px-4">
+        <div class="flex flex-row py-4 px-4 text-ellipsis">
             <UAvatar :src="src" alt="logo" class="" size="sm" />
-            <h2 class="text-2xl text-center text-white dark:text-sky-400 px-2">G-Research</h2>
+            <h2 class="dark:text-sky-400 text-white font-bold xl:text-2xl sm:text-lg xs:text-xs text-sm xs:hidden px-1">
+                G-Research
+            </h2>
         </div>
         <UVerticalNavigation :links="links" :ui="preset" class="px-1" />
     </div>

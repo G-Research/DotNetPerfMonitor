@@ -8,22 +8,22 @@
 <script setup>
 const statistics = [
     {
-        title: 'Active Regressions',
-        desc: 'Identified performance regressions',
+        title: 'Regressions',
+        desc: 'Performance regressions',
         data: 2,
         icon: 'i-heroicons-arrow-trending-down',
         background: 'bg-purple-400'
     },
     {
-        title: 'Active Issues',
+        title: 'Issues',
         desc: 'Active issues on Github',
         data: 12,
         icon: 'i-heroicons-exclamation-circle',
         background: 'bg-red-400'
     },
     {
-        title: 'Active Pull Requests',
-        desc: 'Active pull requests on Github',
+        title: 'Pull Requests',
+        desc: 'Active pull requests',
         data: 4,
         icon: 'i-heroicons-arrow-path-rounded-square',
         background: 'bg-green-400'
