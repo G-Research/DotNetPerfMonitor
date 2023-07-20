@@ -1,7 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-
+  target: 'static',
+  app: {
+	baseURL: '/DotNetPerfMonitor/',
+  },
+  
   colorMode: {
     preference: "dark",
   },
@@ -12,8 +16,4 @@ export default defineNuxtConfig({
   experimental: {
 	payloadExtraction: "false",
   },
-  target: 'static',
-  router: {
-    base: '/DotNetPerfMonitor/'
-  }
 });
