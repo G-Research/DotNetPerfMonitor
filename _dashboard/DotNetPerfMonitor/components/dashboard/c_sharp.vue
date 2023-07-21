@@ -1,7 +1,10 @@
 <template>
-    <div class="flex flex-row w-full gap-8">
-        <DashboardStatsBox v-for="(stat, index) in statistics" :key="index" :title="stat.title" :data="stat.data"
-            :icon="stat.icon" :background="stat.background" :desc="stat.desc" />
+    <div class="flex flex-col justify-between">
+        <div class="flex flex-row w-full gap-8">
+            <DashboardStatsBox v-for="(stat, index) in statistics" :key="index" :title="stat.title" :data="stat.data"
+                :icon="stat.icon" :background="stat.background" :desc="stat.desc" />
+        </div>
+        <DashboardLineChart />
     </div>
 </template>
 

@@ -19,8 +19,11 @@
     "nuxt": "^3.6.2"
   },
   "dependencies": {
-    "apexcharts": "^3.41.0",
     "chart.js": "^4.3.0",
-    "vue-apexcharts": "^1.6.2"
+    "convert-csv-to-json": "^2.0.0",
+    "csv-parser": "^3.0.0",
+    "csvtojson": "^2.0.10",
+    "vue-apexcharts": "^1.6.2",
+    "vue-chartjs": "^5.2.0"
   }
 }
