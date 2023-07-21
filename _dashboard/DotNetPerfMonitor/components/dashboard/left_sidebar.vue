@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import ref from 'vue'
 const mode = useColorMode()
-const src = mode.value === 'dark' ? '/images/logo.png' : '/images/logo-bg.png'
+const src = useRuntimeConfig().app.baseURL + (mode.value === 'dark' ? 'images/logo.png' : 'images/logo-bg.png')
 const links = [{
     label: 'Dashboard',
     icon: 'i-heroicons-squares-plus',
