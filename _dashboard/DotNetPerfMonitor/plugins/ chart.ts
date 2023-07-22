@@ -1,4 +1,5 @@
 import { Bar, Line } from "vue-chartjs";
+
 import {
   Chart as ChartJS,
   Title,

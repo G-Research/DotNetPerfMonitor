@@ -15,6 +15,7 @@
     "@nuxthq/ui": "^2.5.0",
     "@nuxtjs/google-fonts": "^3.0.1",
     "@types/node": "^18",
+    "@types/papaparse": "^5.3.7",
     "gh-pages": "^5.0.0",
     "nuxt": "^3.6.2"
   },
@@ -23,7 +24,9 @@
     "convert-csv-to-json": "^2.0.0",
     "csv-parser": "^3.0.0",
     "csvtojson": "^2.0.10",
+    "papaparse": "^5.4.1",
     "vue-apexcharts": "^1.6.2",
-    "vue-chartjs": "^5.2.0"
+    "vue-chartjs": "^5.2.0",
+    "vue-d3-charts": "^0.2.8"
   }
 }
