@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="chart-div">
-            <LineChart :data="data" category="line" />
+            <LineChart :data="data" id="line" :options="options" />
         </div>
     </div>
 </template>
@@ -10,8 +10,15 @@
 <script setup>
 
 const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
-const convertedData = await useCsvConverter(path)
-console.log(useScenarioFilter(convertedData, 'cold'));
+
+const converted = await useCsvConverter(path)
+const filtered = useScenarioFilter(converted, 'cold')
+const largeAppCPM = useBenchmarkGrouper(filtered, "LargeAppCPM-142722b")
+const largeAppCPM64 = useBenchmarkGrouper(filtered, "LargeAppCPM64-142722b")
+const orleans = useBenchmarkGrouper(filtered, "Orleans-eda972a")
+const orchardcore = useBenchmarkGrouper(filtered, "OrchardCore-5dbd92c")
+const nuget = useBenchmarkGrouper(filtered, "NuGetClient-win-d76a117",)
+//console.log(useScenarioFilter(converted, "LargeAppCPM-142722b",));
 const scenarioColors = {
     warmup: {
         bgColor: 'rgb(255, 99, 132)',
@@ -35,125 +42,62 @@ const scenarioColors = {
     }
 };
 const data = {
-    labels: ['February', 'March', 'April', 'May', 'June',],
+    labels: useDataExtracter(filtered, 'timestamp'),
     datasets: [{
-        label: 'Warmup',
+        label: 'OrchardCore',
+        fill: false,
+        type: 'line',
+        tension: .1,
         backgroundColor: scenarioColors.warmup.bgColor,
         borderColor: scenarioColors.warmup.lineColor,
-        data: useScenarioFilter(convertedData, 'warmup')
+        data: orchardcore.map((x) => {
+            const _data = { x: x.timestamp, y: x.duration, }
+            return _data
+
+        }),
     },
     {
-        label: 'Noop',
-        backgroundColor: scenarioColors.noop.bgColor,
-        borderColor: scenarioColors.noop.lineColor,
-        data: useScenarioFilter(convertedData, 'noop')
-    },
-    {
-        label: 'Force',
+        label: 'largeAppCPM',
+        fill: false,
+        type: 'line',
+        tension: .1,
         backgroundColor: scenarioColors.force.bgColor,
         borderColor: scenarioColors.force.lineColor,
-        data: useScenarioFilter(convertedData, 'force')
+        data: largeAppCPM.map((x) => {
+            const _data = { x: x.timestamp, y: x.duration, }
+            return _data
+
+        }),
+    },
+
+    {
+        label: 'NuGet',
+        fill: false,
+        type: 'line',
+        tension: .1,
+        backgroundColor: scenarioColors.noop.bgColor,
+        borderColor: scenarioColors.noop.lineColor,
+        data: nuget.map((x) => {
+            const _data = { x: x.timestamp, y: x.duration, }
+            return _data
+
+        }),
     },
     {
-        label: 'Cold',
-        backgroundColor: scenarioColors.cold.bgColor,
-        borderColor: scenarioColors.cold.lineColor,
-        data: useScenarioFilter(convertedData, 'cold')
-    },
-    {
-        label: 'Arctic',
+        label: 'Orleans',
+        fill: false,
+        type: 'line',
+        tension: .1,
         backgroundColor: scenarioColors.arctic.bgColor,
         borderColor: scenarioColors.arctic.lineColor,
-        data: useScenarioFilter(convertedData, 'arctic')
+        data: orleans.map((x) => {
+            const _data = { ...x, x: x.timestamp, y: x.duration }
+            return _data
+
+        }),
     }
 
     ]
 }
-const options = {
-    "tension": .9,
-    "responsive": true,
-    "maintainAspectRatio": false,
-    "title": {
-        "display": true,
-        "text": "Line Chart"
-    },
-    "legend": {
-        "display": true,
-        "position": "top",
-        "labels": {
-            "fontSize": 12,
-            "fontColor": "black",
-            "usePointStyle": false,
-            "padding": 10
-        }
-    },
-    "scales": {
-        "yAxes": [
-            {
-                "id": "y-axis-1",
-                "type": "linear",
-                "position": "left",
-                "ticks": {
-                    "beginAtZero": true,
-                    "suggestedMax": 100,
-                    "stepSize": 10,
-                    "fontSize": 12,
-                    "fontColor": "black",
-                    "padding": 10
-                },
-                "gridLines": {
-                    "display": false,
-                    "color": "rgba(0, 0, 0, 0.1)"
-                },
-                "scaleLabel": {
-                    "display": true,
-                    "labelString": "Y-Axis Label",
-                    "fontSize": 12,
-                    "fontColor": "black",
-                    "padding": 10
-                }
-            }
-        ],
-        "xAxes": [
-            {
-                "id": "x-axis-1",
-                "type": "category",
-                "position": "bottom",
-                "ticks": {
-                    "fontSize": 12,
-                    "fontColor": "black",
-                    "padding": 10
-                },
-                "gridLines": {
-                    "display": false,
-                    "color": "rgba(0, 0, 0, 0.1)"
-                },
-                "scaleLabel": {
-                    "display": true,
-                    "labelString": "X-Axis Label",
-                    "fontSize": 12,
-                    "fontColor": "black",
-                    "padding": 10
-                }
-            }
-        ]
-    },
-    "tooltips": {
-        "enabled": true,
-        "mode": "index",
-        "intersect": false,
-        "backgroundColor": "rgba(0,0,0,0.8)",
-        "titleFontColor": "white",
-        "titleFontSize": 14,
-        "titleMarginBottom": 10,
-        "bodyFontColor": "white",
-        "bodyFontSize": 12,
-        "bodySpacing": 10,
-        "xPadding": 10,
-        "yPadding": 10,
-        "caretSize": 8,
-        "cornerRadius": 6,
-        "displayColors": false
-    }
-}
+const options = useChartOptions('line')
 </script>

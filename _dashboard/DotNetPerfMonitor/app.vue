@@ -19,13 +19,7 @@
 
       </div>
     </div>
-    <div class="footer">
-      <!-- Footer content -->
 
-      <p class="text-center text-2xl">Dashboard Footer</p>
-
-
-    </div>
   </NuxtLayout>
 </template>
 
@@ -34,16 +28,15 @@
 .sidebar,
 .right-sidebar {
   width: 15%;
-  height: 80vh;
+  height: 100vh;
 }
 
 .main-section {
   width: 70%;
-  height: 80vh;
+  height: 100vh;
 }
 
-.header,
-.footer {
+.header {
   height: 10vh;
 }
 </style>
