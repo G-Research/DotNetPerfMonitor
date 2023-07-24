@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  //target: "static",
+  target: "static",
   app: {
     baseURL: "/DotNetPerfMonitor/",
   },
@@ -18,6 +18,6 @@ export default defineNuxtConfig({
   css: ["@/assets/css/global.css"],
 
   experimental: {
-    //  payloadExtraction: "false",
+    payloadExtraction: "false",
   },
 });

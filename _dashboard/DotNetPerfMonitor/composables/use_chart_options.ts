@@ -1,6 +1,9 @@
 export default function useChartOptions(type: String) {
   const lineOptions = {
     //tension: 0.9,
+    borderWith: 0.5,
+    borderJointStyle: "bevel",
+    cubicInterpolationMode: "monotone",
     responsive: true,
     maintainAspectRatio: true,
     title: {

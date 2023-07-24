@@ -41,8 +41,11 @@ const scenarioColors = {
         lineColor: 'rgb(153, 102, 255)'
     }
 };
+
+const _options = useChartOptions('line')
 const data = {
     labels: useDataExtracter(filtered, 'timestamp'),
+    options: _options,
     datasets: [{
         label: 'OrchardCore',
         fill: false,
@@ -91,7 +94,7 @@ const data = {
         backgroundColor: scenarioColors.arctic.bgColor,
         borderColor: scenarioColors.arctic.lineColor,
         data: orleans.map((x) => {
-            const _data = { ...x, x: x.timestamp, y: x.duration }
+            const _data = { x: x.timestamp, y: x.duration }
             return _data
 
         }),
@@ -99,5 +102,4 @@ const data = {
 
     ]
 }
-const options = useChartOptions('line')
 </script>
