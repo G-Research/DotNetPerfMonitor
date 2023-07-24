@@ -8,7 +8,11 @@
         <UCard>
             <div class="flex flex-col gap-6">
                 <div class="flex flex-row justify-between">
-                    <div class="text-3xl font-semibold text-sky-400">{{ selected.label }} Scenario</div>
+                    <div class="flex flex-row gap-4 justify-center">
+                        <UIcon :name="selected.icon" class="text-4xl " />
+                        <div class="text-3xl font-semibold text-sky-400">{{ selected.label }} Scenario</div>
+                    </div>
+
                     <USelectMenu v-model="selected" :options="scenarios" searchable="true"
                         searchable-placeholder="Search a scenario...">
                         <template #label>
@@ -31,7 +35,7 @@
 const scenarios = [{
     id: 'cold',
     label: 'Cold',
-    icon: 'i-heroicons-ball'
+    icon: 'i-heroicons-cloud'
 },
 {
     id: 'warmup',
@@ -41,21 +45,20 @@ const scenarios = [{
 {
     id: 'noop',
     label: 'Noop',
-    icon: 'i-heroicons-stop'
+    icon: 'i-heroicons-stop-circle'
 },
 {
     id: 'force',
     label: 'Force',
-    icon: 'i-heroicons-lightning-bolt'
+    icon: 'i-heroicons-bolt'
 },
 {
     id: 'arctic',
     label: 'Arctic',
-    icon: 'i-heroicons-snowflake'
+    icon: 'i-heroicons-cube-transparent'
 }
-
 ]
-const selected = ref("Warmup")
+const selected = ref(scenarios[0])
 const statistics = [
     {
         title: 'Regressions',

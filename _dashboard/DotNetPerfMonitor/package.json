@@ -27,6 +27,7 @@
     "papaparse": "^5.4.1",
     "vue-apexcharts": "^1.6.2",
     "vue-chartjs": "^5.2.0",
-    "vue-d3-charts": "^0.2.8"
+    "vue-d3-charts": "^0.2.8",
+    "vue3-lottie": "^3.0.0"
   }
 }
