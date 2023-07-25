@@ -18,6 +18,6 @@ export default defineNuxtConfig({
   css: ["@/assets/css/global.css"],
 
   experimental: {
-    payloadExtraction: false,
+    payloadExtraction: "false",
   },
 });
