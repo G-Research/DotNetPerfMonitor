@@ -6,9 +6,9 @@ export default defineNuxtConfig({
     baseURL: "/DotNetPerfMonitor/",
   },
 
-  // generate: {
-  //   routes: ["/notifications", "/settings", "/documentation", "/regressions"],
-  // },
+  generate: {
+    routes: ["/notifications", "/settings", "/documentation", "/regressions"],
+  },
 
   colorMode: {
     preference: "dark",
@@ -18,6 +18,6 @@ export default defineNuxtConfig({
   css: ["@/assets/css/global.css"],
 
   experimental: {
-    payloadExtraction: "false",
+    payloadExtraction: false,
   },
 });
