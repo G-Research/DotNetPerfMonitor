@@ -4,6 +4,7 @@
             <DashboardStatsBox v-for="(stat, index) in statistics" :key="index" :title="stat.title" :data="stat.data"
                 :icon="stat.icon" :background="stat.background" :desc="stat.desc" />
         </div>
+
         <!-- <DashboardLineChart /> -->
         <UCard>
             <div class="flex flex-col gap-6">
@@ -13,8 +14,7 @@
                         <div class="text-3xl font-semibold text-sky-400">{{ selected.label }} Scenario</div>
                     </div>
 
-                    <USelectMenu v-model="selected" :options="scenarios" searchable="true"
-                        searchable-placeholder="Search a scenario...">
+                    <USelectMenu v-model="selected" :options="scenarios" searchable=true searchable-placeholder="Search...">
                         <template #label>
                             <UIcon :name="selected.icon" class="w-4 h-4 text-sky-400" />
                             {{ selected.label }}
@@ -24,7 +24,8 @@
 
                 </div>
 
-                <DashboardLineChart />
+
+                <DashboardLineChart :scenario="selected.id" />
             </div>
         </UCard>
 
@@ -58,7 +59,12 @@ const scenarios = [{
     icon: 'i-heroicons-cube-transparent'
 }
 ]
+
 const selected = ref(scenarios[0])
+const scenario = useAlphaScenario()
+watch(selected, (fresh, old) => {
+    scenario.value = fresh.id
+})
 const statistics = [
     {
         title: 'Regressions',

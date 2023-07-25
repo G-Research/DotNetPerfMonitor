@@ -20,14 +20,9 @@
     "nuxt": "^3.6.2"
   },
   "dependencies": {
+    "@amcharts/amcharts5": "^5.4.1",
     "chart.js": "^4.3.0",
-    "convert-csv-to-json": "^2.0.0",
-    "csv-parser": "^3.0.0",
-    "csvtojson": "^2.0.10",
     "papaparse": "^5.4.1",
-    "vue-apexcharts": "^1.6.2",
-    "vue-chartjs": "^5.2.0",
-    "vue-d3-charts": "^0.2.8",
-    "vue3-lottie": "^3.0.0"
+    "vue-chartjs": "^5.2.0"
   }
 }

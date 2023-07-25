@@ -17,8 +17,9 @@ const links = [{
     to: '/notifications',
     badge: 14
 }, {
-    label: 'Documentation',
-    icon: 'i-heroicons-book-open',
+    label: 'Data Explorer',
+    // icon: 'i-heroicons-sparkles',
+    icon: 'i-heroicons-circle-stack',
     to: '/documentation',
 }, {
     label: 'Settings',

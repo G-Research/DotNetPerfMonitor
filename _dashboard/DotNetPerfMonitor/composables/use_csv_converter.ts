@@ -8,8 +8,7 @@ export default async function useCsvConverter(csvPath: string) {
 
   const parsed = Papa.parse(csvText, {
     dynamicTyping: true,
-    preview: 75,
-    skipEmptyLines: true,
+    preview: 365 * 6,
     header: true,
   });
   const str = JSON.stringify(parsed.data);

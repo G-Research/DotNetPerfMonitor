@@ -1,20 +1,22 @@
 <template>
     <div>
-        <div class="chart-div">
-            <LineChart :data="data" />
-        </div>
+        <LineChart :data="data" />
+
     </div>
 </template>
 
 
 <script setup>
-
+const props = defineProps({
+    scenario: String
+})
 const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
 
 const converted = await useCsvConverter(path)
-const filtered = useScenarioFilter(converted, 'cold')
+const scenario = useAlphaScenario()
+const filtered = useScenarioFilter(converted, 'noop')
 const largeAppCPM = useBenchmarkGrouper(filtered, "LargeAppCPM-142722b")
-const largeAppCPM64 = useBenchmarkGrouper(filtered, "LargeAppCPM64-142722b")
+const largeAppCPM64 = useBenchmarkGrouper(filtered, "LargeAppCPM-nostaticgraph-142722b")
 const orleans = useBenchmarkGrouper(filtered, "Orleans-eda972a")
 const orchardcore = useBenchmarkGrouper(filtered, "OrchardCore-5dbd92c")
 const nuget = useBenchmarkGrouper(filtered, "NuGetClient-win-d76a117",)
@@ -39,34 +41,96 @@ const scenarioColors = {
     arctic: {
         bgColor: 'rgb(153, 102, 255)',
         lineColor: 'rgb(153, 102, 255)'
+    },
+    hot: {
+        bgColor: 'rgb(56, 142, 60)',
+        lineColor: 'rgb(56, 142, 60)'
     }
 };
 
 const _options = useChartOptions('line')
+const see = orchardcore.map((x) => {
+    const _data = { x: x.timestamp, y: x.duration, }
+    return _data
+
+})
 const data = {
     labels: useDataExtracter(filtered, 'timestamp'),
     options: _options,
+    // options: {
+    //     plugins: {
+    //         title: {
+    //             display: true,
+    //             text: 'Chart with Tick Configuration'
+    //         }
+    //     },
+    //     scales: {
+    //         xAxis: {
+    //             ticks: {
+    //                 beginAtZero: true
+    //             },
+    //             type: 'time',
+    //             title: {
+    //                 display: true,
+    //                 text: 'Date'
+    //             },
+    //             time: {
+    //                 unit: 'day',
+    //                 displayFormats: {
+    //                     day: 'MMM D'
+    //                 }
+    //             }
+    //         }
+    //     },
+    //     yAxis: {
+    //         ticks: {
+    //             beginAtZero: true
+    //         },
+    //         title: {
+    //             display: true,
+    //             text: 'Value'
+    //         }
+    //     }
+
+    // },
     datasets: [{
         label: 'OrchardCore',
-        fill: false,
-        type: 'line',
-        tension: .1,
+        fill: true,
+        borderWidth: .5,
+        pointRadius: .5,
+        type: 'line', tension: 0.4,
+        cubicInterpolationMode: 'monotone',
         backgroundColor: scenarioColors.warmup.bgColor,
         borderColor: scenarioColors.warmup.lineColor,
-        data: orchardcore.map((x) => {
-            const _data = { x: x.timestamp, y: x.duration, }
-            return _data
-
-        }),
+        data: see
     },
     {
         label: 'largeAppCPM',
         fill: false,
         type: 'line',
-        tension: .1,
+        tension: 0.4,
+        borderWidth: .5,
+        pointRadius: .5,
+        cubicInterpolationMode: 'monotone',
         backgroundColor: scenarioColors.force.bgColor,
         borderColor: scenarioColors.force.lineColor,
         data: largeAppCPM.map((x) => {
+            const _data = { x: x.timestamp, y: x.duration > 20 ? 18 : x.duration, }
+            return _data
+
+        }),
+    },
+    {
+        label: 'largeAppCPM-Nostaticgraph',
+        fill: true,
+        type: 'line',
+        tension: 0.1,
+        borderWidth: .5,
+        pointRadius: .5,
+        cubicInterpolationMode: 'monotone',
+        backgroundColor: scenarioColors.hot.bgColor,
+        borderColor: scenarioColors.hot.lineColor,
+        data: largeAppCPM64.map((x) => {
             const _data = { x: x.timestamp, y: x.duration, }
             return _data
 
@@ -76,8 +140,10 @@ const data = {
     {
         label: 'NuGet',
         fill: false,
-        type: 'line',
-        tension: .1,
+        type: 'line', tension: 0.4,
+        borderWidth: .5,
+        pointRadius: .5,
+        cubicInterpolationMode: 'monotone',
         backgroundColor: scenarioColors.noop.bgColor,
         borderColor: scenarioColors.noop.lineColor,
         data: nuget.map((x) => {
@@ -89,8 +155,10 @@ const data = {
     {
         label: 'Orleans',
         fill: false,
-        type: 'line',
-        tension: .1,
+        type: 'line', tension: 0.4,
+        borderWidth: .5,
+        pointRadius: .5,
+        cubicInterpolationMode: 'monotone',
         backgroundColor: scenarioColors.arctic.bgColor,
         borderColor: scenarioColors.arctic.lineColor,
         data: orleans.map((x) => {
@@ -100,6 +168,7 @@ const data = {
         }),
     }
 
-    ]
+    ],
+    options: _options
 }
 </script>
