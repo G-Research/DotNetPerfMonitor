@@ -14,7 +14,8 @@
                         <div class="text-3xl font-semibold text-sky-400">{{ selected.label }} Scenario</div>
                     </div>
 
-                    <USelectMenu v-model="selected" :options="scenarios" searchable=true searchable-placeholder="Search...">
+                    <USelectMenu v-model="selected" :options="scenarios" :searchable="searchable"
+                        searchable-placeholder="Search...">
                         <template #label>
                             <UIcon :name="selected.icon" class="w-4 h-4 text-sky-400" />
                             {{ selected.label }}
@@ -33,6 +34,7 @@
 </template>
 
 <script setup>
+const searchable = true
 const scenarios = [{
     id: 'cold',
     label: 'Cold',
