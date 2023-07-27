@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout>
-    <div class="flex h-screen">
+    <div class="flex flex-row h-screen">
       <div class="sidebar">
         <!-- Sidebar content -->
         <DashboardLeftSidebar />
@@ -19,13 +19,7 @@
 
       </div>
     </div>
-    <div class="footer">
-      <!-- Footer content -->
 
-      <p class="text-center text-2xl">Dashboard Footer</p>
-
-
-    </div>
   </NuxtLayout>
 </template>
 
@@ -34,16 +28,15 @@
 .sidebar,
 .right-sidebar {
   width: 15%;
-  height: 80vh;
+  height: 100%;
 }
 
 .main-section {
   width: 70%;
-  height: 80vh;
+  height: 100%;
 }
 
-.header,
-.footer {
-  height: 10vh;
+.header {
+  height: 100%;
 }
 </style>

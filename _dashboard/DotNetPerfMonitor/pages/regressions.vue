@@ -9,8 +9,8 @@
         <div class="py-4"></div>
 
 
-        <div v-if="pending">
-            <DashboardCardSkeleton />
+        <div v-if="pending" v-for="x in 10" :key="x">
+            <DashboardCardSkeleton class="py-2" />
         </div>
         <div v-else>
 
