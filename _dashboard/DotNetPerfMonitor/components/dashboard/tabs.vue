@@ -16,16 +16,16 @@
 
             <TabPanels class="mt-2">
                 <TabPanel>
-                    <div class="flex flex-col gap-2">
-                        <DashboardCSharp />
-                    </div>
-
+                    <DashboardNuget />
                 </TabPanel>
                 <TabPanel>
-                    <div class="flex flex-col gap-2">
-                        <DashboardFSharp />
-                    </div>
-
+                    <DashboardMsBuild />
+                </TabPanel>
+                <TabPanel>
+                    <DashboardFSharp />
+                </TabPanel>
+                <TabPanel>
+                    <DashboardCSharp />
                 </TabPanel>
             </TabPanels>
         </TabGroup>

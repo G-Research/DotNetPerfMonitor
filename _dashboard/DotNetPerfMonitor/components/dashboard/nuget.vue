@@ -26,8 +26,11 @@
                 </div>
                 <!-- <DashboardPlotly /> -->
                 <div class="flex flex-col gap-10">
+                    <div v-for="scenario in scenariosList" :key="scenario">
+                        <h1 class="text-2xl self-center">{{ scenario }}</h1>
+                        <DashboardLineChart :scenario="scenario" />
 
-                    <DashboardLineChart v-for="scenario in scenariosList" :key="scenario" :scenario="scenario" />
+                    </div>
                 </div>
             </div>
         </UCard>
@@ -70,6 +73,11 @@ const scenario = useAlphaScenario()
 watch(selected, (fresh, old) => {
     scenario.value = fresh.id
 })
+
+const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
+const converted = await useCsvConverter(path)
+const benchmarks = useColumnsetExtractor(converted, 'solution')
+
 const statistics = [
     {
         title: 'Regressions',
@@ -95,7 +103,7 @@ const statistics = [
     {
         title: 'Benchmarks',
         desc: 'Benchmarks tests',
-        data: 24,
+        data: benchmarks.length,
         icon: 'i-heroicons-variable',
         background: 'bg-gray-800'
     }
