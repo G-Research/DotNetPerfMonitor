@@ -1,5 +1,8 @@
 <template>
     <div>
+        <!-- <client-only>
+            <nuxt-plotly :data="data"></nuxt-plotly>
+        </client-only> -->
         <LineChart :data="data" />
 
     </div>
@@ -57,42 +60,6 @@ const see = orchardcore.map((x) => {
 const data = {
     labels: useDataExtracter(filtered, 'timestamp'),
     options: _options,
-    // options: {
-    //     plugins: {
-    //         title: {
-    //             display: true,
-    //             text: 'Chart with Tick Configuration'
-    //         }
-    //     },
-    //     scales: {
-    //         xAxis: {
-    //             ticks: {
-    //                 beginAtZero: true
-    //             },
-    //             type: 'time',
-    //             title: {
-    //                 display: true,
-    //                 text: 'Date'
-    //             },
-    //             time: {
-    //                 unit: 'day',
-    //                 displayFormats: {
-    //                     day: 'MMM D'
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     yAxis: {
-    //         ticks: {
-    //             beginAtZero: true
-    //         },
-    //         title: {
-    //             display: true,
-    //             text: 'Value'
-    //         }
-    //     }
-
-    // },
     datasets: [{
         label: 'OrchardCore',
         fill: true,

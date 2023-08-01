@@ -17,7 +17,8 @@
     "@types/node": "^18",
     "@types/papaparse": "^5.3.7",
     "gh-pages": "^5.0.0",
-    "nuxt": "^3.6.2"
+    "nuxt": "^3.6.2",
+    "nuxt-plotly": "^1.0.9"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.4.1",

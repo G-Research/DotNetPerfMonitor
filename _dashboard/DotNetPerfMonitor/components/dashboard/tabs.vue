@@ -19,6 +19,13 @@
                     <div class="flex flex-col gap-2">
                         <DashboardCSharp />
                     </div>
+
+                </TabPanel>
+                <TabPanel>
+                    <div class="flex flex-col gap-2">
+                        <DashboardFSharp />
+                    </div>
+
                 </TabPanel>
             </TabPanels>
         </TabGroup>
@@ -28,5 +35,5 @@
 <script setup>
 import { ref } from 'vue'
 
-const categories = [".NET", "NuGet", "F#", "C#", "MS Build"]
+const categories = computed(() => ["NuGet", "MS Build", "F#", "C#",])
 </script>

@@ -24,7 +24,7 @@
 
 
                 </div>
-
+                <!-- <DashboardPlotly /> -->
 
                 <DashboardLineChart :scenario="selected.id" />
             </div>

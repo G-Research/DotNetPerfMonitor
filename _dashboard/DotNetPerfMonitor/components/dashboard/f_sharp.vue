@@ -1,5 +1,6 @@
 <template>
     <div>
-        <h1 class="text-sky-400">F SHARP</h1>
+        <div class="text-2xl">PLOTLY</div>
+        <!-- <DashboardPlotly /> -->
     </div>
 </template>
