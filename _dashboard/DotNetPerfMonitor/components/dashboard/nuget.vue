@@ -6,15 +6,19 @@
         </div>
 
         <!-- <DashboardLineChart /> -->
-        <UCard>
-            <div class="flex flex-col gap-6">
-                <div class="flex flex-row justify-between">
-                    <!-- <div class="flex flex-row gap-4 justify-center">
+
+        <div class="flex flex-col gap-4">
+            <div class="flex flex-row justify-between py-4">
+                <p class="text-2xl text-sky-400 dark:text-sky-300">Filter</p>
+                <UButton icon="i-heroicons-rectangle-group" size="sm" color="primary" variant="solid" label="Filter"
+                    trailing @click="isOpen = true" />
+
+                <!-- <div class="flex flex-row gap-4 justify-center">
                         <UIcon :name="selected.icon" class="text-4xl " />
                         <div class="text-3xl font-semibold text-sky-400">{{ selected.label }} Scenario</div>
                     </div> -->
 
-                    <!-- <USelectMenu v-model="selected" :options="scenarios" :searchable="searchable"
+                <!-- <USelectMenu v-model="selected" :options="scenarios" :searchable="searchable"
                         searchable-placeholder="Search...">
                         <template #label>
                             <UIcon :name="selected.icon" class="w-4 h-4 text-sky-400" />
@@ -23,24 +27,44 @@
                     </USelectMenu> -->
 
 
-                </div>
-                <!-- <DashboardPlotly /> -->
-                <div class="flex flex-col gap-10">
-                    <div v-for="scenario in scenariosList" :key="scenario">
-                        <h1 class="text-2xl self-center">{{ scenario }}</h1>
-                        <DashboardLineChart :scenario="scenario" />
+            </div>
+            <!-- <DashboardPlotly /> -->
 
-                    </div>
+            <div v-for="scenario, index in scenariosList" :key="index">
+                <div v-if="selectedScenarios[index]" class="flex flex-col gap-2">
+                    <h1 class="text-2xl first-letter:capitalize">{{ scenario }}</h1>
+                    <DashboardLineChart :scenario="scenario" />
                 </div>
             </div>
-        </UCard>
-
+        </div>
+        <USlideover v-model="isOpen">
+            <div class="flex flex-col gap-2 px-6">
+                <p class="self-center py-4 text-2xl">Apply filter for scenarios</p>
+                <UCard>
+                    <UCheckbox v-for="scenario, index in scenariosList" :key="index" v-model="selectedScenarios[index]"
+                        :name="scenario" :label="scenario" />
+                </UCard>
+            </div>
+        </USlideover>
     </div>
 </template>
 
 <script setup>
 const searchable = true
-const scenariosList = ['noop', 'force', 'cold', 'arctic']
+const isOpen = ref(false)
+
+const generateBooleans = (length) => {
+    const arr = [];
+    for (let i = 0; i < length; i++) arr.push(true)
+    return arr;
+}
+const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
+const converted = await useCsvConverter(path)
+
+const scenariosList = useColumnsetExtractor(converted, 'scenario')
+const selectedScenarios = ref(generateBooleans(scenariosList.length))
+//['noop', 'force', 'cold', 'arctic', 'warmup']
+
 const scenarios = [{
     id: 'cold',
     label: 'Cold',
@@ -74,16 +98,16 @@ watch(selected, (fresh, old) => {
     scenario.value = fresh.id
 })
 
-const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
-const converted = await useCsvConverter(path)
+
+
 const benchmarks = useColumnsetExtractor(converted, 'solution')
 
 const statistics = [
     {
-        title: 'Regressions',
-        desc: 'Performance regressions',
-        data: 2,
-        icon: 'i-heroicons-arrow-trending-down',
+        title: 'Scenarios',
+        desc: 'Scenarios used in benchmarks',
+        data: scenariosList.length,
+        icon: 'i-heroicons-variable',
         background: 'bg-purple-400'
     },
     {
@@ -104,8 +128,9 @@ const statistics = [
         title: 'Benchmarks',
         desc: 'Benchmarks tests',
         data: benchmarks.length,
-        icon: 'i-heroicons-variable',
+        icon: 'i-heroicons-beaker',
         background: 'bg-gray-800'
     }
 ]
+
 </script>

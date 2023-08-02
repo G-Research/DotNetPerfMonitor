@@ -1,51 +1,79 @@
+import "chartjs-adapter-date-fns";
+import { enUS } from "date-fns/locale";
+
 export default function useChartOptions(type: String) {
-  const lineOptions = {
-    responsive: true,
-    maintainAspectRatio: true,
-    title: {
-      display: true,
-      text: "Title of chart",
-    },
-    legend: {
-      display: true,
-      position: "left",
-      labels: {
-        fontSize: 18,
-        fontColor: "red",
-        usePointStyle: false,
-        padding: 10,
+  const lineOptions = computed(() => {
+    return {
+      responsive: true,
+      legend: {
+        display: false,
       },
-    },
-    scales: {
-      x: {
-        type: "time",
-        time: {
-          unit: "day",
-          displayFormats: {
-            day: "MMM D",
+      maintainAspectRatio: false,
+      tooltips: {
+        enabled: true,
+        callbacks: {
+          label: function (tooltipItem: any, data: any) {
+            alert("au secours");
           },
         },
       },
-    },
+      parsing: {
+        xAxisKey: "timestamp",
+        yAxisKey: "relative duration",
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            footer: (tooltipItems: any) => {
+              let summary = "";
+              tooltipItems.forEach(function (tooltipItem: any) {
+                const row = tooltipItem.raw;
+                summary += "Scenario: " + row.scenario + "\n";
+                summary += "Version: " + row.version + "\n";
+                summary += "Base Version: " + row["base version"] + "\n";
+                summary += "Duration: " + row.duration + "s \n";
+                summary +=
+                  "Relative Duration: " + row["relative duration"] + "s \n";
+                summary += "Base Duration: " + row["base duration"] + "s \n";
+              });
+              return summary;
+            },
+          },
+        },
+      },
 
-    tooltips: {
-      enabled: true,
-      mode: "index",
-      intersect: false,
-      backgroundColor: "rgba(0,0,0,0.8)",
-      titleFontColor: "yellow",
-      titleFontSize: 14,
-      titleMarginBottom: 10,
-      bodyFontColor: "white",
-      bodyFontSize: 12,
-      bodySpacing: 10,
-      xPadding: 10,
-      yPadding: 10,
-      caretSize: 8,
-      cornerRadius: 10,
-      displayColors: true,
-    },
-  };
+      scales: {
+        x: {
+          type: "timeseries",
+          ticks: {
+            display: false,
+          },
+          grid: {
+            display: false, // Disable vertical grid lines
+          },
+          adapters: {
+            date: {
+              displayFormats: {
+                quarter: "MMM YYYY",
+              },
+              locale: enUS,
+            },
+          },
+        },
+        y: {
+          type: "logarithmic",
+          grid: {
+            display: false, // Disable vertical grid lines
+          },
+          ticks: {
+            callback: function (value: any, index: number, values: any) {
+              return Number(value.toString()); //pass tick values as a string into Number function
+            },
+          },
+        },
+      },
+    };
+  });
 
   return type === "line" ? lineOptions : lineOptions;
 }
