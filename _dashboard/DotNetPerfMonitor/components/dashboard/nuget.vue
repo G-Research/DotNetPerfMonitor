@@ -38,11 +38,12 @@
             </div>
         </div>
         <USlideover v-model="isOpen">
-            <div class="flex flex-col gap-2 px-6">
-                <p class="self-center py-4 text-2xl">Apply filter for scenarios</p>
+            <div class="flex flex-col gap-2 px-6 py-8">
+
                 <UCard>
+                    <p class="self-center text-2xl py-2">Apply filter for scenarios</p>
                     <UCheckbox v-for="scenario, index in scenariosList" :key="index" v-model="selectedScenarios[index]"
-                        :name="scenario" :label="scenario" />
+                        :name="scenario" :label="scenario" cl />
                 </UCard>
             </div>
         </USlideover>

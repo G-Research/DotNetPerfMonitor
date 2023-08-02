@@ -1,8 +1,8 @@
 import { log } from "console";
 import * as Papa from "papaparse";
 export default async function useCsvConverter(csvPath: string) {
-  const response = await fetch(csvPath);
-  const csvText = await response.text();
+  const response: any = await fetch(csvPath);
+  const csvText: any = await response.text();
 
   //console.log(`csvText: ${csvText}`);
 
