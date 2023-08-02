@@ -82,13 +82,40 @@ const config = computed(() => {
     return {
         responsive: true,
         maintainAspectRatio: false,
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    alert('au secours')
+                }
+            }
+        },
         parsing: {
             xAxisKey: 'timestamp',
             yAxisKey: 'relative duration'
         },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    footer: (tooltipItems) => {
+                        let summary = '';
+                        tooltipItems.forEach(function (tooltipItem) {
+                            const row = tooltipItem.raw;
+                            summary += 'Scenario: ' + row.scenario + '\n';
+                            summary += 'Version: ' + row.version + '\n';
+                            summary += 'Base Version: ' + row['base version'] + '\n';
+                            summary += 'Duration: ' + row.duration + 's \n';
+                            summary += 'Relative Duration: ' + row['relative duration'] + 's \n';
+                            summary += 'Base Duration: ' + row['base duration'] + 's \n';
+                        });
+                        return summary;
+                    },
+                }
+            }
+        },
         scales: {
             x: {
                 type: 'timeseries',
+
                 adapters: {
                     date: {
                         displayFormats: {
@@ -109,16 +136,8 @@ const config = computed(() => {
 
         },
 
-        plugins: [],
         tooltips: {
-            callbacks: {
-                label(tooltipItem, data) {
-                    const label = data.datasets[tooltipItem.datasetIndex].label;
-                    const value = tooltipItem.yLabel
-
-                    return `${label}: ${value}`;
-                }
-            }
+            enabled: true,
         }
     }
 })
