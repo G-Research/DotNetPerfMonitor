@@ -4,10 +4,16 @@ import {
   Title,
   Tooltip,
   Legend,
+  Plugin,
+  TickOptions,
+  Ticks,
   BarElement,
   LineElement,
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
+  TimeSeriesScale,
+  TimeScale,
   PointElement,
 } from "chart.js";
 
@@ -17,7 +23,10 @@ ChartJS.register(
   Legend,
   BarElement,
   CategoryScale,
+  TimeScale,
+  TimeSeriesScale,
   LineElement,
+  LogarithmicScale,
   PointElement,
   LinearScale
 );

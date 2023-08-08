@@ -10,22 +10,29 @@ const links = [{
 }, {
     label: 'Regressions',
     icon: 'i-heroicons-chart-bar',
-    to: '/regressions'
-}, {
-    label: 'Notifications',
-    icon: 'i-heroicons-bell',
-    to: '/notifications',
-    badge: 14
-}, {
+    to: '/regressions',
+    //badge: `${useRegressionsNumber().value}`,
+},
+
+// {
+// label: 'Notifications',
+// icon: 'i-heroicons-bell',
+// to: '/notifications',
+// badge: 14
+// },
+
+{
     label: 'Data Explorer',
     // icon: 'i-heroicons-sparkles',
     icon: 'i-heroicons-circle-stack',
     to: '/documentation',
-}, {
-    label: 'Settings',
-    icon: 'i-heroicons-cog',
-    to: '/settings'
-}]
+},
+    // {
+    // label: 'Settings',
+    // icon: 'i-heroicons-cog',
+    // to: '/settings'
+    // },
+]
 
 const preset = {
     "padding": "px-3 py-3",
@@ -33,8 +40,8 @@ const preset = {
     "rounded": "rounde-xl",
     "font": "font-normal",
     "size": "text-md",
-    "active": "text-gray-900 dark:text-white before:bg-gray-100 dark:before:bg-gray-800",
-    "inactive": "text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:before:bg-gray-50 dark:hover:before:bg-gray-800/50",
+    "active": "text-gray-900 dark:text-white before:bg-gray-100 dark:before:bg-sky-900",
+    "inactive": "text-gray-200 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:before:bg-gray-50 dark:hover:before:bg-sky-900",
     "icon": {
         "base": "flex-shrink-0 w-7 h-7 text-xl",
         "active": "text-gray-700 dark:text-gray-200 text-xl",

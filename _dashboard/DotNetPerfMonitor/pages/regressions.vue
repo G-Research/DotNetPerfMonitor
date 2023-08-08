@@ -25,17 +25,19 @@
 
 <script setup>
 const { data: issues, pending, error } = await useLazyAsyncData('active_regressions', async () => {
-    return $fetch('https://api.github.com/repos/G-Research/DotNetPerfMonitor/issues', {
+    const data = $fetch('https://api.github.com/repos/G-Research/DotNetPerfMonitor/issues', {
         transform: async (response) => {
             const data = await response.json()
-            console.log(data)
             const filtered = data.filter((issue) => {
                 return issue.user.type === "Bot"
             })
-            console.log(filtered)
             return filtered
         }
     })
+    const length = data.length
+    const persisted = useRegressionsNumber()
+    persisted.value = length
+    return data
 })
 
 </script>

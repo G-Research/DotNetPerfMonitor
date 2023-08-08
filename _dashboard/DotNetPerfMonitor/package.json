@@ -17,11 +17,16 @@
     "@types/node": "^18",
     "@types/papaparse": "^5.3.7",
     "gh-pages": "^5.0.0",
-    "nuxt": "^3.6.2"
+    "nuxt": "^3.6.2",
+    "nuxt-plotly": "^1.0.9"
   },
   "dependencies": {
     "@amcharts/amcharts5": "^5.4.1",
     "chart.js": "^4.3.0",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "chartjs-adapter-dayjs-4": "^1.0.4",
+    "date-fns": "^2.30.0",
+    "dayjs": "^1.11.9",
     "papaparse": "^5.4.1",
     "vue-chartjs": "^5.2.0"
   }
