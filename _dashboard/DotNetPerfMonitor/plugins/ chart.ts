@@ -17,6 +17,8 @@ import {
   PointElement,
 } from "chart.js";
 
+import zoomPlugin from "chartjs-plugin-zoom";
+
 ChartJS.register(
   Title,
   Tooltip,
@@ -28,7 +30,8 @@ ChartJS.register(
   LineElement,
   LogarithmicScale,
   PointElement,
-  LinearScale
+  LinearScale,
+  zoomPlugin
 );
 
 export default defineNuxtPlugin((nuxtApp) => {

@@ -14,15 +14,15 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "dark",
   },
-  modules: ["@nuxthq/ui", "nuxt-plotly"],
+  modules: ["@nuxthq/ui"],
 
   css: ["@/assets/css/global.css"],
-  vite: {
-    optimizeDeps: {
-      include: ["plotly.js-dist-min"],
-    },
-  },
+  // vite: {
+  //   optimizeDeps: {
+  //     include: ["plotly.js-dist-min"],
+  //   },
+  // },
   experimental: {
-    payloadExtraction: "false",
+    payloadExtraction: true,
   },
 });

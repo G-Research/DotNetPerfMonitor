@@ -8,20 +8,30 @@ export default function useChartOptions(type: String) {
       legend: {
         display: false,
       },
-      maintainAspectRatio: false,
+      maintainAspectRatio: true,
       tooltips: {
         enabled: true,
         callbacks: {
-          label: function (tooltipItem: any, data: any) {
-            alert("au secours");
-          },
+          label: function (tooltipItem: any, data: any) {},
         },
       },
+
       parsing: {
         xAxisKey: "timestamp",
         yAxisKey: "relative duration",
       },
       plugins: {
+        zoom: {
+          zoom: {
+            wheel: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: "xy",
+          },
+        },
         tooltip: {
           callbacks: {
             footer: (tooltipItems: any) => {
@@ -45,8 +55,12 @@ export default function useChartOptions(type: String) {
       scales: {
         x: {
           type: "timeseries",
+          title: {
+            display: true,
+            text: "Benchmark Test Date",
+          },
           ticks: {
-            display: false,
+            display: true,
           },
           grid: {
             display: false, // Disable vertical grid lines
@@ -62,6 +76,10 @@ export default function useChartOptions(type: String) {
         },
         y: {
           type: "logarithmic",
+          title: {
+            display: true,
+            text: "Relative Duration",
+          },
           grid: {
             display: false, // Disable vertical grid lines
           },
