@@ -1,0 +1,54 @@
+{
+  "name": "DotNetPerfMonitor",
+  "version": "1.0.0",
+  "description": "DotNetPerfMonitor....",
+  "components": ["nuget", "msbuild", "fsharp", "csharp"],
+  "components_display": ["NuGet", "MSBuild", "F#", "C#"],
+  "components_data": {
+    "nuget": {
+      "data": "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/nuget.csv",
+      "benchmarks": [
+        {
+          "name": "LargeAppCPM64-142722b",
+          "color": "rgb(255, 99, 132)"
+        },
+        {
+          "name": "LargeAppCPM64-nostaticgraph-142722b",
+          "color": "rgb(255, 159, 64)"
+        },
+        {
+          "name": "LargeAppCPM64-142722b",
+          "color": "rgb(255, 159, 50)"
+        },
+        {
+          "name": "LargeAppCPM-142722b",
+          "color": "rgb(255, 14, 64)"
+        },
+        {
+          "name": "OrchardCore-5dbd92c",
+          "color": "rgb(255, 99, 132)"
+        },
+        {
+          "name": "Orleans-eda972a",
+          "color": "rgb(255, 22, 132)"
+        },
+        {
+          "name": "NuGetClient-win-d76a117",
+          "color": "rgb(255, 99, 132)"
+        }
+      ]
+    },
+    "msbuild": {
+      "benchmarks": [],
+      "data": "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/msbuild.csv"
+    },
+    "fsharp": {
+      "benchmarks": [],
+      "data": "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/fsharp.csv"
+    },
+    "csharp": {
+      "benchmarks": [],
+      "data": "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/csharp.csv"
+    }
+  }
+}
