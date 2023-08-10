@@ -15,6 +15,9 @@ const props = defineProps({
 })
 const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
 
+// const { data: parsed, pending, error } = await useLazyAsyncData('parsed_csv', async () => {
+//     return await useCsvConverter(path)
+// });
 const converted = await useCsvConverter(path)
 const scenario = useAlphaScenario()
 const filtered = useScenarioFilter(converted, props.scenario)

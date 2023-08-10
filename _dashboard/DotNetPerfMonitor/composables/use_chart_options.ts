@@ -9,19 +9,20 @@ export default function useChartOptions(type: String) {
         display: false,
       },
       maintainAspectRatio: false,
-      tooltips: {
-        enabled: true,
-        callbacks: {
-          label: function (tooltipItem: any, data: any) {
-            alert("au secours");
-          },
-        },
-      },
+
       parsing: {
         xAxisKey: "timestamp",
         yAxisKey: "relative duration",
       },
       plugins: {
+        // zoom: {
+        // limits: {
+        //   y: { min: 0, max: 800 },
+        // },
+
+        // --- CHART ZOOM OPTIONS ---
+
+        // },
         tooltip: {
           callbacks: {
             footer: (tooltipItems: any) => {
@@ -40,13 +41,31 @@ export default function useChartOptions(type: String) {
             },
           },
         },
+        zoom: {
+          // limits: {
+          //   y: { min: 0, max: 300 },
+          // },
+          zoom: {
+            scaleMode: "xy",
+            wheel: {
+              enabled: true,
+            },
+            drag: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: "xy",
+          },
+        },
       },
 
       scales: {
         x: {
           type: "timeseries",
           ticks: {
-            display: false,
+            display: true,
           },
           grid: {
             display: false, // Disable vertical grid lines
