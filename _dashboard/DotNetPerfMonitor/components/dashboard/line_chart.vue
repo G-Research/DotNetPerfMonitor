@@ -1,8 +1,7 @@
 <template>
     <div>
         <UCard>
-            <!-- <DashboardChartSkeleton class="py-2" v-if="pending" />
-            <div class="text-red-400" v-if="error">{{ error }}</div> -->
+
             <LineChart :data="data" :options="config" />
         </UCard>
 

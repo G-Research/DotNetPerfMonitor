@@ -14,7 +14,7 @@ export default defineNuxtConfig({
   colorMode: {
     preference: "dark",
   },
-  modules: ["@nuxthq/ui"],
+  modules: ["@nuxthq/ui", "nuxt-plotly"],
 
   css: ["@/assets/css/global.css"],
   // vite: {
