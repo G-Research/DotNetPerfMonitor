@@ -109,20 +109,23 @@ jobs:
           path: artifacts
 
       - name: Process data
+        working-directory: scripts/processors/
         shell: pwsh
         run: |
-          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname data.csv}
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname ../data/nuget.csv}
 
       - name: Generate graph with Plotly for Python
+        working-directory: scripts/processors/
         if: ${{ false }}
         shell: pwsh
         run: |
-          . python3 generate_html.py data.csv index-python.html
+          . python3 generate_html.py ../data/nuget.csv index-python.html
 
       - name: Get alerts
+        working-directory: scripts/processors/
         id: alerts
         run: |
-          python3 generate_alert.py data.csv active_regressions.txt
+          python3 generate_alert.py ../data/nuget.csv active_regressions.txt
           if test -f "active_regressions.txt"; then
             echo "file_exists=true" >> $GITHUB_OUTPUT
             echo "file_content='$file_content'" >> $GITHUB_OUTPUT
