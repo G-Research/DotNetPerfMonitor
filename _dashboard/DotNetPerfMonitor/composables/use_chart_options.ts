@@ -8,30 +8,21 @@ export default function useChartOptions(type: String) {
       legend: {
         display: false,
       },
-      maintainAspectRatio: true,
-      tooltips: {
-        enabled: true,
-        callbacks: {
-          label: function (tooltipItem: any, data: any) {},
-        },
-      },
+      maintainAspectRatio: false,
 
       parsing: {
         xAxisKey: "timestamp",
         yAxisKey: "relative duration",
       },
       plugins: {
-        zoom: {
-          zoom: {
-            wheel: {
-              enabled: true,
-            },
-            pinch: {
-              enabled: true,
-            },
-            mode: "xy",
-          },
-        },
+        // zoom: {
+        // limits: {
+        //   y: { min: 0, max: 800 },
+        // },
+
+        // --- CHART ZOOM OPTIONS ---
+
+        // },
         tooltip: {
           callbacks: {
             footer: (tooltipItems: any) => {
@@ -50,15 +41,29 @@ export default function useChartOptions(type: String) {
             },
           },
         },
+        zoom: {
+          // limits: {
+          //   y: { min: 0, max: 300 },
+          // },
+          zoom: {
+            scaleMode: "xy",
+            wheel: {
+              enabled: true,
+            },
+            drag: {
+              enabled: true,
+            },
+            pinch: {
+              enabled: true,
+            },
+            mode: "xy",
+          },
+        },
       },
 
       scales: {
         x: {
           type: "timeseries",
-          title: {
-            display: true,
-            text: "Benchmark Test Date",
-          },
           ticks: {
             display: true,
           },
@@ -68,7 +73,7 @@ export default function useChartOptions(type: String) {
           adapters: {
             date: {
               displayFormats: {
-                quarter: "MMM YYYY",
+                quarter: "MM YY",
               },
               locale: enUS,
             },
@@ -76,10 +81,6 @@ export default function useChartOptions(type: String) {
         },
         y: {
           type: "logarithmic",
-          title: {
-            display: true,
-            text: "Relative Duration",
-          },
           grid: {
             display: false, // Disable vertical grid lines
           },
