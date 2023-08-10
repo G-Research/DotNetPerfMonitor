@@ -73,7 +73,7 @@ export default function useChartOptions(type: String) {
           adapters: {
             date: {
               displayFormats: {
-                quarter: "MM YY",
+                quarter: "MMM YYYY",
               },
               locale: enUS,
             },
