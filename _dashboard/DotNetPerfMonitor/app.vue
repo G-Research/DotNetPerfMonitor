@@ -23,7 +23,6 @@
   </NuxtLayout>
 </template>
 
-
 <style>
 .sidebar,
 .right-sidebar {
