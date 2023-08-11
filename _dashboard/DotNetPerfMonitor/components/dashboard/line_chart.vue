@@ -21,7 +21,7 @@ const filtered = useScenarioFilter(converted, props.scenario)
 
 const _options = useChartOptions('line')
 const _rows = [];
-const benchmarks = useColumnsetExtractor(converted, 'solution')
+const benchmarks = useColumnsetExtractor(converted, 'test case')
 benchmarks.forEach(async (benchmark) => {
     const _data = useBenchmarkGrouper(filtered, benchmark)
     const clean_data = _data.map((x) => {
@@ -29,7 +29,9 @@ benchmarks.forEach(async (benchmark) => {
         return row
     })
     //const _color = await useBenchmarkColor(benchmark)
-    const _color = useColorGenerator();
+    // Programatically generate colors and assign them to the benchmark
+    const _color = useColorGenerator()
+
     const _dataset = {
         label: benchmark,
         fill: false,

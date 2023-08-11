@@ -33,7 +33,7 @@ def read_results(csv_path: str) -> pd.DataFrame:
     return pd.DataFrame({'version': [df['Client Version'][i + n_rows] for i in range(0, n_rows)],
                          'base version': [df['Client Version'][i] for i in range(0, n_rows)],
                          'scenario': [df['Scenario Name'][i + n_rows] for i in range(0, n_rows)],
-                         'solution': [solution_name for i in range(0, n_rows)],
+                         'test case': [solution_name for i in range(0, n_rows)],
                          # 'os': [osName for i in range(0, nRows)],
                          # 'timestamp': [datetime.fromisoformat(df['Test Run ID'][i + nRows]) + timedelta(seconds=i) for i in range(0, nRows)],
                          'timestamp': [df['Test Run ID'][i + n_rows] for i in range(0, n_rows)],

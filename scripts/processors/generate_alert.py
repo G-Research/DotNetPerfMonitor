@@ -67,7 +67,7 @@ def get_regression(data: pd.DataFrame) -> [str]:
                        'base duration', 'relative duration']
             header = "Scenario = " + str(group_data["scenario"].values[-1]) + "\n" + \
                      "Base Version = " + str(group_data["base version"].values[-1]) + "\n" + \
-                     "Solution = " + str(group_data["solution"].values[-1])
+                     "Test case = " + str(group_data["test case"].values[-1])
             data_string = f'{group_data[-N_SMAPLES:].to_string(header=True, index=False, justify="right", columns=columns, formatters=formatters)}'
             line_length = len(data_string.splitlines()[0])
             line = '-' * line_length
