@@ -109,21 +109,17 @@ jobs:
           path: artifacts
 
       - name: Process data
+        working-directory: scripts/processors/
         shell: pwsh
         run: |
-          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname data.csv}
-
-      - name: Generate graph with Plotly for Python
-        if: ${{ false }}
-        shell: pwsh
-        run: |
-          . python3 generate_html.py data.csv index-python.html
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname ../data/nuget.csv}
 
       - name: Get alerts
+        working-directory: scripts/processors/
         id: alerts
         run: |
-          python3 generate_alert.py data.csv active_regressions.txt
-          if test -f "active_regressions.txt"; then
+          python3 generate_alert.py ../data/nuget.csv active_nuget_regressions.txt
+          if test -f "active_nuget_regressions.txt"; then
             echo "file_exists=true" >> $GITHUB_OUTPUT
             echo "file_content='$file_content'" >> $GITHUB_OUTPUT
           fi
@@ -134,7 +130,7 @@ jobs:
           numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
             query($name: String!, $owner: String!) {
               repository(owner: $owner, name: $name) {
-                issues(states:OPEN, filterBy: { labels:  ["active_regression"]}){
+                issues(states:OPEN, filterBy: { labels:  ["active_nuget_regression"]}){
                   totalCount
                 }
               }
@@ -143,7 +139,7 @@ jobs:
 
           if [ $numOpenIssues -eq 0 ]; then
             echo "Creating new issue"
-            gh issue create --title "Active NuGet restore regression" --label "active_regression" --body "\`\`\` $(cat active_regressions.txt)  \`\`\`" --repo $GITHUB_REPOSITORY
+            gh issue create --title "Active NuGet restore regression" --label "active_nuget_regression" --body "\`\`\` $(cat active_nuget_regressions.txt)  \`\`\`" --repo $GITHUB_REPOSITORY
           fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -152,12 +148,12 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: "data.csv"
+          file_pattern: "../data/nuget.csv"
           commit_author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
 
       - name: Upload data
         if: steps.alerts.outputs.file_exists == 'true'
         uses: actions/upload-artifact@v3
         with:
-          name: active_regressions
-          path: active_regressions.txt
+          name: active_nuget_regressions
+          path: active_nuget_regressions.txt
