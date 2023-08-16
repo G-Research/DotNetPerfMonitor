@@ -1,4 +1,4 @@
-name: benchmarks
+name: benchmarks_nuget
 
 on:
   workflow_dispatch:
@@ -101,12 +101,13 @@ jobs:
         with:
           python-version: 3.11
 
-      - name: Install dependencies
-        run: pip3 install -r requirements.txt
-
       - uses: actions/download-artifact@v3
         with:
           path: artifacts
+
+      - name: Install python3 dependencies
+        working-directory: scripts/processors/
+        run: pip3 install -r requirements.txt
 
       - name: Process data
         working-directory: scripts/processors/
