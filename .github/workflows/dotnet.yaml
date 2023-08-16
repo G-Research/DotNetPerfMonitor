@@ -15,8 +15,8 @@ jobs:
 
       - name: setup dotnet core
         uses: actions/setup-dotnet@v2
-        with:
-          dotnet-version: "latest" #We can also specify the version to be used, like `3.1.0`
+        #with:
+        #dotnet-version: "latest" #We can also specify the version to be used, like `3.1.0`
 
       - name: run dotnet --version
         run: dotnet --version
