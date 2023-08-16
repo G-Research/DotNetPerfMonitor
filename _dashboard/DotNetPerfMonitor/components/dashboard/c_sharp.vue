@@ -59,7 +59,7 @@ const generateBooleans = (length) => {
     for (let i = 0; i < length; i++) arr.push(true)
     return arr;
 }
-const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
+const path = "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/csharp.csv"
 const converted = await useCsvConverter(path)
 
 const scenariosList = useColumnsetExtractor(converted, 'scenario')
