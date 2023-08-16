@@ -1,0 +1,32 @@
+name: dotnet commands runner
+on:
+  push:
+    branches: ["main", "dotnet-command"]
+  pull_request:
+    branches: ["main", "dotnet-command"]
+
+jobs:
+  check_dotnet_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: setup dotnet core
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: "latest" #We can also specify the version to be used, like `3.1.0`
+
+      - name: run dotnet --version
+        run: dotnet --version
+        id: dotnet_version
+
+      - name: Save version to file
+        run: echo "DOTNET SDK VERSION \n ${{ steps.dotnet_version.outputs.stdout }}" > dotnet_version.txt
+
+      - name: Upload version file
+        uses: actions/upload-artifact@v2
+        with:
+          name: dotnet_version
+          path: dotnet_version.txt
