@@ -24,7 +24,12 @@ jobs:
 
       - name: Save version to file
         run: echo "DOTNET SDK VERSION \n ${{ steps.dotnet_version.outputs.stdout }}" > dotnet_version.txt
-
+      - name: List SDKs
+        run: dotnet --list-sdks
+      - name: List runtimes
+        run: dotnet --list-runtimes
+      - name: List commands
+        run: dotnet
       - name: Upload version file
         uses: actions/upload-artifact@v2
         with:
