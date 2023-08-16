@@ -22,14 +22,24 @@ jobs:
         run: dotnet --version
         id: dotnet_version
 
-      - name: Save version to file
-        run: echo "DOTNET SDK VERSION \n ${{ steps.dotnet_version.outputs.stdout }}" > dotnet_version.txt
-      - name: List SDKs
-        run: dotnet --list-sdks
-      - name: List runtimes
-        run: dotnet --list-runtimes
+      #   - name: Save version to file
+      #     run: echo "DOTNET SDK VERSION \n ${{ steps.dotnet_version.outputs.stdout }}" > dotnet_version.txt
+      #----- CHECKS ON DOTNET VERSION ------#
+      - name: get dotnet help
+        run: dotnet --info
+
       - name: get dotnet info
         run: dotnet --info
+
+      - name: List SDKs
+        run: dotnet --list-sdks
+
+      - name: List runtimes
+        run: dotnet --list-runtimes
+
+      - name: check msbuild
+        run: dotnet msbuild /?
+
       - name: Upload version file
         uses: actions/upload-artifact@v2
         with:
