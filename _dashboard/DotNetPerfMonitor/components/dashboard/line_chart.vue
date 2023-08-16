@@ -14,7 +14,7 @@ const props = defineProps({
     scenario: String
 })
 const path = "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/nuget.csv"
-const file = '../../../../data/nuget.csv'
+//const file = '../../../../data/nuget.csv'
 const converted = await useCsvConverter(path)
 const scenario = useAlphaScenario()
 const filtered = useScenarioFilter(converted, props.scenario)
