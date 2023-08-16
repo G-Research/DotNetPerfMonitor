@@ -21,7 +21,8 @@ const filtered = useScenarioFilter(converted, props.scenario)
 
 const _options = useChartOptions('line')
 const _rows = [];
-const benchmarks = useColumnsetExtractor(converted, 'test case')
+const column = "test case"
+const benchmarks = useColumnsetExtractor(converted, column)
 benchmarks.forEach(async (benchmark) => {
     const _data = useBenchmarkGrouper(filtered, benchmark)
     const clean_data = _data.map((x) => {

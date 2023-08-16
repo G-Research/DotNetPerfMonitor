@@ -43,7 +43,7 @@
                 <UCard>
                     <p class="self-center text-2xl py-2">Apply filter for scenarios</p>
                     <UCheckbox v-for="scenario, index in scenariosList" :key="index" v-model="selectedScenarios[index]"
-                        :name="scenario" :label="scenario" cl />
+                        :name="scenario" :label="scenario" />
                 </UCard>
             </div>
         </USlideover>
