@@ -2,7 +2,7 @@ name: benchmarks_nuget
 
 on:
   workflow_dispatch:
-  pull_request:
+  #pull_request:
   #schedule:
   #- cron: "0 */8 * * *" # Run workflow threee times a day
 env:
