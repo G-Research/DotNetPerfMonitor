@@ -2,7 +2,9 @@ name: msbuild benchmarks
 
 on:
   push:
+    branches: ["msbuild-benchmarks"]
   pull_request:
+    branches: ["msbuild-benchmarks"]
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
