@@ -22,11 +22,15 @@ jobs:
       matrix:
         OS: [windows-latest, ubuntu-latest]
         BASE_VERSION:
-          - ${{ env.DOTNET_BASE_VERSION_URL_WINDOWS }}
-          - ${{ env.DOTNET_BASE_VERSION_URL_LINUX }}
+          [
+            https://download.visualstudio.microsoft.com/download/pr/1fb808dc-d017-4460-94f8-bf1ac83e6cd8/756b301e714755e411b84684b885a516/dotnet-sdk-7.0.100-win-x64.zip,
+            https://download.visualstudio.microsoft.com/download/pr/cd0d0a4d-2a6a-4d0d-b42e-dfd3b880e222/008a93f83aba6d1acf75ded3d2cfba24/dotnet-sdk-6.0.400-linux-x64.tar.gz,
+          ]
         DAILY_VERSION:
-          - ${{ env.DOTNET_DAILY_VERSION_URL_WINDOWS }}
-          - ${{ env.DOTNET_DAILY_VERSION_URL_LINUX }}
+          [
+            https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip,
+            https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz,
+          ]
       fail-fast: false
     runs-on: ${{ matrix.OS }}
     steps:
