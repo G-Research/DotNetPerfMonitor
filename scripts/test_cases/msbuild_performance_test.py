@@ -4,6 +4,15 @@ import argparse
 
 
 def measure_execution_time(command):
+    """summary for measure_execution_time
+
+    Args:
+        command ([String]): [command to be executed]
+
+    Returns:
+        [Number]: [ellapsed time in seconds]
+    """
+
     # Record start time
     start_time = time.time()
 
@@ -18,12 +27,24 @@ def measure_execution_time(command):
 
 
 def clone_repository(repo_url, repo_path):
+    """_summary_
+
+    Args:
+        repo_url (String): url of the repository to be cloned
+        repo_path (String): path containing test code
+    """
+
     # Clone the repository containing the solution
     subprocess.call(f"git clone {repo_url}", shell=True)
     subprocess.call(f"cd {repo_path}", shell=True)
 
 
 def delete_clone(repo_path):
+    """_summary_
+
+    Args:
+        repo_path (String): path containing test code
+    """
     # extract the repository name from the url
     repo_name = repo_url.split("/")[-1].replace(".git", "")
     subprocess.call(f"rm -rf {repo_name}", shell=True)
@@ -31,6 +52,17 @@ def delete_clone(repo_path):
 
 def main(operating_system, base_version_url, daily_version_url,
          solution_repo_url, solution_dir):
+    """_summary_
+
+    Returns:
+        operating_system: operating system to be used to run the test
+        base_version_url: dotnet sdk base version URL
+        daily_version_url: dotnet sdk daily version URL
+        solution_repo_url: test code repository URL
+        solution_dir: directory of test code
+
+
+    """
 
     # clone the repository and navigate to the solution directory
     clone_repository(solution_repo_url, solution_dir)
