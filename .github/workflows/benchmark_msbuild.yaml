@@ -17,7 +17,7 @@ env:
   TEST_SOLUTION_DIR: "SimpleAppWithLibs"
 
 jobs:
-  msbuild_windows_benchmark:
+  msbuild_benchmarks:
     strategy:
       matrix:
         OS: [windows-latest, ubuntu-latest]
