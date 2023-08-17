@@ -38,7 +38,7 @@ def main(operating_system, base_version_url, daily_version_url,
     clone_repository(solution_repo_url, solution_dir)
 
     elapsed_time = measure_execution_time(command)
-    print(f"Command '{command}' took {elapsed_time:.2f} seconds to execute.")
+    print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
 
 
