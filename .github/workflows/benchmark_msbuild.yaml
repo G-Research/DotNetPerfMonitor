@@ -1,6 +1,6 @@
 name: msbuild benchmarks
+
 on:
-  workflow_dispatch:
   push:
   pull_request:
 
