@@ -159,5 +159,5 @@ if __name__ == "__main__":
     solution_repo_url = args.solution_repo_url
     solution_dir = args.solution_dir
 
-    main(operating_system, base_version_url, daily_version_url,
-         solution_repo_url, solution_dir)
+    main(operating_system, base_version_url,
+         daily_version_url, solution_repo_url, solution_dir)

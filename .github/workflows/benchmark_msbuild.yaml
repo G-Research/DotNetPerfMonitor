@@ -22,9 +22,11 @@ jobs:
       matrix:
         OS: [windows-latest, ubuntu-latest]
         BASE_VERSION:
-          [DOTNET_BASE_VERSION_URL_WINDOWS, DOTNET_BASE_VERSION_URL_LINUX]
+          - ${{ env.DOTNET_BASE_VERSION_URL_WINDOWS }}
+          - ${{ env.DOTNET_BASE_VERSION_URL_LINUX }}
         DAILY_VERSION:
-          [DOTNET_DAILY_VERSION_URL_WINDOWS, DOTNET_DAILY_VERSION_URL_LINUX]
+          - ${{ env.DOTNET_DAILY_VERSION_URL_WINDOWS }}
+          - ${{ env.DOTNET_DAILY_VERSION_URL_LINUX }}
       fail-fast: false
     runs-on: ${{ matrix.OS }}
     steps:
