@@ -2,6 +2,7 @@ import subprocess
 import time
 import sys
 import os
+import argparse
 
 
 def measure_execution_time(command):
@@ -29,9 +30,4 @@ def main(repo_url, repo_path, command):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python msbuild_performance_test.py <test_command>")
-        sys.exit(1)
-
-    command_to_run = sys.argv[1]
-    main(repo_url, repo_path, command_to_run)
+    main()
