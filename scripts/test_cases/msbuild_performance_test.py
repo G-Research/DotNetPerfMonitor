@@ -30,4 +30,13 @@ def main(repo_url, repo_path, command):
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(
+        description="___measures the execution time of msbuild command___.")
+    parser.add_argument("--base-version-url", required=True,
+                        help="URL for the base version")
+    parser.add_argument("--daily-version-url", required=True,
+                        help="URL for the daily version")
+
+    args = parser.parse_args()
+
     main()
