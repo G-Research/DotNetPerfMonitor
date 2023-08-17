@@ -1,3 +1,4 @@
 plotly
 pandas
 pylint
+argparse
