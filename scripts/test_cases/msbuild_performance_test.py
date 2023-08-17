@@ -4,9 +4,61 @@ Returns:
     None: .....
 """
 
+import argparse
 import subprocess
 import time
-import argparse
+import os
+
+EXTRACT_PATH = "sdk"
+WORKING_DIR = "msbuild-performance-test"
+
+
+def back_to_previous_dir():
+    """_summary_
+    """
+    subprocess.call(f"cd ..", shell=True)
+
+
+def download_file(url, filename):
+    """ Download file from url and save it to filename"""
+    with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
+        data = response.read()
+        out_file.write(data)
+
+
+def extract_zip(zip_file, extract_folder):
+    """ Extracts zip file to extract_folder"""
+    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+        zip_ref.extractall(extract_folder)
+
+
+def extract_zip(zip_file, extract_folder):
+    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+        zip_ref.extractall(extract_folder)
+
+
+def download_and_extract_dotnet_sdk(version_url, is_base):
+    """_summary_
+
+    Args:
+        version_url (String): dotnet sdk version url
+    """
+    path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
+    download_file(url, os.path.basename(version_url))
+    extract_zip(os.path.basename(version_url), path)
+    # Download the dotnet sdk
+    # if operating_system == "ubuntu-latest":
+    #     subprocess.call(
+    #         f"curl -O {version_url} -o dotnet-sdk.zip", shell=True)
+    #     subprocess.call("tar -xf dotnet-sdk.zip", shell=True)
+
+    # else:
+    #     # means os is windows
+    #     powershell_command = f"Invoke-WebRequest -Uri {version_url} -OutFile dotnet-sdk.zip"
+    #     extract_command = "Expand-Archive -Path dotnet-sdk.zip -DestinationPath sdk"
+
+    #     subprocess.call(f"powershell {powershell_command}", shell=True)
+    #     subprocess.call(f"powershell {extract_command}", shell=True)
 
 
 def measure_execution_time(command):
@@ -69,12 +121,18 @@ def main(operating_system, base_version_url, daily_version_url,
 
 
     """
+    # create a working directory for the test experiment
+    subprocess.call(f"mkdir {WORKING_DIR}", shell=True)
+    subprocess.call(f"cd {WORKING_DIR}", shell=True)
+    # download and extract the dotnet sdk
+    download_and_extract_dotnet_sdk(base_version_url)
 
     # clone the repository and navigate to the solution directory
     clone_repository(solution_repo_url, solution_dir)
 
     # build the solution using the base version
-    command = "dotnet build Solution.sln"
+    exec_path = "../../sdk/base/dotnet.exe" if operating_system == "windows-latest" else "../sdk/base/dotnet"
+    command = f"{exec_path} build Solution.sln"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
