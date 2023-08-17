@@ -47,6 +47,7 @@ jobs:
 
       #__________FINALLY WE RUN BENCHMARK TEST AND MEASURE EXECUTION TIME__________#
       - name: run benchmark for ${{ matrix.OS }}
+        working-directory: scripts/benchmark
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
