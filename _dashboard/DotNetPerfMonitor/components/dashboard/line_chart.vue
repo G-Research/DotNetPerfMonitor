@@ -14,14 +14,15 @@ const props = defineProps({
     scenario: String
 })
 const path = "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/nuget.csv"
-const file = '../../../../data/nuget.csv'
+//const file = '../../../../data/nuget.csv'
 const converted = await useCsvConverter(path)
 const scenario = useAlphaScenario()
 const filtered = useScenarioFilter(converted, props.scenario)
 
 const _options = useChartOptions('line')
 const _rows = [];
-const benchmarks = useColumnsetExtractor(converted, 'test case')
+const column = "test case"
+const benchmarks = useColumnsetExtractor(converted, column)
 benchmarks.forEach(async (benchmark) => {
     const _data = useBenchmarkGrouper(filtered, benchmark)
     const clean_data = _data.map((x) => {

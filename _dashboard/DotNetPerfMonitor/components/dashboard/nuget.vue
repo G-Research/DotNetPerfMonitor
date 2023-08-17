@@ -43,7 +43,7 @@
                 <UCard>
                     <p class="self-center text-2xl py-2">Apply filter for scenarios</p>
                     <UCheckbox v-for="scenario, index in scenariosList" :key="index" v-model="selectedScenarios[index]"
-                        :name="scenario" :label="scenario" cl />
+                        :name="scenario" :label="scenario" />
                 </UCard>
             </div>
         </USlideover>
@@ -59,7 +59,7 @@ const generateBooleans = (length) => {
     for (let i = 0; i < length; i++) arr.push(true)
     return arr;
 }
-const path = 'https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data.csv'
+const path = "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/nuget.csv"
 const converted = await useCsvConverter(path)
 
 const scenariosList = useColumnsetExtractor(converted, 'scenario')
