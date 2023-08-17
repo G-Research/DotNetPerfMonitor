@@ -100,7 +100,7 @@ if __name__ == "__main__":
     operating_system = args.os
     base_version_url = args.base_version_url
     daily_version_url = args.daily_version_url
-    solution_repo_url = args.repo_url
+    solution_repo_url = args.solution_repo_url
     solution_dir = args.solution_dir
 
     main(operating_system, base_version_url, daily_version_url,
