@@ -8,6 +8,9 @@ import argparse
 import subprocess
 import time
 import os
+import zipfile
+import urllib
+import urllib.request
 
 EXTRACT_PATH = "sdk"
 WORKING_DIR = "msbuild-performance-test"
@@ -16,7 +19,7 @@ WORKING_DIR = "msbuild-performance-test"
 def back_to_previous_dir():
     """_summary_
     """
-    subprocess.call(f"cd ..", shell=True)
+    subprocess.call("cd ..", shell=True)
 
 
 def download_file(url, filename):
@@ -32,11 +35,6 @@ def extract_zip(zip_file, extract_folder):
         zip_ref.extractall(extract_folder)
 
 
-def extract_zip(zip_file, extract_folder):
-    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-        zip_ref.extractall(extract_folder)
-
-
 def download_and_extract_dotnet_sdk(version_url, is_base):
     """_summary_
 
@@ -44,7 +42,7 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
         version_url (String): dotnet sdk version url
     """
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    download_file(url, os.path.basename(version_url))
+    download_file(version_url, os.path.basename(version_url))
     extract_zip(os.path.basename(version_url), path)
     # Download the dotnet sdk
     # if operating_system == "ubuntu-latest":
@@ -125,7 +123,7 @@ def main(operating_system, base_version_url, daily_version_url,
     subprocess.call(f"mkdir {WORKING_DIR}", shell=True)
     subprocess.call(f"cd {WORKING_DIR}", shell=True)
     # download and extract the dotnet sdk
-    download_and_extract_dotnet_sdk(base_version_url)
+    download_and_extract_dotnet_sdk(base_version_url, True)
 
     # clone the repository and navigate to the solution directory
     clone_repository(solution_repo_url, solution_dir)
