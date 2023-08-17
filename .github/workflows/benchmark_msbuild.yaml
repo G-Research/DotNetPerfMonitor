@@ -51,4 +51,4 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python msbuild_performance_test.py --os ${{matrix.OS}} --base-version-url ${{matrix.BASE_VERSION}} --daily-version-url ${{matrix.DAILY_VERSION}}
+          python msbuild_performance_test.py --os ${{matrix.OS}} --base-version-url ${{matrix.BASE_VERSION}} --daily-version-url ${{matrix.DAILY_VERSION}} --solution-repo-url ${{env.TEST_SOLUTION_REPO_URL}} --solution-dir ${{env.TEST_SOLUTION_DIR}}
