@@ -1,3 +1,9 @@
+"""_summary_
+This script basically runs benchmark test for msbuild
+Returns:
+    None: .....
+"""
+
 import subprocess
 import time
 import argparse
@@ -39,7 +45,7 @@ def clone_repository(repo_url, repo_path):
     subprocess.call(f"cd {repo_path}", shell=True)
 
 
-def delete_clone(repo_path):
+def delete_clone(repo_url):
     """_summary_
 
     Args:
