@@ -5,6 +5,7 @@ on:
     branches: ["*"]
   pull_request:
     branches: ["*"]
+
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -13,7 +14,8 @@ env:
   DOTNET_DAILY_VERSION_URL_LINUX: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
   DOTNET_DAILY_VERSION_URL_WINDOWS: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
   TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
-  TEST_SOLUTION_DIR: "TestSolutions"
+  TEST_SOLUTION_DIR: "SimpleAppWithLibs"
+
 jobs:
   msbuild_windows_benchmark:
     strategy:
@@ -35,6 +37,7 @@ jobs:
       - name: checkout to test code repo
         run: |
           git clone $TEST_SOLUTION_REPO_URL
+          cd $TEST_SOLUTION_DIR
 
       #__________WE GET THINGS READY TO RUN PYTHON SCRIPTS__________#
       - name: setup python
