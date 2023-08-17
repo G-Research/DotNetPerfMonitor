@@ -37,6 +37,8 @@ def main(operating_system, base_version_url, daily_version_url,
     # clone the repository and navigate to the solution directory
     clone_repository(solution_repo_url, solution_dir)
 
+    # build the solution using the base version
+    command = "dotnet build Solution.sln"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
