@@ -1,5 +1,5 @@
 pandas
 pylint
 argparse
-urllib.request
+urllib
 zipfile
