@@ -1,0 +1,43 @@
+name: msbuild benchmarks
+on:
+  workflow_dispatch:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_BASE_VERSION_URL_LINUX: "https://download.visualstudio.microsoft.com/download/pr/cd0d0a4d-2a6a-4d0d-b42e-dfd3b880e222/008a93f83aba6d1acf75ded3d2cfba24/dotnet-sdk-6.0.400-linux-x64.tar.gz"
+  DOTNET_BASE_VERSION_URL_WINDOWS: "https://download.visualstudio.microsoft.com/download/pr/1fb808dc-d017-4460-94f8-bf1ac83e6cd8/756b301e714755e411b84684b885a516/dotnet-sdk-7.0.100-win-x64.zip"
+  DOTNET_DAILY_VERSION_URL_LINUX: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
+  DOTNET_DAILY_VERSION_URL_WINDOWS: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
+  TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
+  TEST_SOLUTION_DIR: "TestSolutions"
+jobs:
+  msbuild_windows_benchmark:
+    strategy:
+      matrix:
+        OS: [windows-latest, ubuntu-latest]
+        BASE_VERSION:
+          [DOTNET_BASE_VERSION_URL_WINDOWS, DOTNET_BASE_VERSION_URL_LINUX]
+        DAILY_VERSION:
+          [DOTNET_DAILY_VERSION_URL_WINDOWS, DOTNET_DAILY_VERSION_URL_LINUX]
+      fail-fast: false
+    runs-on: ${{ matrix.OS }}
+    steps:
+      #__________WE CHECK OUT TO WORKING REPO__________#
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      #__________THEN WE CLONE TEST CODE REPO__________#
+      #(This is kind of checking out to a different repo)#
+      - name: checkout to test code repo
+        run: |
+          git clone $TEST_SOLUTION_REPO_URL
+
+      #__________WE GET THINGS READY TO RUN PYTHON SCRIPTS__________#
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
