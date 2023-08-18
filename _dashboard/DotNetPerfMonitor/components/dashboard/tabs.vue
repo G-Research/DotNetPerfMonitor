@@ -43,5 +43,4 @@ import { ref } from 'vue'
 const config = await useDataConfig()
 useLogger("[CONFIG]", config.display)
 const _elements = computed(() => config.components)
-const categories = computed(() => ["NuGet", "MS Build", "F#", "C#",])
 </script>
