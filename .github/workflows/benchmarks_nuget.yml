@@ -113,7 +113,7 @@ jobs:
         working-directory: scripts/processors/
         shell: pwsh
         run: |
-          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname ../data/nuget.csv}
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname ../../data/nuget.csv}
 
       - name: Get alerts
         working-directory: scripts/processors/
