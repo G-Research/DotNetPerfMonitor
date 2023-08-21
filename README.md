@@ -2,7 +2,7 @@
 
 [![Version](https://img.shields.io/badge/Version-1.0-gold.svg)](https://github.com/G-Research/DotNetPerfMonitor) [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0) [![Pylint](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml)
 
-DotnetPerfMonitor is an automated system for monitoring the performance of various components in the .NET ecosystem, including **NuGet, F# compiler, C# compiler, and MSBuild**. It builds upon the foundation of the **NuGet Performance Monitor** and expands its functionality to encompass a broader range of tools and technologies.
+DotnetPerfMonitor is an automated system for monitoring the performance of various components in the .NET ecosystem, including **NuGet, F# compiler, C# compiler, and MSBuild**. It builds upon the foundation of the [**NuGet Performance Monitor**](https://github.com/G-Research/NuPerfMonitor) and expands its functionality to encompass a broader range of tools and technologies. Visit https://g-research.github.io/DotNetPerfMonitor/ to see the dashboard.
 
 
 ## Motivation
