@@ -6,9 +6,7 @@
     { "uid": "nuget", "name": "NuGet" },
     { "uid": "msbuild", "name": "MSBuild" },
     { "uid": "fsharp", "name": "F#" },
-    { "uid": "csharp", "name": "C#" },
-    { "uid": "aspnet", "name": "ASP.NET" },
-    { "uid": "xunit", "name": "Xunit" }
+    { "uid": "csharp", "name": "C#" }
   ],
   "data": {
     "nuget": {
