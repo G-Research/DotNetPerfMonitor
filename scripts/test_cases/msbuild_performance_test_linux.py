@@ -46,8 +46,9 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
     """
 
     # Download the dotnet sdk
-    powershell_command = f"Invoke-WebRequest -Uri {version_url} -OutFile dotnet-sdk.zip"
-    extract_command = "Expand-Archive -Path dotnet-sdk.zip -DestinationPath sdk"
+    path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
+    command = f"wget {version_url} -O dotnet-sdk.zip"
+    unzipcommand = f"unzip dotnet-sdk.zip -d sdk/{path}"
 
     subprocess.call(f"powershell {powershell_command}", shell=True)
     subprocess.call(f"powershell {extract_command}", shell=True)
@@ -100,23 +101,46 @@ def delete_clone(repo_url):
     subprocess.call(f"rm -rf {repo_name}", shell=True)
 
 
-def main(operating_system, base_version_url, daily_version_url,
-         solution_repo_url, solution_dir):
+def main():
     """_summary_
-        COORDINATOR OF THE TEST
+        main()
+
     """
     # create a working directory for the test experiment
     subprocess.call(f"mkdir {WORKING_DIR}", shell=True)
     subprocess.call(f"cd {WORKING_DIR}", shell=True)
+
     # download and extract the dotnet sdk
-    download_and_extract_dotnet_sdk(base_version_url, True)
+    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, True)
 
     # clone the repository and navigate to the solution directory
-    clone_repository(solution_repo_url, solution_dir)
+    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_DIR)
 
     # build the solution using the base version
-    exec_path = "../../sdk/base/dotnet.exe" if operating_system == "windows-latest" else "../sdk/base/dotnet"
-    command = f"{exec_path} build Solution.sln"
+    exec_path = "../../sdk/base/dotnet"
+    msbuild_command = """
+     msbuild /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile ^
+        /p:AndroidPreserveUserData=True ^
+        /p:AndroidUseManagedDesignTimeResourceGenerator=True ^
+        /p:BuildingByReSharper=True ^
+        /p:BuildingProject=False ^
+        /p:BuildProjectReferences=False ^
+        /p:ContinueOnError=ErrorAndContinue ^
+        /p:DesignTimeBuild=True ^
+        /p:DesignTimeSilentResolution=False ^
+        /p:JetBrainsDesignTimeBuild=True ^
+        /p:ProvideCommandLineArgs=True ^
+        /p:ResolveAssemblyReferencesSilent=False ^
+        /p:SkipCompilerExecution=True ^
+        /p:TargetFramework=net5.0 ^
+        /v:n ^
+        /m:1 ^
+        /bl ^
+        /flp:v=n;PerformanceSummary ^
+        /clp:Summary ^
+        /clp:PerformanceSummary > log.txt
+    """
+    command = f"{exec_path} {msbuild_command}"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
