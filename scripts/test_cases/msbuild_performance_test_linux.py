@@ -16,10 +16,13 @@ EXTRACT_PATH = "sdk"
 WORKING_DIR = "msbuild-performance-test"
 
 
-def back_to_previous_dir():
-    """_summary_
-    """
-    subprocess.call("cd ..", shell=True)
+DOTNET_BASE_VERSION_URL_LINUX: "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
+
+DOTNET_DAILY_VERSION_URL_LINUX: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
+
+TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
+
+TEST_SOLUTION_DIR: "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
 def download_file(url, filename):
@@ -100,15 +103,7 @@ def delete_clone(repo_url):
 def main(operating_system, base_version_url, daily_version_url,
          solution_repo_url, solution_dir):
     """_summary_
-
-    Returns:
-        operating_system: operating system to be used to run the test
-        base_version_url: dotnet sdk base version URL
-        daily_version_url: dotnet sdk daily version URL
-        solution_repo_url: test code repository URL
-        solution_dir: directory of test code
-
-
+        COORDINATOR OF THE TEST
     """
     # create a working directory for the test experiment
     subprocess.call(f"mkdir {WORKING_DIR}", shell=True)

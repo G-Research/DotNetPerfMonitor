@@ -12,8 +12,20 @@ import zipfile
 import urllib
 import urllib.request
 
+
+# ___ EXTRACTION CONSTANTS ___ #
 EXTRACT_PATH = "sdk"
 WORKING_DIR = "msbuild-performance-test"
+
+# _____ BENCHMARK DEPENDENCIES CONSTANTS _____ #
+
+DOTNET_BASE_VERSION_URL_WINDOWS: "https://download.visualstudio.microsoft.com/download/pr/de1f99bb-4d6d-4dfe-9935-d24b1e8bca12/0b449d12398e45c62dce4b497e1b49bb/dotnet-sdk-6.0.316-win-x64.zip"
+
+DOTNET_DAILY_VERSION_URL_WINDOWS: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
+
+TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
+
+TEST_SOLUTION_DIR: "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
 def back_to_previous_dir():
@@ -22,41 +34,20 @@ def back_to_previous_dir():
     subprocess.call("cd ..", shell=True)
 
 
-def download_file(url, filename):
-    """ Download file from url and save it to filename"""
-    with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
-        data = response.read()
-        out_file.write(data)
-
-
-def extract_zip(zip_file, extract_folder):
-    """ Extracts zip file to extract_folder"""
-    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-        zip_ref.extractall(extract_folder)
-
-
 def download_and_extract_dotnet_sdk(version_url, is_base):
     """_summary_
 
     Args:
         version_url (String): dotnet sdk version url
-    """
+"""
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    download_file(version_url, os.path.basename(version_url))
-    extract_zip(os.path.basename(version_url), path)
+
     # Download the dotnet sdk
-    # if operating_system == "ubuntu-latest":
-    #     subprocess.call(
-    #         f"curl -O {version_url} -o dotnet-sdk.zip", shell=True)
-    #     subprocess.call("tar -xf dotnet-sdk.zip", shell=True)
+    powershell_command = f"Invoke-WebRequest -Uri {version_url} -OutFile dotnet-sdk.zip"
+    extract_command = f"Expand-Archive -Path dotnet-sdk.zip -DestinationPath sdk/{path}"
 
-    # else:
-    #     # means os is windows
-    #     powershell_command = f"Invoke-WebRequest -Uri {version_url} -OutFile dotnet-sdk.zip"
-    #     extract_command = "Expand-Archive -Path dotnet-sdk.zip -DestinationPath sdk"
-
-    #     subprocess.call(f"powershell {powershell_command}", shell=True)
-    #     subprocess.call(f"powershell {extract_command}", shell=True)
+    subprocess.call(f"powershell {powershell_command}", shell=True)
+    subprocess.call(f"powershell {extract_command}", shell=True)
 
 
 def measure_execution_time(command):
@@ -106,58 +97,50 @@ def delete_clone(repo_url):
     subprocess.call(f"rm -rf {repo_name}", shell=True)
 
 
-def main(operating_system, base_version_url, daily_version_url,
-         solution_repo_url, solution_dir):
+def main():
     """_summary_
-
-    Returns:
-        operating_system: operating system to be used to run the test
-        base_version_url: dotnet sdk base version URL
-        daily_version_url: dotnet sdk daily version URL
-        solution_repo_url: test code repository URL
-        solution_dir: directory of test code
-
+        main()
 
     """
     # create a working directory for the test experiment
     subprocess.call(f"mkdir {WORKING_DIR}", shell=True)
     subprocess.call(f"cd {WORKING_DIR}", shell=True)
+
     # download and extract the dotnet sdk
-    download_and_extract_dotnet_sdk(base_version_url, True)
+    download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_WINDOWS, True)
 
     # clone the repository and navigate to the solution directory
-    clone_repository(solution_repo_url, solution_dir)
+    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_DIR)
 
     # build the solution using the base version
-    exec_path = "../../sdk/base/dotnet.exe" if operating_system == "windows-latest" else "../sdk/base/dotnet"
-    command = f"{exec_path} build Solution.sln"
+    exec_path = "../../sdk/base/dotnet.exe"
+    msbuild_command = """
+     msbuild /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile ^
+        /p:AndroidPreserveUserData=True ^
+        /p:AndroidUseManagedDesignTimeResourceGenerator=True ^
+        /p:BuildingByReSharper=True ^
+        /p:BuildingProject=False ^
+        /p:BuildProjectReferences=False ^
+        /p:ContinueOnError=ErrorAndContinue ^
+        /p:DesignTimeBuild=True ^
+        /p:DesignTimeSilentResolution=False ^
+        /p:JetBrainsDesignTimeBuild=True ^
+        /p:ProvideCommandLineArgs=True ^
+        /p:ResolveAssemblyReferencesSilent=False ^
+        /p:SkipCompilerExecution=True ^
+        /p:TargetFramework=net5.0 ^
+        /v:n ^
+        /m:1 ^
+        /bl ^
+        /flp:v=n;PerformanceSummary ^
+        /clp:Summary ^
+        /clp:PerformanceSummary > log.txt
+    """
+    command = f"{exec_path} {msbuild_command}"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="___measures the execution time of msbuild command___.")
-    parser.add_argument("--os", required=True,
-                        help="operating system to be used to run the test")
-
-    parser.add_argument("--base-version-url", required=True,
-                        help="dotnet sdk base version URL")
-    parser.add_argument("--daily-version-url", required=True,
-                        help="dotnet sdk daily version URL")
-    parser.add_argument("--solution-repo-url", required=True,
-                        help="test code repository URL")
-    parser.add_argument("--solution-dir", required=True,
-                        help="directory of test code")
-
-    args = parser.parse_args()
-
-    operating_system = args.os
-    base_version_url = args.base_version_url
-    daily_version_url = args.daily_version_url
-    solution_repo_url = args.solution_repo_url
-    solution_dir = args.solution_dir
-
-    main(operating_system, base_version_url,
-         daily_version_url, solution_repo_url, solution_dir)
+    main()
