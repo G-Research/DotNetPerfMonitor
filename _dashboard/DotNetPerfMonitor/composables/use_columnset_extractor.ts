@@ -2,13 +2,7 @@ export default function useColumnsetExtractor(
   data: Array<{ field: string; [key: string]: any }>,
   column: string
 ) {
-  const scenarios: String[] = [];
-  // add scenarios of each row to array without duplicates
-  data.forEach((row: any) => {
-    if (!scenarios.includes(row[column])) {
-      scenarios.push(row[column]);
-    }
-  });
 
+  const scenarios = Array.from(new Set(data.map((row) => row[column])));
   return scenarios;
 }
