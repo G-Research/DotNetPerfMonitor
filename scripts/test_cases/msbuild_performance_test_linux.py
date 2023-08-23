@@ -15,6 +15,7 @@ WORKING_DIR = "msbuild-performance-test"
 DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
 DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
 TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
+TEST_REPO_NAME = "TestSolutions"
 TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
@@ -80,7 +81,7 @@ def clone_repository(repo_url, repo_path):
     subprocess.call("ls", shell=True)
     # Clone the repository containing the solution
     subprocess.call(f"git clone {repo_url}", shell=True)
-    subprocess.call(f"cd {repo_path}", shell=True)
+    subprocess.call(f"cd {TEST_REPO_NAME}/{repo_path}", shell=True)
 
 
 def delete_clone(repo_url):
