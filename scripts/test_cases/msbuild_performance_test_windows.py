@@ -11,16 +11,15 @@ import time
 # ___ EXTRACTION CONSTANTS ___ #
 EXTRACT_PATH = "sdk"
 WORKING_DIR = "msbuild-performance-test"
-
 # _____ BENCHMARK DEPENDENCIES CONSTANTS _____ #
 
-DOTNET_BASE_VERSION_URL_WINDOWS: "https://download.visualstudio.microsoft.com/download/pr/de1f99bb-4d6d-4dfe-9935-d24b1e8bca12/0b449d12398e45c62dce4b497e1b49bb/dotnet-sdk-6.0.316-win-x64.zip"
+DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/de1f99bb-4d6d-4dfe-9935-d24b1e8bca12/0b449d12398e45c62dce4b497e1b49bb/dotnet-sdk-6.0.316-win-x64.zip"
 
-DOTNET_DAILY_VERSION_URL_WINDOWS: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
+DOTNET_DAILY_VERSION_URL_WINDOWS = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
 
-TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
+TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
 
-TEST_SOLUTION_DIR: "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
+TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
 def back_to_previous_dir():

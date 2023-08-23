@@ -12,15 +12,10 @@ import urllib.request
 
 EXTRACT_PATH = "sdk"
 WORKING_DIR = "msbuild-performance-test"
-
-
-DOTNET_BASE_VERSION_URL_LINUX: "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
-
-DOTNET_DAILY_VERSION_URL_LINUX: "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
-
-TEST_SOLUTION_REPO_URL: "https://github.com/marcin-krystianc/TestSolutions.git"
-
-TEST_SOLUTION_DIR: "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
+DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
+DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
+TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
+TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
 def download_file(url, filename):
@@ -48,8 +43,8 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
     command = f"wget {version_url} -O dotnet-sdk.zip"
     unzipcommand = f"unzip dotnet-sdk.zip -d sdk/{path}"
 
-    subprocess.call(f"powershell {powershell_command}", shell=True)
-    subprocess.call(f"powershell {extract_command}", shell=True)
+    subprocess.call(f"powershell {command}", shell=True)
+    subprocess.call(f"powershell {unzipcommand}", shell=True)
 
 
 def measure_execution_time(command):
