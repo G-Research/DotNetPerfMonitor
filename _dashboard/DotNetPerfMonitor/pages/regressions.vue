@@ -1,8 +1,6 @@
 <template>
     <div class="flex flex-col px-4 py-4">
-        <UtilsSearchBox class="self-center" />
         <div class="py-2">
-
             <h1 class="text-sky-500 font-bold xl:text-3xl sm:text-2xl xs:text-xs text-lg">Active Performance Regressions
             </h1>
         </div>

@@ -1,34 +1,26 @@
 <template>
     <div>
         <UCard>
-
             <LineChart :data="data" :options="config" />
         </UCard>
-
     </div>
 </template>
 
-
-<script  setup>
+<script setup>
 const props = defineProps({
-    scenario: String
+    scenario: String,
+    groupedData: Object,
 })
-const path = "https://raw.githubusercontent.com/G-Research/DotNetPerfMonitor/main/data/nuget.csv"
-//const file = '../../../../data/nuget.csv'
-const converted = await useCsvConverter(path)
-const scenario = useAlphaScenario()
-const filtered = useScenarioFilter(converted, props.scenario)
 
-const _options = useChartOptions('line')
+const groupedData = props.groupedData
+const scenario = props.scenario
+const filtered = groupedData.get(scenario)
+
 const _rows = [];
-const column = "test case"
-const benchmarks = useColumnsetExtractor(converted, column)
+const benchmarks = useColumnsetExtractor(filtered, "test case")
 benchmarks.forEach(async (benchmark) => {
     const _data = useBenchmarkGrouper(filtered, benchmark)
-    const clean_data = _data.map((x) => {
-        const row = { x: new Date(x.timestamp), y: x.duration }
-        return row
-    })
+    
     //const _color = await useBenchmarkColor(benchmark)
     // Programatically generate colors and assign them to the benchmark
     const _color = useColorGenerator()
