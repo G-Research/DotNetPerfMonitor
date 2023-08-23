@@ -41,7 +41,7 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
 
     # Download the dotnet sdk
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    command = f"wget {version_url} -O dotnet-sdk.zip"
+    command = f"wget {version_url} -O dotnet-sdk"
     unzipcommand = f"unzip dotnet-sdk.zip -d sdk/{path}"
 
     subprocess.call(command, shell=True)
@@ -57,6 +57,8 @@ def measure_execution_time(command):
     Returns:
         [Number]: [ellapsed time in seconds]
     """
+
+    subprocess.call("ls", shell=True)
 
     # Record start time
     start_time = time.time()
@@ -113,26 +115,26 @@ def main():
     # build the solution using the base version
     exec_path = "../../sdk/base/dotnet"
     msbuild_command = """
-     msbuild /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile ^
-        /p:AndroidPreserveUserData=True ^
-        /p:AndroidUseManagedDesignTimeResourceGenerator=True ^
-        /p:BuildingByReSharper=True ^
-        /p:BuildingProject=False ^
-        /p:BuildProjectReferences=False ^
-        /p:ContinueOnError=ErrorAndContinue ^
-        /p:DesignTimeBuild=True ^
-        /p:DesignTimeSilentResolution=False ^
-        /p:JetBrainsDesignTimeBuild=True ^
-        /p:ProvideCommandLineArgs=True ^
-        /p:ResolveAssemblyReferencesSilent=False ^
-        /p:SkipCompilerExecution=True ^
-        /p:TargetFramework=net5.0 ^
-        /v:n ^
-        /m:1 ^
-        /bl ^
-        /flp:v=n;PerformanceSummary ^
-        /clp:Summary ^
-        /clp:PerformanceSummary > log.txt
+     dotnet msbuild solution.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
+    /p:AndroidPreserveUserData=True \
+    /p:AndroidUseManagedDesignTimeResourceGenerator=True \
+    /p:BuildingByReSharper=False \
+    /p:BuildingProject=False \
+    /p:BuildProjectReferences=False \
+    /p:ContinueOnError=ErrorAndContinue \
+    /p:DesignTimeBuild=True \
+    /p:DesignTimeSilentResolution=False \
+    /p:JetBrainsDesignTimeBuild=True \
+    /p:ProvideCommandLineArgs=True \
+    /p:ResolveAssemblyReferencesSilent=False \
+    /p:SkipCompilerExecution=True \
+    /p:TargetFramework=net5.0 \
+    /v:n \
+    /m:1 \
+    /bl \
+    /flp:v=n;PerformanceSummary \
+    /clp:Summary \
+    /clp:PerformanceSummary > log.txt
     """
     command = f"{exec_path} {msbuild_command}"
     elapsed_time = measure_execution_time(command)
