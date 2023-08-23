@@ -8,6 +8,7 @@ import subprocess
 import time
 import zipfile
 import urllib
+import os
 import urllib.request
 
 EXTRACT_PATH = "sdk"
@@ -26,26 +27,15 @@ def download_file(url, filename):
         out_file.write(data)
 
 
-def extract_zip(zip_file, extract_folder):
-    """ Extracts zip file to extract_folder"""
-    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
-        zip_ref.extractall(extract_folder)
-
-
 def download_and_extract_dotnet_sdk(version_url, is_base):
-    """_summary_
-
-    Args:
-        version_url (String): dotnet sdk version url
-    """
-
-    # Download the dotnet sdk
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    command = f"wget {version_url} -O dotnet-sdk"
-    unzipcommand = f"unzip dotnet-sdk.zip -d sdk/{path}"
+    tar_gz_file = "dotnet-sdk.tar.gz"  # Adjust the filename as needed
+    download_file(version_url, tar_gz_file)
 
-    subprocess.call(command, shell=True)
-    subprocess.call(unzipcommand, shell=True)
+    # Extract the tar.gz file
+    extract_folder = f"sdk/{path}"
+    extract_command = f"tar -xzf {tar_gz_file} -C {extract_folder}"
+    subprocess.call(extract_command, shell=True)
 
 
 def measure_execution_time(command):
@@ -86,6 +76,7 @@ def clone_repository(repo_url, repo_path):
     # Clone the repository containing the solution
     subprocess.call(f"git clone {repo_url}", shell=True)
     subprocess.call(f"cd {TEST_REPO_NAME}/{repo_path}", shell=True)
+    subprocess.call("ls", shell=True)
 
 
 def delete_clone(repo_url):
@@ -105,9 +96,9 @@ def main():
 
     """
     # create a working directory for the test experiment
-    subprocess.call(f"mkdir {WORKING_DIR}", shell=True)
-    subprocess.call(f"cd {WORKING_DIR}", shell=True)
-
+    if not os.path.exists(WORKING_DIR):
+        os.mkdir(WORKING_DIR)
+    os.chdir(WORKING_DIR)
     # download and extract the dotnet sdk
     download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, True)
 
@@ -117,7 +108,7 @@ def main():
     # build the solution using the base version
     exec_path = "../../sdk/base/dotnet"
     msbuild_command = """
-     dotnet msbuild solution.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
+      msbuild solution.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
     /p:AndroidPreserveUserData=True \
     /p:AndroidUseManagedDesignTimeResourceGenerator=True \
     /p:BuildingByReSharper=False \
@@ -138,7 +129,9 @@ def main():
     /clp:Summary \
     /clp:PerformanceSummary > log.txt
     """
-    command = f"{exec_path} {msbuild_command}"
+
+    simple_command = "build solution.sln"
+    command = f"{exec_path} {simple_command}"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
