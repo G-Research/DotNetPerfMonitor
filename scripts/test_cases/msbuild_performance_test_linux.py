@@ -43,8 +43,8 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
     command = f"wget {version_url} -O dotnet-sdk.zip"
     unzipcommand = f"unzip dotnet-sdk.zip -d sdk/{path}"
 
-    subprocess.call(f"powershell {command}", shell=True)
-    subprocess.call(f"powershell {unzipcommand}", shell=True)
+    subprocess.call(command, shell=True)
+    subprocess.call(unzipcommand, shell=True)
 
 
 def measure_execution_time(command):
@@ -77,7 +77,7 @@ def clone_repository(repo_url, repo_path):
         repo_url (String): url of the repository to be cloned
         repo_path (String): path containing test code
     """
-
+    subprocess.call("ls", shell=True)
     # Clone the repository containing the solution
     subprocess.call(f"git clone {repo_url}", shell=True)
     subprocess.call(f"cd {repo_path}", shell=True)
