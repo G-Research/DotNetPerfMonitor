@@ -59,6 +59,8 @@ def measure_execution_time(command):
     """
 
     subprocess.call("ls", shell=True)
+    subprocess.call(f"cd {WORKING_DIR}", shell=True)
+    subprocess.call("ls", shell=True)
 
     # Record start time
     start_time = time.time()
