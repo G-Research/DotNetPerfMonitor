@@ -4,10 +4,8 @@ Returns:
     None: .....
 """
 
-import argparse
 import subprocess
 import time
-import os
 import zipfile
 import urllib
 import urllib.request
