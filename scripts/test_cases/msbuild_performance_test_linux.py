@@ -20,6 +20,17 @@ TEST_REPO_NAME = "TestSolutions"
 TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 
+def create_extract_destinations():
+    """ Create the extract destination directories if they do not exist"""
+    if not os.path.exists(EXTRACT_PATH):
+        os.mkdir(EXTRACT_PATH)
+    os.chdir(EXTRACT_PATH)
+    if not os.path.exists("base"):
+        os.mkdir("base")
+    if not os.path.exists("daily"):
+        os.mkdir("daily")
+
+
 def download_file(url, filename):
     """ Download file from url and save it to filename"""
     with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
@@ -29,7 +40,7 @@ def download_file(url, filename):
 
 def download_and_extract_dotnet_sdk(version_url, is_base):
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    os.mkdir(path)
+    create_extract_destinations()
     tar_gz_file = "dotnet-sdk.tar.gz"
     download_file(version_url, tar_gz_file)
 
