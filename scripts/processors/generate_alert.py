@@ -47,7 +47,7 @@ def get_regression(data: pd.DataFrame) -> [str]:
         [str]: _description_
     """
     _regressions = []
-    grouped_data = data.groupby(["scenario", "solution"])
+    grouped_data = data.groupby(["scenario", "test case"])
     for (group_key, group_data) in grouped_data:
 
         if len(group_data["relative duration"].values) < N_SMAPLES:
