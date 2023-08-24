@@ -40,7 +40,6 @@ def download_file(url, filename):
 
 def download_and_extract_dotnet_sdk(version_url, is_base):
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    create_extract_destinations()
     tar_gz_file = "dotnet-sdk.tar.gz"
     download_file(version_url, tar_gz_file)
 
@@ -60,7 +59,7 @@ def measure_execution_time(command):
     """
 
     subprocess.call("ls", shell=True)
-    subprocess.call(f"cd {WORKING_DIR}", shell=True)
+    subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
     subprocess.call("ls", shell=True)
 
     # Record start time
@@ -110,6 +109,10 @@ def main():
     if not os.path.exists(WORKING_DIR):
         os.mkdir(WORKING_DIR)
     os.chdir(WORKING_DIR)
+
+    # create the extract destination directories if they do not exist
+    create_extract_destinations()
+
     # download and extract the dotnet sdk
     download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, True)
 
