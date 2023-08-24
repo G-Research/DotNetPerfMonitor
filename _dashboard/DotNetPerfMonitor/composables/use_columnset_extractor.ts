@@ -1,8 +1,6 @@
 export default function useColumnsetExtractor(
-  data: Array<{ field: string; [key: string]: any }>,
+  data: Array<any>,
   column: string
 ) {
-
-  const scenarios = Array.from(new Set(data.map((row) => row[column])));
-  return scenarios;
+  return [...new Set(data.map(d => d[column]))];
 }
