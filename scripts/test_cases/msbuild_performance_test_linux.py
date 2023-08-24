@@ -98,7 +98,7 @@ def clone_repository(repo_url, repo_path):
     subprocess.call(f"git clone {repo_url}", shell=True)
     subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
     subprocess.call(f"cd {repo_path}", shell=True)
-    subprocess.call(f"cd {TEST_REPO_DIR}", shell=True)
+    subprocess.call(f"cd {TEST_SOLUTION_DIR}", shell=True)
     check_directory('AFTER CLONE REPO')
     subprocess.call("ls", shell=False)
 
