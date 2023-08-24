@@ -1,2 +1,2 @@
 [pylint.messages control]
-disable = unused-variable, line-too-long, invalid-name
+disable = unused-variable, line-too-long, invalid-name, redefined-outer-name, unused-argument, duplicate-code
