@@ -33,8 +33,7 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
     download_file(version_url, tar_gz_file)
 
     # Extract the tar.gz file
-    extract_folder = f"sdk/{path}"
-    extract_command = f"tar -xzf {tar_gz_file} -C {extract_folder}"
+    extract_command = f"tar -xzf {tar_gz_file} -C {path}"
     subprocess.call(extract_command, shell=True)
 
 
