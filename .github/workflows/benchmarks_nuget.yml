@@ -110,16 +110,14 @@ jobs:
         run: pip3 install -r requirements.txt
 
       - name: Process data
-        working-directory: scripts/processors/
         shell: pwsh
         run: |
-          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 process_results.py $_.fullname ../../data/nuget.csv}
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 scripts/processors/process_results.py $_.fullname data/nuget.csv}
 
       - name: Get alerts
-        working-directory: scripts/processors/
         id: alerts
         run: |
-          python3 generate_alert.py ../data/nuget.csv active_nuget_regressions.txt
+          python3 scripts/processors/generate_alert.py data/nuget.csv active_nuget_regressions.txt
           if test -f "active_nuget_regressions.txt"; then
             echo "file_exists=true" >> $GITHUB_OUTPUT
             echo "file_content='$file_content'" >> $GITHUB_OUTPUT
@@ -149,7 +147,7 @@ jobs:
 
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          file_pattern: "../data/nuget.csv"
+          file_pattern: "data/nuget.csv"
           commit_author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
 
       - name: Upload data
