@@ -22,7 +22,7 @@ TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
 
 def check_directory(event):
     """Checking directory for debugging purposes"""
-    print(f'_____CHECKING DIR IN {event}________')
+    print(f'_____CHECKING DIR {event}________')
     subprocess.call("ls", shell=True)
 
 
@@ -49,9 +49,7 @@ def download_file(url, filename):
 
 
 def download_and_extract_dotnet_sdk(version_url, is_base):
-
-    os.chdir(EXTRACT_PATH)
-
+    """ Download and extract the dotnet sdk"""
     path = "base" if is_base else "daily"
     tar_gz_file = "dotnet-sdk.tar.gz"
     download_file(version_url, tar_gz_file)
