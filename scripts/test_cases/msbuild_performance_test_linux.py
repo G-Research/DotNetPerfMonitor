@@ -15,7 +15,8 @@ DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/dow
 DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
 TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
 TEST_REPO_NAME = "TestSolutions"
-TEST_SOLUTION_DIR = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved/solution"
+TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved"
+TEST_SOLUTION_DIR = "solution"
 
 
 def check_directory(event):
@@ -97,8 +98,9 @@ def clone_repository(repo_url, repo_path):
     subprocess.call(f"git clone {repo_url}", shell=True)
     subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
     subprocess.call(f"cd {repo_path}", shell=True)
+    subprocess.call(f"cd {TEST_REPO_DIR}", shell=True)
     check_directory('AFTER CLONE REPO')
-    subprocess.call("ls", shell=True)
+    subprocess.call("ls", shell=False)
 
 
 def delete_clone(repo_url):
@@ -129,7 +131,7 @@ def main():
     download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, True)
 
     # clone the repository and navigate to the solution directory
-    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_DIR)
+    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
 
     check_directory('BEFORE BUILD SOLUTION')
 
