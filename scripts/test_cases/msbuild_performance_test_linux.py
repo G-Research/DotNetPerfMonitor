@@ -6,8 +6,6 @@ Returns:
 
 import subprocess
 import time
-import zipfile
-import urllib
 import os
 import urllib.request
 
@@ -59,8 +57,6 @@ def download_and_extract_dotnet_sdk(version_url, is_base):
     extract_command = f"tar -xzf {tar_gz_file} -C {path}"
     subprocess.call(extract_command, shell=True)
 
-    os.chdir("..")
-
 
 def measure_execution_time(command):
     """summary for measure_execution_time
@@ -99,8 +95,10 @@ def clone_repository(repo_url, repo_path):
     check_directory('BEFORE CLONE REPO')
     # Clone the repository containing the solution
     subprocess.call(f"git clone {repo_url}", shell=True)
-
+    subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
+    subprocess.call(f"cd {repo_path}", shell=True)
     check_directory('AFTER CLONE REPO')
+    subprocess.call("ls", shell=True)
 
 
 def delete_clone(repo_url):
