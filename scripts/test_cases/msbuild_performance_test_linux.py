@@ -29,7 +29,8 @@ def download_file(url, filename):
 
 def download_and_extract_dotnet_sdk(version_url, is_base):
     path = f"{EXTRACT_PATH}/base" if is_base else f"{EXTRACT_PATH}/daily"
-    tar_gz_file = "dotnet-sdk.tar.gz"  # Adjust the filename as needed
+    os.mkdir(path)
+    tar_gz_file = "dotnet-sdk.tar.gz"
     download_file(version_url, tar_gz_file)
 
     # Extract the tar.gz file
