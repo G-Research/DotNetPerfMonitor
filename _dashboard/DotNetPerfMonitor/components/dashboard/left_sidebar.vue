@@ -11,27 +11,12 @@ const links = [{
     label: 'Regressions',
     icon: 'i-heroicons-chart-bar',
     to: '/regressions',
-    //badge: `${useRegressionsNumber().value}`,
 },
-
-// {
-// label: 'Notifications',
-// icon: 'i-heroicons-bell',
-// to: '/notifications',
-// badge: 14
-// },
-
 {
     label: 'Data Explorer',
-    // icon: 'i-heroicons-sparkles',
     icon: 'i-heroicons-circle-stack',
     to: '/documentation',
 },
-    // {
-    // label: 'Settings',
-    // icon: 'i-heroicons-cog',
-    // to: '/settings'
-    // },
 ]
 
 const preset = {

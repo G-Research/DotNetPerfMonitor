@@ -14,5 +14,12 @@ export default async function useCsvConverter(csvPath: string) {
     header: true,
   });
 
+  parsed.data.forEach(row => {
+    row["timestamp"] = new Date(row["timestamp"]);
+    row["relative duration"] = Number(row["relative duration"]).toFixed(2); 
+    row["duration"] = Number(row["duration"]).toFixed(2);
+    row["base duration"] = Number(row["base duration"]).toFixed(2);
+});
+
   return parsed.data;
 }
