@@ -47,15 +47,15 @@ def download_file(url, filename):
     check_directory('AFTER DOWNLOAD FILE')
 
 
-def download_and_extract_dotnet_sdk(version_url, is_base):
+def download_and_extract_dotnet_sdk(version_url, extract_path):
     """ Download and extract the dotnet sdk"""
-    path = "base" if is_base else "daily"
+
     tar_gz_file = "dotnet-sdk.tar.gz"
     download_file(version_url, tar_gz_file)
 
     # Extract the tar.gz file
     check_directory('BEFORE EXTRACT FILE')
-    extract_command = f"tar -xzf {tar_gz_file} -C {path}"
+    extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
     subprocess.call(extract_command, shell=True)
 
 
@@ -103,32 +103,18 @@ def clone_repository(repo_url, repo_path):
     subprocess.call("ls", shell=False)
 
 
-def delete_clone(repo_url):
-    """_summary_
-
-    Args:
-        repo_path (String): path containing test code
-    """
-    # extract the repository name from the url
-    repo_name = repo_url.split("/")[-1].replace(".git", "")
-    subprocess.call(f"rm -rf {repo_name}", shell=True)
-
-
 def main():
     """_summary_
         main()
 
     """
-    # create a working directory for the test experiment
-    if not os.path.exists(WORKING_DIR):
-        os.mkdir(WORKING_DIR)
-    os.chdir(WORKING_DIR)
 
     # create the extract destination directories if they do not exist
     create_extract_destinations()
 
     # download and extract the dotnet sdk
-    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, True)
+    path = "base"
+    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, path)
 
     # clone the repository and navigate to the solution directory
     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
@@ -138,7 +124,7 @@ def main():
     # build the solution using the base version
     exec_path = "../../sdk/base/dotnet"
     msbuild_command = """
-      msbuild solution.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
+      msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
     /p:AndroidPreserveUserData=True \
     /p:AndroidUseManagedDesignTimeResourceGenerator=True \
     /p:BuildingByReSharper=False \
@@ -160,7 +146,7 @@ def main():
     /clp:PerformanceSummary > log.txt
     """
 
-    simple_command = "build solution.sln"
+    simple_command = "build LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
     command = f"{exec_path} {simple_command}"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
