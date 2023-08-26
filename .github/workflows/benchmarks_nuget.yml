@@ -2,9 +2,9 @@ name: benchmarks_nuget
 
 on:
   workflow_dispatch:
-  #pull_request:
-  #schedule:
-  #- cron: "0 */8 * * *" # Run workflow threee times a day
+  pull_request:
+  schedule:
+    - cron: "0 */8 * * *" # Run workflow threee times a day
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
