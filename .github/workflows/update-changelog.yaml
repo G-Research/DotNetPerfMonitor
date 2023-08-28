@@ -1,0 +1,35 @@
+name: Update CHANGELOG file
+
+on:
+  pull_request_target:
+    types:
+      - closed
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+  PR_AUTHOR_EMAIL: ${{ github.event.pull_request.user.email }}
+  PR_TITLE: ${{ github.event.pull_request.title }}
+
+jobs:
+  update_changelog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Update Changelog and Authors
+        run: |
+          # Update CHANGELOG
+          echo "$(date +"%Y-%m-%d"): Pull request $PR_TITLE #$PR_NUMBER by $PR_AUTHOR merged" >> CHANGELOG
+
+          # Update AUTHORS
+          echo "$PR_AUTHOR <$PR_AUTHOR_EMAIL> \n" >> AUTHORS
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add CHANGELOG AUTHORS
+          git commit -m "Update CHANGELOG and AUTHORS after PR merge"
+          git push
