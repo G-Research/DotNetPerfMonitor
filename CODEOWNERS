@@ -1,0 +1,19 @@
+# Below is a list of G-Research team members' GitHub handles who are
+# suggested reviewers for contributions to this repository.
+
+
+# Benchmarks scripts Runners
+/scripts/perftests/* @marcin-krystianc <GROSS>
+
+# Benchmarks scripts
+/scripts/testCases/* @marcin-krystianc <GROSS>
+
+# Benchmarks scripts
+/scripts/processors/* @marcin-krystianc <GROSS>
+
+# DotNetPerfMonitor Dashboard
+/_dashboard/** @marcin-krystianc <GROSS>
+
+# Github Actions workflows
+/.github/workflows/* @marcin-krystianc <GROSS>
+
