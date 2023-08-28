@@ -37,7 +37,6 @@ const regression = defineProps({
     status: String,
     locked: Boolean,
     labels: Array,
-
 })
 
 const display = regression.user === 'github-actions[bot]' ? 'block' : 'hidden';
