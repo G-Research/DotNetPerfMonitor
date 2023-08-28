@@ -1,4 +1,4 @@
-# DotNet Performance Monitor
+![dotnetpermonitor-banner](https://github.com/G-Research/DotNetPerfMonitor/assets/49169158/15a51578-38c3-4f36-9bfc-a83eaba5471c)
 
 [![Version](https://img.shields.io/badge/Version-1.0-gold.svg)](https://github.com/G-Research/DotNetPerfMonitor) [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0) [![Pylint](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml) [![NuGet](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/benchmarks_nuget.yml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/benchmarks_nuget.yml) [![Dashboard to github Pages](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/dashboard.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/dashboard.yaml)
 
