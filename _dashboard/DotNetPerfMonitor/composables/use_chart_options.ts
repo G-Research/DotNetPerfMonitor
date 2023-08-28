@@ -21,7 +21,7 @@ export default function useChartOptions(type: String) {
         // },
 
         // --- CHART ZOOM OPTIONS ---
-
+      
         // },
         tooltip: {
           callbacks: {
@@ -32,10 +32,9 @@ export default function useChartOptions(type: String) {
                 summary += "Scenario: " + row.scenario + "\n";
                 summary += "Version: " + row.version + "\n";
                 summary += "Base Version: " + row["base version"] + "\n";
-                summary += "Duration: " + row.duration + "s \n";
-                summary +=
-                  "Relative Duration: " + row["relative duration"] + "s \n";
-                summary += "Base Duration: " + row["base duration"] + "s \n";
+                summary += "Relative Duration: " + new Number(row["relative duration"]).toFixed(2) + "s \n";
+                summary += "Base Duration: " + new Number(row["base duration"]).toFixed(2) + "s \n";
+                summary += "Duration: " + new Number(row["duration"]).toFixed(2) + "s \n";
               });
               return summary;
             },
