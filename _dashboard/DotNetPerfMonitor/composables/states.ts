@@ -1,7 +1,3 @@
-export const useActiveScenario = () =>
-  useState<string>("activeScenario", () => "cold");
-export const useAlphaScenario = () =>
-  useState<string>("scenario", () => "cold");
 export const useDataSource = () =>
   useState<string>(
     "datasource",
