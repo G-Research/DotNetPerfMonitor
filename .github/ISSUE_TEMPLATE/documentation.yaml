@@ -1,0 +1,17 @@
+name: "📕 Documentation Issue"
+description: Report an issue in the Developer Guide
+title: "(short issue description)"
+labels: [documentation, needs-triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Developer guide? Explain what you're trying to understand in the Developer Guide.
+
+  - type: textarea  
+    id: description
+    attributes:
+      label: Describe the issue
+      description: What are you not understanding? Would you like more information about a topic? Is there a typo?
+    validations:
+      required: true

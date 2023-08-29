@@ -1,6 +1,6 @@
-# DotNet Performance Monitor
+![dotnetpermonitor-banner](https://github.com/G-Research/DotNetPerfMonitor/assets/49169158/15a51578-38c3-4f36-9bfc-a83eaba5471c)
 
-[![Version](https://img.shields.io/badge/Version-1.0-gold.svg)](https://github.com/G-Research/DotNetPerfMonitor) [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0) [![Pylint](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml)
+[![Version](https://img.shields.io/badge/Version-1.0-gold.svg)](https://github.com/G-Research/DotNetPerfMonitor) [![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0) [![Pylint](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/pylint.yaml) [![NuGet](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/benchmarks_nuget.yml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/benchmarks_nuget.yml) [![Dashboard to github Pages](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/dashboard.yaml/badge.svg)](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/dashboard.yaml)
 
 DotnetPerfMonitor is an automated system for monitoring the performance of various components in the .NET ecosystem, including **NuGet, F# compiler, C# compiler, and MSBuild**. It builds upon the foundation of the [**NuGet Performance Monitor**](https://github.com/G-Research/NuPerfMonitor) and expands its functionality to encompass a broader range of tools and technologies. Visit https://g-research.github.io/DotNetPerfMonitor/ to see the dashboard.
 
@@ -22,17 +22,12 @@ In the past, we have encountered situations where certain changes in NuGet resul
 - There is also another python script that is used to [generate alerts](https://github.com/G-Research/DotNetPerfMonitor/blob/main/generate_alert.py). In case of performance regression is found a new Issue is opened.
 - [Plotly.js](https://plotly.com/javascript/) is used to [generate](https://github.com/G-Research/DotNetPerfMonitor/blob/main/_site/index.html) charts with results.
 
-It is worth noting that DotNet Performance Monitor uses GitHub-hosted runners to run the benchmark, therefore it cannot just assume what is the performance of the particular runner's VM or how it is going to change over time. Therefore, each test job runs actually two tests, one test for the baseline version and one test for the current version. By measuring the relative performance of the current version, the DotNet Performance Monitor is independent of the infrastructure that is running it.
+It is worth noting that DotNet Performance Monitor uses `GitHub-hosted` runners to run the benchmark, therefore it cannot just assume what is the performance of the particular runner's VM or how it is going to change over time. Therefore, each test job runs actually two tests, one test for the baseline version and one test for the current version. By measuring the relative performance of the current version, the DotNet Performance Monitor is independent of the infrastructure that is running it.
 
 ## License
 DotNetPerfMonitor is licensed under the Apache License, Version 2.0. See [LICENSE](https://github.com/G-Research/DotNetPerfMonitor/blob/main/LICENSE) for the full license details.
 
 ## Contributing
-Contributions are welcome! Whenever you have any suggestions or ideas to be implemented, we encourage you to:
-
-* [File an issue](https://github.com/G-Research/DotNetPerfMonitor/issues/new/choose)
-* [Submit a pull request](https://github.com/G-Research/DotNetPerfMonitor/pulls)
-
-
+We welcome contributions from the community to enhance DotNetPerfMonitor. If you're interested in contributing, please follow these guidelines specified in [CONTRIBUTING.md](CONTRIBUTING.md).
 ## Contributors
-[![](https://contrib.rocks/image?repo=G-Research/DotNetPerfMonitor)](https://github.com/G-Research/DotNetPerfMonitor/graphs/contributors)
+[![](https://contrib.rock-s/image?repo=G-Research/DotNetPerfMonitor)](https://github.com/G-Research/DotNetPerfMonitor/graphs/contributors)

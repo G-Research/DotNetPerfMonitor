@@ -1,20 +1,18 @@
 <template>
     <div class="flex flex-col justify-between gap-8">
-        
+
         <div class="flex flex-col gap-4">
 
             <div class="flex flex-row justify-between py-4">
                 <p class="text-2xl text-sky-400 dark:text-sky-300">Filter</p>
-                <UButton icon="i-heroicons-rectangle-group" size="sm" color="primary" variant="solid" label="Filter" trailing @click="isOpen = true" />
+                <UButton icon="i-heroicons-rectangle-group" size="sm" color="primary" variant="solid" label="Filter"
+                    trailing @click="isOpen = true" />
             </div>
 
             <div v-for="scenario, index in scenariosList" :key="index">
                 <div v-if="selectedScenarios[index]" class="flex flex-col gap-2">
                     <h1 class="text-2xl first-letter:capitalize">{{ scenario }}</h1>
-                    <DashboardLineChart
-                        :scenario= "scenario"
-                        :groupedData= "groupedData"
-                     />
+                    <DashboardLineChart :scenario="scenario" :groupedData="groupedData" />
                 </div>
             </div>
         </div>
@@ -34,7 +32,7 @@
 <script setup>
 
 const props = defineProps({
-  path: String
+    path: String
 })
 
 const isOpen = ref(false)
