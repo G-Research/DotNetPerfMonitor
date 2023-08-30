@@ -90,9 +90,9 @@ def clone_repository(repo_url, repo_path):
     """
     # Clone the repository containing the solution
     subprocess.run(['git', 'clone', repo_url], check=True)
-    subprocess.run(['cd', TEST_REPO_NAME], check=True)
-    subprocess.run(['cd', repo_path], check=True)
-    subprocess.run(['cd', TEST_SOLUTION_DIR], check=True)
+    os.chdir(TEST_REPO_NAME)
+    os.chdir(repo_path)
+    os.chdir(TEST_SOLUTION_DIR)
     subprocess.run(['ls'], check=True)
 
 
