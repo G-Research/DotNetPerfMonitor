@@ -138,8 +138,8 @@ def main():
     /clp:PerformanceSummary > log.txt
     """
 
-    simple_command = "build LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
-    command = f"{exec_path} {simple_command}"
+    # simple_command = "build LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
+    command = f"{exec_path} {msbuild_command}"
     elapsed_time = measure_execution_time(command)
     print(f"Command '{command}' took {elapsed_time}s to execute.")
     return elapsed_time
