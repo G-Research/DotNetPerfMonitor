@@ -1,3 +1,9 @@
+# """_summary_
+# This script basically runs benchmark test for msbuild on windows
+# Returns:
+#     None: .....
+# """
+
 import subprocess
 import time
 import os
@@ -32,8 +38,8 @@ def create_extract_destinations():
 
 def download_file(url, filename):
     """ Download file from url and save it to filename"""
-    subprocess.run(['Invoke-WebRequest', '-Uri',
-                   url, '-OutFile', filename], check=True)
+    subprocess.run(['powershell', 'Invoke-WebRequest', '-Uri',
+                   url, '-OutFile', filename], check=True, shell=True)
 
 
 def download_and_extract_dotnet_sdk(version_url, extract_path):
