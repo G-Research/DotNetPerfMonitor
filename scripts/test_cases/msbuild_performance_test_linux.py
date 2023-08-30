@@ -19,12 +19,6 @@ TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved"
 TEST_SOLUTION_DIR = "solution"
 
 
-def check_directory(event):
-    """Checking directory for debugging purposes"""
-    print(f'_____CHECKING DIR {event}________')
-    subprocess.run(["ls"], check=True)
-
-
 def create_extract_destinations():
     """ Create the extract destination directories if they do not exist"""
     if not os.path.exists(EXTRACT_PATH):
@@ -56,17 +50,7 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
 
 
 def measure_execution_time(command):
-    """summary for measure_execution_time
-
-    Args:
-        command ([String]): [command to be executed]
-
-    Returns:
-        [Number]: [ellapsed time in seconds]
-    """
-
-    # subprocess.run(["cd", TEST_REPO_NAME], check=True)
-    # os.chdir(TEST_REPO_NAME)
+    """measure_execution_time runs build command and measure its execution time"""
 
     # Record start time
     start_time = time.time()
@@ -107,14 +91,15 @@ def main():
     create_extract_destinations()
 
     # download and extract the dotnet sdk
-    path = "base"
-    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, path)
+
+    download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_LINUX, "base")
+    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, "daily")
 
     # clone the repository and navigate to the solution directory
     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
 
     # build the solution using the base version
-    exec_path = os.path.abspath("./../../../sdk/base/dotnet")
+
     msbuild_command = """
       msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
     /p:AndroidPreserveUserData=True \
@@ -137,12 +122,15 @@ def main():
     /clp:Summary \
     /clp:PerformanceSummary > log.txt
     """
-
-    simple_command = "msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
-    command = f"{exec_path} {simple_command}"
-    elapsed_time = measure_execution_time(command)
-    print(f"Command '{command}' took {elapsed_time}s to execute.")
-    return elapsed_time
+    versions = ['base', 'daily']
+    for version in versions:
+        exec_path = os.path.abspath(f"./../../../sdk/{version}/dotnet")
+        simple_command = "msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
+        command = f"{exec_path} {simple_command}"
+        elapsed_time = measure_execution_time(command)
+        print(
+            f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
+        return elapsed_time
 
 
 if __name__ == "__main__":
