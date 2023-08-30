@@ -66,7 +66,7 @@ def measure_execution_time(command):
     """
 
     # subprocess.run(["cd", TEST_REPO_NAME], check=True)
-    os.chdir(TEST_REPO_NAME)
+    # os.chdir(TEST_REPO_NAME)
 
     # Record start time
     start_time = time.time()
