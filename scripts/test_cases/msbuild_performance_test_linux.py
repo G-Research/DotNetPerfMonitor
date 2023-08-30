@@ -22,12 +22,11 @@ TEST_SOLUTION_DIR = "solution"
 def check_directory(event):
     """Checking directory for debugging purposes"""
     print(f'_____CHECKING DIR {event}________')
-    subprocess.call("ls", shell=True)
+    subprocess.run(["ls"], check=True)
 
 
 def create_extract_destinations():
     """ Create the extract destination directories if they do not exist"""
-    check_directory('BEFORE CREATE EXTRACT DESTINATION')
     if not os.path.exists(EXTRACT_PATH):
         os.mkdir(EXTRACT_PATH)
     os.chdir(EXTRACT_PATH)
@@ -35,16 +34,13 @@ def create_extract_destinations():
         os.mkdir("base")
     if not os.path.exists("daily"):
         os.mkdir("daily")
-    check_directory('AFTER CREATE EXTRACT DESTINATION')
 
 
 def download_file(url, filename):
     """ Download file from url and save it to filename"""
-    check_directory('BEFORE DOWNLOAD FILE')
     with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
         data = response.read()
         out_file.write(data)
-    check_directory('AFTER DOWNLOAD FILE')
 
 
 def download_and_extract_dotnet_sdk(version_url, extract_path):
@@ -55,8 +51,9 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
 
     # Extract the tar.gz file
     check_directory('BEFORE EXTRACT FILE')
-    extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
-    subprocess.call(extract_command, shell=True)
+    # extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
+    subprocess.run(["tar", "-xzf", tar_gz_file,
+                   "-C", extract_path], check=True)
 
 
 def measure_execution_time(command):
@@ -69,9 +66,7 @@ def measure_execution_time(command):
         [Number]: [ellapsed time in seconds]
     """
 
-    check_directory('BEFORE MEASURE EXECUTION TIME')
-    subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
-    check_directory('AFTER CHECKINT OUT TO REPO')
+    subprocess.run(["cd", TEST_REPO_NAME], check=True)
 
     # Record start time
     start_time = time.time()
@@ -93,14 +88,12 @@ def clone_repository(repo_url, repo_path):
         repo_url (String): url of the repository to be cloned
         repo_path (String): path containing test code
     """
-    check_directory('BEFORE CLONE REPO')
     # Clone the repository containing the solution
-    subprocess.call(f"git clone {repo_url}", shell=True)
-    subprocess.call(f"cd {TEST_REPO_NAME}", shell=True)
-    subprocess.call(f"cd {repo_path}", shell=True)
-    subprocess.call(f"cd {TEST_SOLUTION_DIR}", shell=True)
-    check_directory('AFTER CLONE REPO')
-    subprocess.call("ls", shell=False)
+    subprocess.run(['git', 'clone', repo_url], check=True)
+    subprocess.run(['cd', TEST_REPO_NAME], check=True)
+    subprocess.run(['cd', repo_path], check=True)
+    subprocess.run(['cd', TEST_SOLUTION_DIR], check=True)
+    subprocess.run(['ls'], check=True)
 
 
 def main():
