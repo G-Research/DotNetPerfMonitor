@@ -114,7 +114,7 @@ def main():
     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
 
     # build the solution using the base version
-    exec_path = os.path.abspath("../../sdk/base/dotnet")
+    exec_path = os.path.abspath("../../../sdk/base/dotnet")
     msbuild_command = """
       msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
     /p:AndroidPreserveUserData=True \
