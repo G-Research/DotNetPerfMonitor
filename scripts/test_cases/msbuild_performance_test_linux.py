@@ -130,7 +130,6 @@ def main():
         elapsed_time = measure_execution_time(command)
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
-        return elapsed_time
 
 
 if __name__ == "__main__":
