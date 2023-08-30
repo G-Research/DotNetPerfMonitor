@@ -50,7 +50,6 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
     download_file(version_url, tar_gz_file)
 
     # Extract the tar.gz file
-    check_directory('BEFORE EXTRACT FILE')
     # extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
     subprocess.run(["tar", "-xzf", tar_gz_file,
                    "-C", extract_path], check=True)
@@ -66,7 +65,8 @@ def measure_execution_time(command):
         [Number]: [ellapsed time in seconds]
     """
 
-    subprocess.run(["cd", TEST_REPO_NAME], check=True)
+    # subprocess.run(["cd", TEST_REPO_NAME], check=True)
+    os.chdir(TEST_REPO_NAME)
 
     # Record start time
     start_time = time.time()
@@ -89,6 +89,7 @@ def clone_repository(repo_url, repo_path):
         repo_path (String): path containing test code
     """
     # Clone the repository containing the solution
+    os.chdir('..')
     subprocess.run(['git', 'clone', repo_url], check=True)
     os.chdir(TEST_REPO_NAME)
     os.chdir(repo_path)
@@ -112,10 +113,8 @@ def main():
     # clone the repository and navigate to the solution directory
     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
 
-    check_directory('BEFORE BUILD SOLUTION')
-
     # build the solution using the base version
-    exec_path = "../../sdk/base/dotnet"
+    exec_path = os.path.abspath("../../sdk/base/dotnet")
     msbuild_command = """
       msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln /t:GetSuggestedWorkloads;_CheckForInvalidConfigurationAndPlatform;ResolveReferences;ResolveProjectReferences;ResolveAssemblyReferences;ResolveComReferences;ResolveNativeReferences;ResolveSdkReferences;ResolveFrameworkReferences;ResolvePackageDependenciesDesignTime;Compile;CoreCompile \
     /p:AndroidPreserveUserData=True \
