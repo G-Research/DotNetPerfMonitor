@@ -48,8 +48,8 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
     download_file(version_url, zip_file)
 
     # Extract the zip file
-    subprocess.run(["Expand-Archive", "-Path", zip_file,
-                   "-DestinationPath", extract_path], check=True)
+    subprocess.run(["powershell", "Expand-Archive", "-Path", zip_file,
+                   "-DestinationPath", extract_path], check=True, shell=True)
 
 
 def measure_execution_time(command):
