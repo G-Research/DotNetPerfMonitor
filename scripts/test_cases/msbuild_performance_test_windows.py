@@ -1,8 +1,8 @@
-# """_summary_
-# This script basically runs benchmark test for msbuild on windows
-# Returns:
-#     None: .....
-# """
+"""_summary_
+This script basically runs benchmark test for msbuild on windows
+Returns:
+    None: .....
+"""
 
 import subprocess
 import time
