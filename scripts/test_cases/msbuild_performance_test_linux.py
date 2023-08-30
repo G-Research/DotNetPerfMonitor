@@ -49,6 +49,15 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
                    "-C", extract_path], check=True)
 
 
+def run_build_to_restore_packages(dotnet_executable):
+    """_summary_
+
+    Args:
+        dotnet_executable (_type_): _description_
+    """
+    subprocess.run([dotnet_executable, 'build'], check=True)
+
+
 def measure_execution_time(command):
     """measure_execution_time runs build command and measure its execution time"""
 
@@ -125,6 +134,7 @@ def main():
     versions = ['base', 'daily']
     for version in versions:
         exec_path = os.path.abspath(f"./../../../sdk/{version}/dotnet")
+        run_build_to_restore_packages(exec_path)
         simple_command = "msbuild LargeAppWithPrivatePackagesCentralisedNGBVRemoved.sln"
         command = f"{exec_path} {simple_command}"
         elapsed_time = measure_execution_time(command)
