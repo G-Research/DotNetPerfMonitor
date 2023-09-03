@@ -114,9 +114,10 @@ def main():
     # build the solution using the base version
 
     msbuild_command = "msbuild Orleans.sln"
-    versions = ['base']
+    versions = ['base', 'daily']
     for version in versions:
-        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
+        sub_dir = "/sdk" if version == 'daily' else ''
+        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet{sub_dir}")
         run_build_to_restore_packages(exec_path)
         simple_command = "msbuild Orleans.sln"
         command = f"{exec_path} {simple_command}"

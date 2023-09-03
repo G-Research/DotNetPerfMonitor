@@ -7,6 +7,7 @@ Returns:
 import subprocess
 import time
 import os
+import csv
 import urllib.request
 
 EXTRACT_PATH = "sdk"
@@ -90,6 +91,26 @@ def clone_repository(repo_url, repo_path):
     subprocess.run(['ls'], check=True)
 
 
+def camel_casify_solution_name(string):
+    """This method converts a string to camel case"""
+    parts = string.split('_')
+    camel_case_parts = [part.capitalize() for part in parts[:-1]]
+    return ''.join(camel_case_parts)
+
+
+def save_benchmark_results(file_path):
+    """Saves bencharmk results to a csv file
+
+    Args:
+        file_path (_type_): _description_
+    """
+    # Get the benchmark results and create a row data
+    # row_data = [version,base version,scenario,test case,timestamp,duration,base duration,relative duration]
+    with open(file_path, 'a', newline='', encoding='utf-8') as csv_file:
+        writer = csv.writer(csv_file)
+        # writer.writerow(row_data)
+
+
 def main():
     """_summary_
         main()
@@ -110,9 +131,10 @@ def main():
     # build the solution using the base version
 
     msbuild_command = 'msbuild OrchardCore.sln'
-    versions = ['base']
+    versions = ['base', 'daily']
     for version in versions:
-        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
+        sub_dir = "/sdk" if version == 'daily' else ''
+        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet{sub_dir}")
         run_build_to_restore_packages(exec_path)
         simple_command = "msbuild OrchardCore.sln"
         command = f"{exec_path} {simple_command}"
