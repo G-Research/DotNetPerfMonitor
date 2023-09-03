@@ -42,6 +42,7 @@ jobs:
         testcases:
           - large_app_with_private_packages_centralised_ngbv_removed_linux
           - orleans_linux
+      fail-fast: false
     runs-on: ubuntu-latest
     steps:
       #__________WE CHECK OUT TO WORKING REPO__________#
