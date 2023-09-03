@@ -54,7 +54,8 @@ def run_build_to_restore_packages(dotnet_executable):
     Args:
         dotnet_executable (_type_): _description_
     """
-    subprocess.run([dotnet_executable, 'build'], check=True)
+    print('-----🟠 _restoting packages_ 🟠-----')
+    # subprocess.run([dotnet_executable, 'build'], check=True)
 
 
 def measure_execution_time(command):
@@ -115,7 +116,7 @@ def main():
         simple_command = "msbuild Orleans.sln"
         command = f"{exec_path} {simple_command}"
         elapsed_time = measure_execution_time(command)
-        print('-----🟠 ORLEANS LINUX RESULT 🟠-----')
+        print('-----🟠 ORLEANS LINUX RESULT🟠-----')
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
