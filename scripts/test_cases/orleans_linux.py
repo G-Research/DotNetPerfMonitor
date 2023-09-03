@@ -55,7 +55,7 @@ def run_build_to_restore_packages(dotnet_executable):
         dotnet_executable (_type_): _description_
     """
     print('-----🟠 _restoting packages_ 🟠-----')
-    # subprocess.run([dotnet_executable, 'build'], check=True)
+    subprocess.run([dotnet_executable, 'build'], check=True)
 
 
 def measure_execution_time(command):
