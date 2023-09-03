@@ -28,19 +28,23 @@ By regularly running benchmarks and analyzing the performance data, `DotnetPerfM
 
 *It is worth noting that DotNet Performance Monitor uses `GitHub-hosted` runners to run the benchmark, therefore it cannot just assume what is the performance of the particular runner's VM or how it is going to change over time. Therefore, each test job runs actually two tests, one test for the baseline version and one test for the current version. By measuring the relative performance of the current version, the DotNet Performance Monitor is independent of the infrastructure that is running it.*
 
-You can also check more details about each compotents.
+### You can also check more details about each compotent here.
 <details>
     <summary>🟢 NuGet</summary>
 
 - [Scripts](https://github.com/NuGet/NuGet.Client/tree/dev/scripts/perftests) from the [NuGet.Client](https://github.com/NuGet/NuGet.Client) repository with custom [test cases](https://github.com/G-Research/DotNetPerfMonitor/tree/main/scripts/perftests/testCases) are are used for benchmarks, 
 - GitHub Actions and GitHub-hosted runners are used to run benchmarks on a [daily schedule](https://github.com/G-Research/DotNetPerfMonitor/blob/main/.github/workflows/benchmarks_nuget.yml)
 - Python script is used to [process results](https://github.com/G-Research/DotNetPerfMonitor/blob/main/process_results.py) and append it to the [nuget.csv](https://github.com/G-Research/DotNetPerfMonitor/blob/main/data/nuget.csv) file that makes it easy to plot charts and can be used further data analysis.
-
-- The data is the visualized on the [dashboard](https://g-research.github.io/DotNetPerfMonitor/nuget.html) using [ChartJS](https://chartjs.com/), on the NuGet Tab.
+- The data is the visualized on the [dashboard](https://g-research.github.io/DotNetPerfMonitor/) using [ChartJS](https://chartjs.org/), on the NuGet Tab.
 </details>
 
 <details>
     <summary>🟣 MS Build</summary>
+
+- Python [scripts](https://github.com/G-Research/DotNetPerfMonitor/tree/main/scripts/test_cases/) are used for MSBuild benchamrking, using test cases like [Orleans](https://github.com/dotnet/orleans) and [OrchardCore](https://github.com/OrchardCMS/OrchardCore)
+- GitHub Actions and GitHub-hosted runners are used to run benchmarks on a [daily schedule](https://github.com/G-Research/DotNetPerfMonitor/blob/main/.github/workflows/benchmarks_msbuild.yml)
+- Benchamrk results are processed and added to the [msbuild.csv file](https://github.com/G-Research/DotNetPerfMonitor/blob/main/data/msbuild.csv) that makes it easy to plot charts and can be used further data analysis.
+- The data is the visualized on the [dashboard](https://g-research.github.io/DotNetPerfMonitor/) using [ChartJS](https://chartjs.org/), on the `MSBuild` Tab.
 </details>
 
 <details>
