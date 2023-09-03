@@ -10,7 +10,7 @@ import os
 import urllib.request
 
 EXTRACT_PATH = "sdk"
-DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
+DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/04550806-32dd-4e24-af64-275b132e1d72/897ddeee3e10e23cd844fc52c052644d/dotnet-sdk-7.0.110-linux-x64.tar.gz"
 DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
 TEST_SOLUTION_REPO_URL = "https://github.com/dotnet/orleans"
 TEST_REPO_NAME = "orleans"

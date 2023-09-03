@@ -13,7 +13,7 @@ EXTRACT_PATH = "sdk"
 
 # _____ BENCHMARK DEPENDENCIES CONSTANTS _____ #
 
-DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/de1f99bb-4d6d-4dfe-9935-d24b1e8bca12/0b449d12398e45c62dce4b497e1b49bb/dotnet-sdk-6.0.316-win-x64.zip"
+DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/a7958b6d-1e41-4bc7-b1d4-628eda256bd7/cdb51638a820744d78b9feb8b732c9d7/dotnet-sdk-7.0.110-win-x64.zip"
 
 DOTNET_DAILY_VERSION_URL_WINDOWS = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
 
@@ -115,7 +115,7 @@ def main():
     msbuild_command = "msbuild Orleans.sln"
     versions = ['base', 'daily']
     for version in versions:
-        exec_path = os.path.abspath(f"./../../../sdk/{version}/dotnet")
+        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
         run_build_to_restore_packages(exec_path)
         simple_command = "msbuild Orleans.sln"
         command = f"{exec_path} {simple_command}"
