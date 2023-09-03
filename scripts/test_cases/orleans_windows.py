@@ -13,7 +13,7 @@ EXTRACT_PATH = "sdk"
 
 # _____ BENCHMARK DEPENDENCIES CONSTANTS _____ #
 
-DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/a7958b6d-1e41-4bc7-b1d4-628eda256bd7/cdb51638a820744d78b9feb8b732c9d7/dotnet-sdk-7.0.110-win-x64.zip"
+DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/1fb808dc-d017-4460-94f8-bf1ac83e6cd8/756b301e714755e411b84684b885a516/dotnet-sdk-7.0.100-win-x64.zip"
 
 DOTNET_DAILY_VERSION_URL_WINDOWS = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
 
