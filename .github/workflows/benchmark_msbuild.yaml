@@ -15,6 +15,7 @@ jobs:
         testcases:
           - large_app_with_private_packages_centralised_ngbv_removed_windows
           - orleans_windows
+          - orchardcore_windows
       fail-fast: false
     runs-on: windows-latest
     steps:
@@ -42,6 +43,7 @@ jobs:
         testcases:
           - large_app_with_private_packages_centralised_ngbv_removed_linux
           - orleans_linux
+          - orchardcore_linux
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
