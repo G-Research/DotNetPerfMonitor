@@ -10,6 +10,12 @@ env:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
 jobs:
   msbuild_benchmarks_windows:
+    strategy:
+      matrix:
+        testcases:
+          - large_app_with_private_packages_centralised_ngbv_removed_windows
+          - orleans_windows
+      fail-fast: false
     runs-on: windows-latest
     steps:
       #__________WE CHECK OUT TO WORKING REPO__________#
@@ -28,9 +34,14 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python msbuild_performance_test_windows.py
+          python "${{matrix.testcases}}.py"
 
   msbuild_benchmarks_linux:
+    strategy:
+      matrix:
+        testcases:
+          - large_app_with_private_packages_centralised_ngbv_removed_linux
+          - orleans_linux
     runs-on: ubuntu-latest
     steps:
       #__________WE CHECK OUT TO WORKING REPO__________#
@@ -49,4 +60,4 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          python msbuild_performance_test_linux.py
+          python "${{matrix.testcases}}.py"
