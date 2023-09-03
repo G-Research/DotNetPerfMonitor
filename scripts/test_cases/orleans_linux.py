@@ -112,13 +112,13 @@ def main():
     msbuild_command = 'msbuild Orleans.sln'
     versions = ['base', 'daily']
     for version in versions:
-        sub_dir = "/sdk" if version == 'daily' else ''
-        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet{sub_dir}")
+        # sub_dir = "/sdk" if version == 'daily' else ''
+        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
         run_build_to_restore_packages(exec_path)
         simple_command = "msbuild Orleans.sln"
         command = f"{exec_path} {simple_command}"
         elapsed_time = measure_execution_time(command)
-        print('-----🟠 ORLEANS LINUX RESULT🟠-----')
+        print('-----🟠 ORLEANS LINUX RESUL🟠-----')
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
