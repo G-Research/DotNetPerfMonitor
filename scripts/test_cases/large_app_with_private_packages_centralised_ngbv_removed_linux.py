@@ -15,7 +15,7 @@ DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/dow
 DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
 TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
 TEST_REPO_NAME = "TestSolutions"
-TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedNGBVRemoved"
+TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedSlim"
 TEST_SOLUTION_DIR = "solution"
 
 

@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         testcases:
-          #- large_app_with_private_packages_centralised_ngbv_removed_windows
+          - large_app_with_private_packages_centralised_ngbv_removed_windows
           - orleans_windows
           - orchardcore_windows
       fail-fast: false
