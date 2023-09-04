@@ -64,3 +64,98 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           python "${{matrix.testcases}}.py"
+
+  process_data:
+    # Only run on main repository
+    # Scheduled workflows do not have information about fork status, hence the hardcoded check
+    if: github.repository == 'G-Research/DotNetPerfMonitor' && github.ref == 'refs/heads/main'
+    environment: updater
+    runs-on: ubuntu-latest
+    needs:
+      - msbuild_benchmarks_windows
+      - msbuild_benchmarks_linux
+    steps:
+      - name: Install Step CLI
+        env:
+          VERSION: 0.19.0
+        run: |
+          curl -sLO https://github.com/smallstep/cli/releases/download/v${VERSION}/step-cli_${VERSION}_amd64.deb
+          sudo dpkg -i step-cli_${VERSION}_amd64.deb
+          rm step-cli_${VERSION}_amd64.deb
+
+      - name: Create access token
+        id: token
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_PRIVATE_KEY: ${{ secrets.APP_PRIVATE_KEY }}
+        run: |
+          jwt=$(step crypto jwt sign --key /dev/fd/3 --issuer $APP_ID --expiration $(date -d +5min +%s) --subtle 3<<< $APP_PRIVATE_KEY)
+          installation_id=$(curl -s -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer $jwt" https://api.github.com/app/installations | jq '.[] | select(.account.login == "${{ github.repository_owner }}") | .id')
+          token=$(curl -s -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: Bearer $jwt" https://api.github.com/app/installations/$installation_id/access_tokens | jq -r '.token')
+          echo "::add-mask::$token"
+          echo "token=$token" >> $GITHUB_OUTPUT
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ steps.token.outputs.token }}
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+
+      - name: Install python3 dependencies
+        working-directory: scripts/processors/
+        run: pip3 install -r requirements.txt
+
+      - name: Process data
+        shell: pwsh
+        run: |
+          Get-ChildItem -File -Path artifacts -Depth 1 | Foreach {. python3 scripts/processors/process_results.py $_.fullname data/msbuild.csv}
+
+      - name: Get alerts
+        id: alerts
+        run: |
+          python3 scripts/processors/generate_alert.py data/nuget.csv active_msbuild_regressions.txt
+          if test -f "active_msbuild_regressions.txt"; then
+            echo "file_exists=true" >> $GITHUB_OUTPUT
+            echo "file_content='$file_content'" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create new issue if necessary
+        if: steps.alerts.outputs.file_exists == 'true'
+        run: |
+          numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
+            query($name: String!, $owner: String!) {
+              repository(owner: $owner, name: $name) {
+                issues(states:OPEN, filterBy: { labels:  ["active_msbuild_regressions"]}){
+                  totalCount
+                }
+              }
+            }
+          ' --jq '.data.repository.issues.totalCount')"
+
+          if [ $numOpenIssues -eq 0 ]; then
+            echo "Creating new issue"
+            gh issue create --title "Active MS Build regression" --label "active_msbuild_regressions" --body "\`\`\` $(cat active_msbuild_regressions.txt)  \`\`\`" --repo $GITHUB_REPOSITORY
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          file_pattern: "data/msbuild.csv"
+          commit_author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+
+      - name: Upload data
+        if: steps.alerts.outputs.file_exists == 'true'
+        uses: actions/upload-artifact@v3
+        with:
+          name: active_msbuild_regressions
+          path: active_msbuild_regressions.txt
