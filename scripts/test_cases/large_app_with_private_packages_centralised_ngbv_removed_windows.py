@@ -58,6 +58,7 @@ def run_build_to_restore_packages(dotnet_executable):
     Args:
         dotnet_executable (_type_): _description_
     """
+    subprocess.run([dotnet_executable, 'restore'], check=True)
     subprocess.run([dotnet_executable, 'build'], check=True)
 
 
