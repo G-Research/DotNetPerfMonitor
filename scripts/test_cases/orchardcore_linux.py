@@ -174,7 +174,7 @@ def main():
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
     # save benchmark results to a csv file
-    save_benchmark_results('../../data/msbuild.csv',
+    save_benchmark_results('./../../data/msbuild.csv',
                            duration_in_seconds, base_duration_in_seconds)
 
 
