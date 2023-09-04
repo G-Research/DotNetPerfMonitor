@@ -58,7 +58,7 @@ def run_build_to_restore_packages(dotnet_executable):
     Args:
         dotnet_executable (_type_): _description_
     """
-    print('-----🟠 _restoting packages_ 🟠-----')
+    print('-----_restoting packages_-----')
     subprocess.run([dotnet_executable, 'restore'], check=True)
     subprocess.run([dotnet_executable, 'build'], check=True)
 
@@ -169,7 +169,7 @@ def main():
             base_duration_in_seconds = elapsed_time
         else:
             duration_in_seconds = elapsed_time
-        print('-----🟠 ORLEANS LINUX RESULT🟠-----')
+        print('-----🟠 ORCHARDCORE LINUX RESULT🟠-----')
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
