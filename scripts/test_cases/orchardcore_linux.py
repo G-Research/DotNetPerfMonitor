@@ -9,6 +9,7 @@ import time
 import os
 import csv
 import urllib.request
+from datetime import datetime
 
 EXTRACT_PATH = "sdk"
 DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/253e5af8-41aa-48c6-86f1-39a51b44afdc/5bb2cb9380c5b1a7f0153e0a2775727b/dotnet-sdk-7.0.100-linux-x64.tar.gz"
@@ -17,6 +18,8 @@ TEST_SOLUTION_REPO_URL = "https://github.com/OrchardCMS/OrchardCore"
 TEST_REPO_NAME = "OrchardCore"
 TEST_SOLUTION_CASE = "OrchardCore"
 TEST_SOLUTION_DIR = "./"
+SDK_VERSION = "7.0.100"
+SDK_DAILY_VERSION = "8.0.1xx"
 
 
 def create_extract_destinations():
@@ -98,7 +101,15 @@ def camel_casify_solution_name(string):
     return ''.join(camel_case_parts)
 
 
-def save_benchmark_results(file_path):
+def print_csv_content(file_path):
+    """Prints content of csv file for debugging purposes"""
+    with open(file_path, 'r', encoding='utf-8') as csv_file:
+        reader = csv.reader(csv_file)
+        for row in reader:
+            print(row)
+
+
+def save_benchmark_results(file_path, benchmark_duration, benchmark_base_duration):
     """Saves bencharmk results to a csv file
 
     Args:
@@ -106,9 +117,22 @@ def save_benchmark_results(file_path):
     """
     # Get the benchmark results and create a row data
     # row_data = [version,base version,scenario,test case,timestamp,duration,base duration,relative duration]
+    version = SDK_DAILY_VERSION
+    base_version = SDK_VERSION
+    timestamp = datetime.utcnow().isoformat(timespec='seconds')
+    scenario = 'cold'
+    test_case = 'OrchardCoreLinux'
+    duration = benchmark_duration
+    base_duration = benchmark_base_duration
+    relative_duration = abs(base_duration - duration)
+    benchmark_results = [version, base_version, scenario, test_case,
+                         timestamp, duration, base_duration, relative_duration]
+
     with open(file_path, 'a', newline='', encoding='utf-8') as csv_file:
         writer = csv.writer(csv_file)
-        # writer.writerow(row_data)
+        writer.writerow(benchmark_results)
+
+    print_csv_content(file_path)
 
 
 def main():
@@ -131,7 +155,9 @@ def main():
     # build the solution using the base version
 
     msbuild_command = 'msbuild OrchardCore.sln'
-    versions = ['base', 'daily']
+    versions = ['base']
+    duration_in_seconds = 0
+    base_duration_in_seconds = 0
     for version in versions:
         # sub_dir = "/sdk" if version == 'daily' else ''
         exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
@@ -139,9 +165,17 @@ def main():
         simple_command = "msbuild OrchardCore.sln"
         command = f"{exec_path} {simple_command}"
         elapsed_time = measure_execution_time(command)
+        if version == 'base':
+            base_duration_in_seconds = elapsed_time
+        else:
+            duration_in_seconds = elapsed_time
         print('-----🟠 ORLEANS LINUX RESULT🟠-----')
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
+
+    # save benchmark results to a csv file
+    save_benchmark_results('../../data/msbuild.csv.csv',
+                           duration_in_seconds, base_duration_in_seconds)
 
 
 if __name__ == "__main__":

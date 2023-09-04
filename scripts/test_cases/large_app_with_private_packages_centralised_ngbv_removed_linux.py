@@ -131,7 +131,7 @@ def main():
     /clp:Summary \
     /clp:PerformanceSummary > log.txt
     """
-    versions = ['base', 'daily']
+    versions = ['base']
     for version in versions:
         # sub_dir = "/sdk" if version == 'daily' else ''
         exec_path = os.path.abspath(
