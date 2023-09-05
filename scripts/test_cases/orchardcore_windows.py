@@ -5,9 +5,6 @@ Returns:
 """
 
 import subprocess
-import time
-import os
-
 # ___ EXTRACTION CONSTANTS ___ #
 EXTRACT_PATH = "sdk"
 
@@ -22,110 +19,118 @@ TEST_SOLUTION_REPO_URL = "https://github.com/OrchardCMS/OrchardCore"
 TEST_REPO_NAME = "OrchardCore"
 TEST_SOLUTION_CASE = "OrchardCore"
 TEST_SOLUTION_DIR = "./"
+SDK_VERSION = "7.0.100"
+SOLUTION_FILE = "OrchardCore.sln"
+SDK_DAILY_VERSION = "8.0.1xx"
+DATABASE_FILE = "./../../../data/msbuild.csv"
+NESTED = "False"
 
 
-def create_extract_destinations():
-    """ Create the extract destination directories if they do not exist"""
-    if not os.path.exists(EXTRACT_PATH):
-        os.mkdir(EXTRACT_PATH)
-    os.chdir(EXTRACT_PATH)
-    if not os.path.exists("base"):
-        os.mkdir("base")
-    if not os.path.exists("daily"):
-        os.mkdir("daily")
+# def create_extract_destinations():
+#     """ Create the extract destination directories if they do not exist"""
+#     if not os.path.exists(EXTRACT_PATH):
+#         os.mkdir(EXTRACT_PATH)
+#     os.chdir(EXTRACT_PATH)
+#     if not os.path.exists("base"):
+#         os.mkdir("base")
+#     if not os.path.exists("daily"):
+#         os.mkdir("daily")
 
 
-def download_file(url, filename):
-    """ Download file from url and save it to filename"""
-    subprocess.run(['powershell', 'Invoke-WebRequest', '-Uri',
-                   url, '-OutFile', filename], check=True, shell=True)
+# def download_file(url, filename):
+#     """ Download file from url and save it to filename"""
+#     subprocess.run(['powershell', 'Invoke-WebRequest', '-Uri',
+#                    url, '-OutFile', filename], check=True, shell=True)
 
 
-def download_and_extract_dotnet_sdk(version_url, extract_path):
-    """ Download and extract the dotnet sdk"""
-    zip_file = "dotnet-sdk.zip"
-    download_file(version_url, zip_file)
+# def download_and_extract_dotnet_sdk(version_url, extract_path):
+#     """ Download and extract the dotnet sdk"""
+#     zip_file = "dotnet-sdk.zip"
+#     download_file(version_url, zip_file)
 
-    # Extract the zip file
-    subprocess.run(["powershell", "Expand-Archive", "-Path", zip_file,
-                   "-DestinationPath", extract_path], check=True, shell=True)
-
-
-def run_build_to_restore_packages(dotnet_executable):
-    """_summary_
-
-    Args:
-        dotnet_executable (_type_): _description_
-    """
-    print('-----_restoting packages_-----')
-    subprocess.run([dotnet_executable, 'restore'], check=True)
-    # subprocess.run([dotnet_executable, 'build'], check=True)
+#     # Extract the zip file
+#     subprocess.run(["powershell", "Expand-Archive", "-Path", zip_file,
+#                    "-DestinationPath", extract_path], check=True, shell=True)
 
 
-def measure_execution_time(command):
-    """measure_execution_time runs build command and measure its execution time"""
+# def run_build_to_restore_packages(dotnet_executable):
+#     """_summary_
 
-    # run `build` to restore packages
-    # Record start time
-    start_time = time.time()
-
-    # Run the command
-    subprocess.call(command, shell=True)
-
-    # Calculate elapsed time
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-
-    return elapsed_time
+#     Args:
+#         dotnet_executable (_type_): _description_
+#     """
+#     print('-----_restoting packages_-----')
+#     subprocess.run([dotnet_executable, 'restore'], check=True)
+#     # subprocess.run([dotnet_executable, 'build'], check=True)
 
 
-def clone_repository(repo_url, repo_path):
-    """_summary_
+# def measure_execution_time(command):
+#     """measure_execution_time runs build command and measure its execution time"""
 
-    Args:
-        repo_url (String): url of the repository to be cloned
-        repo_path (String): path containing test code
-    """
-    # Clone the repository containing the solution
-    os.chdir('..')
-    subprocess.run(['git', 'clone', repo_url], check=True)
-    os.chdir(TEST_REPO_NAME)
-    os.chdir(TEST_SOLUTION_DIR)
-    subprocess.run(['dir'], check=True)
+#     # run `build` to restore packages
+#     # Record start time
+#     start_time = time.time()
+
+#     # Run the command
+#     subprocess.call(command, shell=True)
+
+#     # Calculate elapsed time
+#     end_time = time.time()
+#     elapsed_time = end_time - start_time
+
+#     return elapsed_time
 
 
-def main():
-    """_summary_
-        main()
+# def clone_repository(repo_url, repo_path):
+#     """_summary_
 
-    """
+#     Args:
+#         repo_url (String): url of the repository to be cloned
+#         repo_path (String): path containing test code
+#     """
+#     # Clone the repository containing the solution
+#     os.chdir('..')
+#     subprocess.run(['git', 'clone', repo_url], check=True)
+#     os.chdir(TEST_REPO_NAME)
+#     os.chdir(TEST_SOLUTION_DIR)
+#     subprocess.run(['dir'], check=True)
 
-    # create the extract destination directories if they do not exist
-    create_extract_destinations()
 
-    # download and extract the dotnet sdk
+# def main():
+#     """_summary_
+#         main()
 
-    download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_WINDOWS, "base")
-    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_WINDOWS, "daily")
+#     """
 
-    # clone the repository and navigate to the solution directory
-    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
+#     # create the extract destination directories if they do not exist
+#     create_extract_destinations()
 
-    # build the solution using the base version
+#     # download and extract the dotnet sdk
 
-    msbuild_command = "msbuild OrchardCore.sln"
-    versions = ['base']
-    for version in versions:
-        # sub_dir = "/sdk" if version == 'daily' else ''
-        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet.exe")
-        run_build_to_restore_packages(exec_path)
-        simple_command = "msbuild OrchardCore.sln"
-        command = f"{exec_path} {simple_command}"
-        elapsed_time = measure_execution_time(command)
-        print('-----ORLEANS WINDOWS RESULT----')
-        print(
-            f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
+#     download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_WINDOWS, "base")
+#     download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_WINDOWS, "daily")
+
+#     # clone the repository and navigate to the solution directory
+#     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
+
+#     # build the solution using the base version
+
+#     msbuild_command = "msbuild OrchardCore.sln"
+#     versions = ['base']
+#     for version in versions:
+#         # sub_dir = "/sdk" if version == 'daily' else ''
+#         exec_path = os.path.abspath(f"./../sdk/{version}/dotnet.exe")
+#         run_build_to_restore_packages(exec_path)
+#         simple_command = "msbuild OrchardCore.sln"
+#         command = f"{exec_path} {simple_command}"
+#         elapsed_time = measure_execution_time(command)
+#         print('-----ORLEANS WINDOWS RESULT----')
+#         print(
+#             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
 
 if __name__ == "__main__":
-    main()
+    commands_chain = ["python3", "./../benchmark_runner_windows.py", "--extract_path", EXTRACT_PATH, "--dotnet_base_version_url_linux",
+                      DOTNET_BASE_VERSION_URL_WINDOWS, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_WINDOWS, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_repo_name", TEST_REPO_NAME, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--sdk_version", SDK_VERSION, "--sdk_daily_version", SDK_DAILY_VERSION, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
+
+    subprocess.run(commands_chain, check=True)
