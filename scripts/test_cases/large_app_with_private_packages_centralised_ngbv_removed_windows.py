@@ -15,7 +15,7 @@ DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/d
 
 DOTNET_DAILY_VERSION_URL_WINDOWS = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
 
-TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions.git"
+TEST_SOLUTION_REPO_URL = "https://github.com/marcin-krystianc/TestSolutions"
 
 TEST_REPO_NAME = "TestSolutions"
 TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedSlim"
@@ -25,9 +25,10 @@ SDK_DAILY_VERSION = "8.0.1xx"
 DATABASE_FILE = "./../../../../../data/msbuild.csv"
 NESTED = "True"
 SOLUTION_FILE = "LargeAppWithPrivatePackagesCentralisedSlim.sln"
+COMMIT_HASH = "142722bebfe90c4e5c98303fa1598db6a760adae"
 
 if __name__ == "__main__":
     commands_chain = ["python3", "./../benchmark_runner_windows.py", "--extract_path", EXTRACT_PATH, "--dotnet_base_version_url_linux",
-                      DOTNET_BASE_VERSION_URL_WINDOWS, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_WINDOWS, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_repo_name", TEST_REPO_NAME, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--sdk_version", SDK_VERSION, "--sdk_daily_version", SDK_DAILY_VERSION, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
+                      DOTNET_BASE_VERSION_URL_WINDOWS, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_WINDOWS, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--comit-hash", COMMIT_HASH, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
 
     subprocess.run(commands_chain, check=True)

@@ -72,7 +72,7 @@ def measure_execution_time(command):
     return elapsed_time
 
 
-def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solution_dir):
+def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solution_dir, commit_hash):
     """_summary_
 
     Args:
@@ -82,6 +82,12 @@ def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solu
     # Clone the repository containing the solution
     os.chdir('..')
     subprocess.run(['git', 'clone', '--recursive', repo_url], check=True)
+
+    # --- checkout to the commit hash if it is not empty ---- #
+    if commit_hash != '':
+        os.chdir(test_repo_name)
+        subprocess.run(['git', 'checkout', commit_hash], check=True)
+
     os.chdir(test_repo_name)
     if nested:
         os.chdir(test_repo_path)
@@ -99,14 +105,13 @@ def run_benchamrk(args):
     DOTNET_BASE_VERSION_URL_LINUX = args.dotnet_base_version_url_linux
     DOTNET_DAILY_VERSION_URL_LINUX = args.dotnet_daily_version_url_linux
     TEST_SOLUTION_REPO_URL = args.test_solution_repo_url
-    TEST_REPO_NAME = args.test_repo_name
     TEST_SOLUTION_CASE = args.test_solution_case
     TEST_SOLUTION_DIR = args.test_solution_dir
     TEST_SOLUTION_FILE = args.solution_file
-    SDK_VERSION = args.sdk_version
-    SDK_DAILY_VERSION = args.sdk_daily_version
+    COMMIT_HASH = args.commit_hash
     DATABASE_FILE = args.database_file
     NESTED = args.is_nested_solution == "True"
+    TEST_REPO_NAME = utils.get_repo_name_by_url(TEST_SOLUTION_REPO_URL)
 
     # create the extract destination directories if they do not exist
     create_extract_destinations(EXTRACT_PATH)
@@ -118,7 +123,7 @@ def run_benchamrk(args):
 
     # clone the repository and navigate to the solution directory
     clone_repository(TEST_SOLUTION_REPO_URL,
-                     TEST_REPO_NAME, TEST_SOLUTION_CASE, NESTED, TEST_SOLUTION_DIR)
+                     TEST_REPO_NAME, TEST_SOLUTION_CASE, NESTED, TEST_SOLUTION_DIR, COMMIT_HASH)
 
     # build the solution using the base version
 
@@ -166,12 +171,13 @@ if __name__ == '__main__':
                         help='URL for the daily version of .NET SDK on Linux')
     parser.add_argument('--test_solution_repo_url',
                         help='URL of the test solution repository')
-    parser.add_argument('--test_repo_name', help='Name of the test repository')
     parser.add_argument('--test_solution_case', help='Test solution case')
     parser.add_argument('--test_solution_dir', help='Test solution directory')
     parser.add_argument('--database_file', help='Path to the database file')
     parser.add_argument('--solution_file', help='Path to the database file')
     parser.add_argument('--is_nested_solution',
+                        help='Path to the database file')
+    parser.add_argument('--commit_hash', default='',
                         help='Path to the database file')
     # Parse arguments ->
 

@@ -42,3 +42,8 @@ def save_benchmark_results(file_path, benchmark_duration, benchmark_base_duratio
         writer.writerow(benchmark_results)
 
     print_csv_content(file_path)
+
+
+def get_repo_name_by_url(repo_url):
+    """This method returns the name of the repository from its url"""
+    return repo_url.split('/')[-1]
