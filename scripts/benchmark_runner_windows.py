@@ -119,7 +119,7 @@ def run_benchamrk(args):
     for version in versions:
         # sub_dir = "/sdk" if version == 'daily' else ''
         # subdirs = './../../../sdk' if NESTED else './../sdk'
-        subdirs = './../../sdk' if NESTED else './../sdk'
+        subdirs = './../../../sdk' if NESTED else './../sdk'
         exec_path = os.path.abspath(f"{subdirs}/{version}/dotnet")
         run_build_to_restore_packages(exec_path)
         simple_command = f"msbuild {TEST_SOLUTION_FILE}"
