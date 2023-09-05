@@ -97,7 +97,7 @@ def run_benchamrk(args):
     SDK_VERSION = args.sdk_version
     SDK_DAILY_VERSION = args.sdk_daily_version
     DATABASE_FILE = args.database_file
-    NESTED = True if args.is_nested_solution else False
+    NESTED = args.is_nested_solution == "True"
 
     # create the extract destination directories if they do not exist
     create_extract_destinations(EXTRACT_PATH)
@@ -120,7 +120,7 @@ def run_benchamrk(args):
     test_scenario = 'cold'
     for version in versions:
         # sub_dir = "/sdk" if version == 'daily' else ''
-        subdirs = './../../../sdk' if NESTED else './../sdk'
+        subdirs = './../../sdk' if NESTED else './sdk'
         exec_path = os.path.abspath(f"{subdirs}/{version}/dotnet")
         run_build_to_restore_packages(exec_path)
         simple_command = f"msbuild {TEST_SOLUTION_FILE}"
