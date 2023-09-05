@@ -1,9 +1,10 @@
 """Run a benchmark and return the results."""
 import argparse
-
+import zipfile
 import subprocess
 import time
 import os
+import urllib.request
 import benchmark_utils as utils
 
 
@@ -18,10 +19,22 @@ def create_extract_destinations(path):
         os.mkdir("daily")
 
 
+# def download_file(url, filename):
+#     """ Download file from url and save it to filename"""
+#     subprocess.run(['powershell', 'Invoke-WebRequest', '-Uri',
+#                    url, '-OutFile', filename], check=True, shell=True)
+
 def download_file(url, filename):
     """ Download file from url and save it to filename"""
-    subprocess.run(['powershell', 'Invoke-WebRequest', '-Uri',
-                   url, '-OutFile', filename], check=True, shell=True)
+    with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
+        data = response.read()
+        out_file.write(data)
+
+
+def extract_zip(zip_file, extract_path):
+    """Extract a zip file to the specified destination path."""
+    with zipfile.ZipFile(zip_file, 'r') as zip_ref:
+        zip_ref.extractall(extract_path)
 
 
 def download_and_extract_dotnet_sdk(version_url, extract_path):
@@ -30,8 +43,9 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
     download_file(version_url, zip_file)
 
     # Extract the zip file
-    subprocess.run(["powershell", "Expand-Archive", "-Path", zip_file,
-                   "-DestinationPath", extract_path], check=True, shell=True)
+    extract_zip(zip_file, extract_path)
+    # subprocess.run(["powershell", "Expand-Archive", "-Path", zip_file,
+    #                "-DestinationPath", extract_path], check=True, shell=True)
 
 
 def run_build_to_restore_packages(dotnet_executable):
