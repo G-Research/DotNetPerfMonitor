@@ -1,6 +1,6 @@
 """Run a benchmark and return the results."""
 import argparse
-
+import tarfile
 import subprocess
 import time
 import os
@@ -26,6 +26,12 @@ def download_file(url, filename):
         out_file.write(data)
 
 
+def extract_tar_gz(file_path, extract_path):
+    """Extract a zip file to the specified destination path."""
+    with tarfile.open(file_path, 'r:gz') as tar:
+        tar.extractall(path=extract_path)
+
+
 def download_and_extract_dotnet_sdk(version_url, extract_path):
     """ Download and extract the dotnet sdk"""
 
@@ -33,9 +39,10 @@ def download_and_extract_dotnet_sdk(version_url, extract_path):
     download_file(version_url, tar_gz_file)
 
     # Extract the tar.gz file
+    extract_tar_gz(tar_gz_file, extract_path)
     # extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
-    subprocess.run(["tar", "-xzf", tar_gz_file,
-                   "-C", extract_path], check=True)
+    # subprocess.run(["tar", "-xzf", tar_gz_file,
+    #                "-C", extract_path], check=True)
 
 
 def run_build_to_restore_packages(dotnet_executable):
@@ -137,11 +144,13 @@ def run_benchamrk(args):
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
-    # save benchmark results to a csv file
-    # save_benchmark_results(file_path, benchmark_duration, benchmark_base_duration, sdk_version, sdk_daily_version, test_case_name, test_scenario):
-    utils.save_benchmark_results(
-        DATABASE_FILE, duration_in_seconds, base_duration_in_seconds, SDK_VERSION, SDK_DAILY_VERSION, TEST_SOLUTION_CASE, test_scenario
-    )
+        # save benchmark results to a csv file
+        SDK_VERSION = subprocess.check_output(
+            [exec_path, '--version'], text=True, stderr=subprocess.STDOUT).strip()
+        SDK_DAILY_VERSION = "8.0.1xx"
+        utils.save_benchmark_results(
+            DATABASE_FILE, duration_in_seconds, base_duration_in_seconds, SDK_VERSION, SDK_DAILY_VERSION, TEST_SOLUTION_CASE, test_scenario
+        )
 
 
 if __name__ == '__main__':
@@ -160,8 +169,6 @@ if __name__ == '__main__':
     parser.add_argument('--test_repo_name', help='Name of the test repository')
     parser.add_argument('--test_solution_case', help='Test solution case')
     parser.add_argument('--test_solution_dir', help='Test solution directory')
-    parser.add_argument('--sdk_version', help='Version of the SDK')
-    parser.add_argument('--sdk_daily_version', help='Version of the daily SDK')
     parser.add_argument('--database_file', help='Path to the database file')
     parser.add_argument('--solution_file', help='Path to the database file')
     parser.add_argument('--is_nested_solution',
