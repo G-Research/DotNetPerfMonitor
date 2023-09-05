@@ -129,7 +129,6 @@ def run_benchamrk(args):
             base_duration_in_seconds = elapsed_time
         else:
             duration_in_seconds = elapsed_time
-            
         print('-----WINDOWS BENCHMARK RESULT-----')
         print(
             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
