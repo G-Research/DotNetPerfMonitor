@@ -65,7 +65,7 @@ def measure_execution_time(command):
     return elapsed_time
 
 
-def clone_repository(repo_url, test_repo_name, test_solution_dir):
+def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solution_dir):
     """_summary_
 
     Args:
@@ -76,6 +76,8 @@ def clone_repository(repo_url, test_repo_name, test_solution_dir):
     os.chdir('..')
     subprocess.run(['git', 'clone', repo_url], check=True)
     os.chdir(test_repo_name)
+    if nested:
+        os.chdir(test_repo_path)
     os.chdir(test_solution_dir)
     subprocess.run(['ls'], check=True)
 
@@ -109,7 +111,7 @@ def run_benchamrk(args):
 
     # clone the repository and navigate to the solution directory
     clone_repository(TEST_SOLUTION_REPO_URL,
-                     TEST_REPO_NAME, TEST_SOLUTION_DIR)
+                     TEST_REPO_NAME, TEST_SOLUTION_CASE, NESTED, TEST_SOLUTION_DIR)
 
     # build the solution using the base version
 
