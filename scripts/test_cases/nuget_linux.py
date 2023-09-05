@@ -7,15 +7,14 @@ Returns:
 import subprocess
 
 EXTRACT_PATH = "sdk"
-DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/253e5af8-41aa-48c6-86f1-39a51b44afdc/5bb2cb9380c5b1a7f0153e0a2775727b/dotnet-sdk-7.0.100-linux-x64.tar.gz"
+DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/dc930bff-ef3d-4f6f-8799-6eb60390f5b4/1efee2a8ea0180c94aff8f15eb3af981/dotnet-sdk-6.0.300-linux-x64.tar.gz"
 DOTNET_DAILY_VERSION_URL_LINUX = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-linux-x64.tar.gz"
-
 
 TEST_SOLUTION_REPO_URL = "https://github.com/NuGet/NuGet.Client"
 TEST_REPO_NAME = "NuGet.Client"
 TEST_SOLUTION_CASE = "NuGet.Client"
 TEST_SOLUTION_DIR = "./"
-SDK_VERSION = "7.0.100"
+SDK_VERSION = "6.0.300"
 SOLUTION_FILE = "NuGet.sln"
 SDK_DAILY_VERSION = "8.0.1xx"
 DATABASE_FILE = "./../../../data/msbuild.csv"

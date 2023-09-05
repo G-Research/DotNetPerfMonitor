@@ -10,7 +10,7 @@ EXTRACT_PATH = "sdk"
 
 # _____ BENCHMARK DEPENDENCIES CONSTANTS _____ #
 
-DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/1fb808dc-d017-4460-94f8-bf1ac83e6cd8/756b301e714755e411b84684b885a516/dotnet-sdk-7.0.100-win-x64.zip"
+DOTNET_BASE_VERSION_URL_WINDOWS = "https://download.visualstudio.microsoft.com/download/pr/de1f99bb-4d6d-4dfe-9935-d24b1e8bca12/0b449d12398e45c62dce4b497e1b49bb/dotnet-sdk-6.0.316-win-x64.zip"
 
 DOTNET_DAILY_VERSION_URL_WINDOWS = "https://aka.ms/dotnet/8.0.1xx/daily/dotnet-sdk-win-x64.zip"
 
@@ -19,7 +19,7 @@ TEST_SOLUTION_REPO_URL = "https://github.com/NuGet/NuGet.Client"
 TEST_REPO_NAME = "NuGet.Client"
 TEST_SOLUTION_CASE = "NuGet.Client"
 TEST_SOLUTION_DIR = "./"
-SDK_VERSION = "7.0.100"
+SDK_VERSION = "6.0.316"
 SOLUTION_FILE = "NuGet.sln"
 SDK_DAILY_VERSION = "8.0.1xx"
 DATABASE_FILE = "./../../../data/msbuild.csv"
