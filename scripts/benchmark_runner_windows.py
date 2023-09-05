@@ -84,7 +84,7 @@ def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solu
     """
     # Clone the repository containing the solution
     os.chdir('..')
-    subprocess.run(['git', 'clone', repo_url], check=True)
+    subprocess.run(['git', 'clone', '--recursive', repo_url], check=True)
     os.chdir(test_repo_name)
     if nested:
         os.chdir(test_repo_path)

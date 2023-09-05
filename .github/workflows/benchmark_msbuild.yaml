@@ -45,7 +45,7 @@ jobs:
           - large_app_with_private_packages_centralised_ngbv_removed_linux
           - orleans_linux
           - orchardcore_linux
-          - nuget_linux
+          #- nuget_linux
       fail-fast: false
     runs-on: ubuntu-latest
     steps:
