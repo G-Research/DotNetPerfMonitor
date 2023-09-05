@@ -21,7 +21,7 @@ NESTED = "True"
 SOLUTION_FILE = "LargeAppWithPrivatePackagesCentralisedSlim.sln"
 SDK_VERSION = "6.0.300"
 SDK_DAILY_VERSION = "8.0.1xx"
-DATABASE_FILE = "./../../../data/msbuild.csv"
+DATABASE_FILE = "./../../../../data/msbuild.csv"
 NESTED = "True"
 SOLUTION_FILE = "LargeAppWithPrivatePackagesCentralisedSlim.sln"
 

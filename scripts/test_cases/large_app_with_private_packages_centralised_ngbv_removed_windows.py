@@ -22,7 +22,7 @@ TEST_SOLUTION_CASE = "LargeAppWithPrivatePackagesCentralisedSlim"
 TEST_SOLUTION_DIR = "solution"
 SDK_VERSION = "6.0.316"
 SDK_DAILY_VERSION = "8.0.1xx"
-DATABASE_FILE = "./../../../data/msbuild.csv"
+DATABASE_FILE = "./../../../../data/msbuild.csv"
 NESTED = "True"
 SOLUTION_FILE = "LargeAppWithPrivatePackagesCentralisedSlim.sln"
 
