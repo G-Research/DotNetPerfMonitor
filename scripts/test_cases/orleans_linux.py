@@ -5,9 +5,9 @@ Returns:
 """
 
 import subprocess
-import time
-import os
-import urllib.request
+# import time
+# import os
+# import urllib.request
 
 EXTRACT_PATH = "sdk"
 DOTNET_BASE_VERSION_URL_LINUX = "https://download.visualstudio.microsoft.com/download/pr/253e5af8-41aa-48c6-86f1-39a51b44afdc/5bb2cb9380c5b1a7f0153e0a2775727b/dotnet-sdk-7.0.100-linux-x64.tar.gz"
@@ -16,112 +16,119 @@ TEST_SOLUTION_REPO_URL = "https://github.com/dotnet/orleans"
 TEST_REPO_NAME = "orleans"
 TEST_SOLUTION_CASE = "orleans"
 TEST_SOLUTION_DIR = "./"
+SOLUTION_FILE = "Orleans.sln"
+SDK_VERSION = "7.0.100"
+SDK_DAILY_VERSION = "8.0.1xx"
+DATABASE_FILE = "./../../../data/msbuild.csv"
+NESTED = "False"
+
+# def create_extract_destinations():
+#     """ Create the extract destination directories if they do not exist"""
+#     if not os.path.exists(EXTRACT_PATH):
+#         os.mkdir(EXTRACT_PATH)
+#     os.chdir(EXTRACT_PATH)
+#     if not os.path.exists("base"):
+#         os.mkdir("base")
+#     if not os.path.exists("daily"):
+#         os.mkdir("daily")
 
 
-def create_extract_destinations():
-    """ Create the extract destination directories if they do not exist"""
-    if not os.path.exists(EXTRACT_PATH):
-        os.mkdir(EXTRACT_PATH)
-    os.chdir(EXTRACT_PATH)
-    if not os.path.exists("base"):
-        os.mkdir("base")
-    if not os.path.exists("daily"):
-        os.mkdir("daily")
+# def download_file(url, filename):
+#     """ Download file from url and save it to filename"""
+#     with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
+#         data = response.read()
+#         out_file.write(data)
 
 
-def download_file(url, filename):
-    """ Download file from url and save it to filename"""
-    with urllib.request.urlopen(url) as response, open(filename, 'wb') as out_file:
-        data = response.read()
-        out_file.write(data)
+# def download_and_extract_dotnet_sdk(version_url, extract_path):
+#     """ Download and extract the dotnet sdk"""
+
+#     tar_gz_file = "dotnet-sdk.tar.gz"
+#     download_file(version_url, tar_gz_file)
+
+#     # Extract the tar.gz file
+#     # extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
+#     subprocess.run(["tar", "-xzf", tar_gz_file,
+#                    "-C", extract_path], check=True)
 
 
-def download_and_extract_dotnet_sdk(version_url, extract_path):
-    """ Download and extract the dotnet sdk"""
+# def run_build_to_restore_packages(dotnet_executable):
+#     """_summary_
 
-    tar_gz_file = "dotnet-sdk.tar.gz"
-    download_file(version_url, tar_gz_file)
-
-    # Extract the tar.gz file
-    # extract_command = f"tar -xzf {tar_gz_file} -C {extract_path}"
-    subprocess.run(["tar", "-xzf", tar_gz_file,
-                   "-C", extract_path], check=True)
-
-
-def run_build_to_restore_packages(dotnet_executable):
-    """_summary_
-
-    Args:
-        dotnet_executable (_type_): _description_
-    """
-    print('-----🟠 _restoting packages_ 🟠-----')
-    subprocess.run([dotnet_executable, 'restore'], check=True)
-    subprocess.run([dotnet_executable, 'build'], check=True)
+#     Args:
+#         dotnet_executable (_type_): _description_
+#     """
+#     print('-----🟠 _restoting packages_ 🟠-----')
+#     subprocess.run([dotnet_executable, 'restore'], check=True)
+#     subprocess.run([dotnet_executable, 'build'], check=True)
 
 
-def measure_execution_time(command):
-    """measure_execution_time runs build command and measure its execution time"""
+# def measure_execution_time(command):
+#     """measure_execution_time runs build command and measure its execution time"""
 
-    # Record start time
-    start_time = time.time()
+#     # Record start time
+#     start_time = time.time()
 
-    # Run the command
-    subprocess.call(command, shell=True)
+#     # Run the command
+#     subprocess.call(command, shell=True)
 
-    # Calculate elapsed time
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+#     # Calculate elapsed time
+#     end_time = time.time()
+#     elapsed_time = end_time - start_time
 
-    return elapsed_time
-
-
-def clone_repository(repo_url, repo_path):
-    """_summary_
-
-    Args:
-        repo_url (String): url of the repository to be cloned
-        repo_path (String): path containing test code
-    """
-    # Clone the repository containing the solution
-    os.chdir('..')
-    subprocess.run(['git', 'clone', repo_url], check=True)
-    os.chdir(TEST_REPO_NAME)
-    os.chdir(TEST_SOLUTION_DIR)
-    subprocess.run(['ls'], check=True)
+#     return elapsed_time
 
 
-def main():
-    """_summary_
-        main()
+# def clone_repository(repo_url, repo_path):
+#     """_summary_
 
-    """
+#     Args:
+#         repo_url (String): url of the repository to be cloned
+#         repo_path (String): path containing test code
+#     """
+#     # Clone the repository containing the solution
+#     os.chdir('..')
+#     subprocess.run(['git', 'clone', repo_url], check=True)
+#     os.chdir(TEST_REPO_NAME)
+#     os.chdir(TEST_SOLUTION_DIR)
+#     subprocess.run(['ls'], check=True)
 
-    # create the extract destination directories if they do not exist
-    create_extract_destinations()
 
-    # download and extract the dotnet sdk
+# def main():
+#     """_summary_
+#         main()
 
-    download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_LINUX, "base")
-    download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, "daily")
+#     """
 
-    # clone the repository and navigate to the solution directory
-    clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
+#     # create the extract destination directories if they do not exist
+#     create_extract_destinations()
 
-    # build the solution using the base version
+#     # download and extract the dotnet sdk
 
-    msbuild_command = 'msbuild Orleans.sln'
-    versions = ['base']
-    for version in versions:
-        # sub_dir = "/sdk" if version == 'daily' else ''
-        exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
-        run_build_to_restore_packages(exec_path)
-        simple_command = "msbuild Orleans.sln"
-        command = f"{exec_path} {simple_command}"
-        elapsed_time = measure_execution_time(command)
-        print('-----🟠 ORLEANS LINUX RESUL🟠-----')
-        print(
-            f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
+#     download_and_extract_dotnet_sdk(DOTNET_BASE_VERSION_URL_LINUX, "base")
+#     download_and_extract_dotnet_sdk(DOTNET_DAILY_VERSION_URL_LINUX, "daily")
+
+#     # clone the repository and navigate to the solution directory
+#     clone_repository(TEST_SOLUTION_REPO_URL, TEST_SOLUTION_CASE)
+
+#     # build the solution using the base version
+
+#     msbuild_command = 'msbuild Orleans.sln'
+#     versions = ['base']
+#     for version in versions:
+#         # sub_dir = "/sdk" if version == 'daily' else ''
+#         exec_path = os.path.abspath(f"./../sdk/{version}/dotnet")
+#         run_build_to_restore_packages(exec_path)
+#         simple_command = "msbuild Orleans.sln"
+#         command = f"{exec_path} {simple_command}"
+#         elapsed_time = measure_execution_time(command)
+#         print('-----🟠 ORLEANS LINUX RESUL🟠-----')
+#         print(
+#             f"Running '{command}' with {version} version took {elapsed_time}s to execute.")
 
 
 if __name__ == "__main__":
-    main()
+    commands_chain = ["python3", "./../benchmark_runner_linux.py", "--extract_path", EXTRACT_PATH, "--dotnet_base_version_url_linux",
+                      DOTNET_BASE_VERSION_URL_LINUX, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_LINUX, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_repo_name", TEST_REPO_NAME, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--sdk_version", SDK_VERSION, "--sdk_daily_version", SDK_DAILY_VERSION, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
+
+    subprocess.run(commands_chain, check=True)
