@@ -23,6 +23,6 @@ COMMIT_HASH = "142722bebfe90c4e5c98303fa1598db6a760adae"
 
 if __name__ == "__main__":
     commands_chain = ["python3", "./../benchmark_runner_linux.py", "--extract_path", EXTRACT_PATH, "--dotnet_base_version_url_linux",
-                      DOTNET_BASE_VERSION_URL_LINUX, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_LINUX, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--sdk_version", "--commit_hash", COMMIT_HASH, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
+                      DOTNET_BASE_VERSION_URL_LINUX, "--dotnet_daily_version_url_linux", DOTNET_DAILY_VERSION_URL_LINUX, "--test_solution_repo_url", TEST_SOLUTION_REPO_URL, "--test_solution_case", TEST_SOLUTION_CASE, "--test_solution_dir", TEST_SOLUTION_DIR, "--solution_file", SOLUTION_FILE, "--commit_hash", COMMIT_HASH, "--database_file", DATABASE_FILE, "--is_nested_solution", NESTED]
 
     subprocess.run(commands_chain, check=True)
