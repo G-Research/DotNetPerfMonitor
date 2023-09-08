@@ -85,7 +85,10 @@ def clone_repository(repo_url, test_repo_name, test_repo_path, nested, test_solu
 
     # --- checkout to the commit hash if it is not empty ---- #
     if commit_hash != '':
+        subprocess.run(['git', 'submodule', 'update',
+                       '--init', '--recursive'], check=True)
         os.chdir(test_repo_name)
+
         subprocess.run(['git', 'checkout', commit_hash], check=True)
 
     os.chdir(test_repo_name)
