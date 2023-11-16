@@ -20,7 +20,7 @@ if ($globalJsonPath) {Remove-Item "$sourcePath\$globalJsonPath"}
 
 #########################################################
 # Workaround for errors due to a vulnerability scanning (https://github.com/NuGet/Home/blob/dev/proposed/2022/vulnerabilities-in-restore.md)
-New-Item "$sourcePath\Directory.Build.rsp" -Value "/p:NuGetAuditLevel=low"
+New-Item "$sourcePath\Directory.Build.rsp" -Value "/p:NuGetAudit=disable"
 
 $versions = @("dotnet_base", "dotnet")
 ForEach ($version In $versions) {
