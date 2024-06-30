@@ -42,7 +42,7 @@ By regularly running benchmarks and analyzing the performance data, `DotnetPerfM
     <summary>🟣 MS Build</summary>
 
 - Python [scripts](https://github.com/G-Research/DotNetPerfMonitor/tree/main/scripts/test_cases/) are used for MSBuild benchamrking, using test cases like [Orleans](https://github.com/dotnet/orleans) and [OrchardCore](https://github.com/OrchardCMS/OrchardCore)
-- GitHub Actions and GitHub-hosted runners are used to run benchmarks on a [daily schedule](https://github.com/G-Research/DotNetPerfMonitor/blob/main/.github/workflows/benchmarks_msbuild.yml)
+- GitHub Actions and GitHub-hosted runners are used to run benchmarks on a [daily schedule](https://github.com/G-Research/DotNetPerfMonitor/actions/workflows/benchmark_msbuild.yaml)
 - Benchamrk results are processed and added to the [msbuild.csv file](https://github.com/G-Research/DotNetPerfMonitor/blob/main/data/msbuild.csv) that makes it easy to plot charts and can be used further data analysis.
 - The data is the visualized on the [dashboard](https://g-research.github.io/DotNetPerfMonitor/) using [ChartJS](https://chartjs.org/), on the `MSBuild` Tab.
 </details>
